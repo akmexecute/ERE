@@ -42,4 +42,8 @@ Route::middleware('auth')->group(function (): void {
     })->name('admin.dashboard');
 });
 
+Route::get('/stays/{slug}', function (string $slug) {
+    return view('stays.show');
+})->name('stays.show');
+
 Route::get('/listings/{slug}', [MarketplaceController::class, 'show'])->name('listings.show');
