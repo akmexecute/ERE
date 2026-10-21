@@ -101,6 +101,26 @@ final class Property extends Model
         return $this->belongsTo(PropertyType::class, 'property_type_id');
     }
 
+    public function region(): BelongsTo
+    {
+        return $this->belongsTo(\App\Domains\Location\Models\Location::class, 'region_id');
+    }
+
+    public function city(): BelongsTo
+    {
+        return $this->belongsTo(\App\Domains\Location\Models\Location::class, 'city_id');
+    }
+
+    public function subcity(): BelongsTo
+    {
+        return $this->belongsTo(\App\Domains\Location\Models\Location::class, 'subcity_id');
+    }
+
+    public function neighborhood(): BelongsTo
+    {
+        return $this->belongsTo(\App\Domains\Location\Models\Location::class, 'neighborhood_id');
+    }
+
     /**
      * SRS Section 3.1: One Property can have multiple Listings (Sale, Long-Term Rent, Short-Stay).
      */
