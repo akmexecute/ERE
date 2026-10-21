@@ -1,0 +1,14 @@
+@import 'tailwindcss';
+
+@source '../views/**/*.blade.php';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+@theme {
+    --font-sans: 'Inter', 'Noto Sans Ethiopic', ui-sans-serif, system-ui, sans-serif;
+}
+
+.ep-price-pin-wrapper {
+    background: transparent;
+    border: none;
+}
