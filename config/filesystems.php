@@ -60,6 +60,14 @@ return [
             'report' => false,
         ],
 
+        's3_private' => [
+            'driver' => env('AWS_S3_PRIVATE_DRIVER', 'local'),
+            'root' => storage_path('app/vault'),
+            'visibility' => 'private',
+            'throw' => false,
+            'report' => false,
+        ],
+
     ],
 
     /*

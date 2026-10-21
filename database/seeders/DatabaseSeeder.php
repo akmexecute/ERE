@@ -13,6 +13,7 @@ final class DatabaseSeeder extends Seeder
         $this->call([
             RbacRolePermissionSeeder::class,
             EthiopianLocationsSeeder::class,
+            PropertyTaxonomySeeder::class,
         ]);
     }
 }
