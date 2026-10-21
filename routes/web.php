@@ -32,6 +32,14 @@ Route::middleware('auth')->group(function (): void {
     Route::get('/listings/create', [ListingController::class, 'create'])->name('listings.create');
     Route::get('/listings/wizard', [ListingController::class, 'create'])->name('listings.wizard');
     Route::post('/listings', [ListingController::class, 'store'])->name('listings.store');
+
+    Route::get('/inbox', function () {
+        return view('messages.inbox');
+    })->name('messages.inbox');
+
+    Route::get('/admin/dashboard', function () {
+        return view('admin.dashboard');
+    })->name('admin.dashboard');
 });
 
 Route::get('/listings/{slug}', [MarketplaceController::class, 'show'])->name('listings.show');
