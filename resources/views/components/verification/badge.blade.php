@@ -12,13 +12,15 @@
     };
 @endphp
 
-<div x-data="{ open: false }" class="relative inline-block text-left">
+<div x-data="{ open: false }" @click.away="open = false" @keydown.escape.window="open = false" class="relative inline-block text-left">
     <button
         type="button"
         @click="open = !open"
         @mouseenter="open = true"
-        @mouseleave="open = false"
-        class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border transition cursor-pointer shadow-xs {{ $palette }}"
+        :aria-expanded="open"
+        aria-haspopup="dialog"
+        aria-label="{{ $enumLevel->label(app()->getLocale()) }} details"
+        class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border transition cursor-pointer shadow-xs focus:outline-none focus:ring-2 focus:ring-teal-500 {{ $palette }}"
     >
         @if($enumLevel->value >= 1)
             <span class="text-emerald-600 font-bold">✓</span>
@@ -33,11 +35,13 @@
     <div
         x-show="open"
         x-cloak
+        role="dialog"
+        aria-label="Verification Level Explanation"
         class="absolute left-0 mt-2 w-80 z-50 rounded-2xl bg-slate-900 text-slate-100 p-4 shadow-xl border border-slate-700 text-xs leading-relaxed"
     >
         <div class="font-bold text-emerald-400 mb-1 flex items-center justify-between">
             <span>{{ $enumLevel->label(app()->getLocale()) }}</span>
-            <span class="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">SRS §22</span>
+            <button type="button" @click="open = false" class="text-slate-400 hover:text-white font-bold text-sm px-1" aria-label="Close">✕</button>
         </div>
         <p class="text-slate-200">
             {{ $enumLevel->visibleExplanation(app()->getLocale()) }}

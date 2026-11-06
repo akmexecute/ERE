@@ -55,6 +55,43 @@ final class RbacRolePermissionSeeder extends Seeder
             ['slug' => 'payment.create', 'module' => 'payment'],
             ['slug' => 'payment.refund', 'module' => 'payment'],
             ['slug' => 'payment.reconcile', 'module' => 'payment'],
+            // Phase 4 Milestone 2: Modules 28, 29, 30
+            ['slug' => 'maintenance.create', 'module' => 'maintenance'],
+            ['slug' => 'maintenance.view', 'module' => 'maintenance'],
+            ['slug' => 'maintenance.assign', 'module' => 'maintenance'],
+            ['slug' => 'maintenance.update_status', 'module' => 'maintenance'],
+            ['slug' => 'maintenance.manage_costs', 'module' => 'maintenance'],
+            ['slug' => 'maintenance.close', 'module' => 'maintenance'],
+            ['slug' => 'portfolio.view', 'module' => 'portfolio'],
+            ['slug' => 'mandate.create', 'module' => 'mandate'],
+            ['slug' => 'mandate.view', 'module' => 'mandate'],
+            ['slug' => 'mandate.manage', 'module' => 'mandate'],
+            ['slug' => 'tax.manage', 'module' => 'tax'],
+            ['slug' => 'invoice.create', 'module' => 'invoice'],
+            ['slug' => 'invoice.view', 'module' => 'invoice'],
+            ['slug' => 'invoice.void', 'module' => 'invoice'],
+            // Module 00 & 01 & 02: Language, Security, Locations
+            ['slug' => 'language.view', 'module' => 'localization'],
+            ['slug' => 'language.manage', 'module' => 'localization'],
+            ['slug' => 'language.export', 'module' => 'localization'],
+            ['slug' => 'language.import', 'module' => 'localization'],
+            ['slug' => 'security.view', 'module' => 'security'],
+            ['slug' => 'security.manage', 'module' => 'security'],
+            ['slug' => 'location.view', 'module' => 'location'],
+            ['slug' => 'location.manage', 'module' => 'location'],
+            ['slug' => 'location.deactivate', 'module' => 'location'],
+            ['slug' => 'location.import', 'module' => 'location'],
+            // Phase 5 Milestone 2: Modules 33 & 34
+            ['slug' => 'subscription.view', 'module' => 'subscription'],
+            ['slug' => 'subscription.manage', 'module' => 'subscription'],
+            ['slug' => 'promotion.manage', 'module' => 'promotion'],
+            ['slug' => 'advertising.manage', 'module' => 'advertising'],
+            ['slug' => 'advertising.approve', 'module' => 'advertising'],
+            ['slug' => 'virtual_tour.create', 'module' => 'virtual_tour'],
+            ['slug' => 'virtual_tour.manage', 'module' => 'virtual_tour'],
+            ['slug' => 'gis.view_advanced', 'module' => 'gis'],
+            ['slug' => 'listings.moderate.override_subscription_quota', 'module' => 'moderation'],
+            ['slug' => 'subscriptions.entitlements.bypass', 'module' => 'subscription'],
         ];
 
         foreach ($permissions as $permission) {
@@ -62,6 +99,88 @@ final class RbacRolePermissionSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ]));
+        }
+
+        // Explicit Role-to-Permission Matrix based on SRS specifications
+        $rolePermissionsMap = [
+            'verification_officer' => [
+                'verification.review', 'verification.approve', 'verification.reject', 'property.view',
+            ],
+            'property_admin' => [
+                'property.view', 'property.create', 'property.update', 'property.delete', 'property.approve', 'property.verify',
+                'maintenance.create', 'maintenance.view', 'maintenance.assign', 'maintenance.update_status', 'maintenance.manage_costs', 'maintenance.close',
+                'portfolio.view', 'mandate.create', 'mandate.view', 'mandate.manage',
+                'invoice.create', 'invoice.view',
+                'location.view', 'location.manage',
+            ],
+            'moderator' => [
+                'property.view', 'property.verify',
+            ],
+            'finance_officer' => [
+                'payment.view', 'payment.create', 'payment.refund', 'payment.reconcile', 'booking.refund',
+                'tax.manage', 'invoice.create', 'invoice.view', 'invoice.void', 'portfolio.view',
+            ],
+            'platform_admin' => [
+                'property.view', 'property.create', 'property.update', 'property.delete', 'property.approve', 'property.verify',
+                'verification.review', 'verification.approve', 'verification.reject',
+                'booking.view', 'booking.create', 'booking.cancel', 'booking.refund',
+                'payment.view', 'payment.create', 'payment.refund', 'payment.reconcile',
+                'maintenance.create', 'maintenance.view', 'maintenance.assign', 'maintenance.update_status', 'maintenance.manage_costs', 'maintenance.close',
+                'portfolio.view', 'mandate.create', 'mandate.view', 'mandate.manage',
+                'tax.manage', 'invoice.create', 'invoice.view', 'invoice.void',
+                'language.view', 'language.manage', 'language.export', 'language.import',
+                'security.view', 'security.manage',
+                'location.view', 'location.manage', 'location.deactivate', 'location.import',
+                'subscription.view', 'subscription.manage',
+                'promotion.manage', 'advertising.manage', 'advertising.approve',
+                'virtual_tour.create', 'virtual_tour.manage', 'gis.view_advanced',
+                'listings.moderate.override_subscription_quota',
+            ],
+            'agent' => [
+                'property.view', 'property.create', 'property.update', 'booking.view', 'booking.create',
+                'mandate.view', 'maintenance.view', 'virtual_tour.create', 'virtual_tour.manage',
+            ],
+            'developer' => [
+                'property.view', 'property.create', 'property.update', 'booking.view',
+                'virtual_tour.create', 'virtual_tour.manage',
+            ],
+            'host' => [
+                'property.view', 'property.create', 'property.update', 'booking.view', 'booking.cancel',
+                'maintenance.create', 'maintenance.view', 'virtual_tour.create', 'virtual_tour.manage',
+            ],
+            'property_owner' => [
+                'property.view', 'property.create', 'property.update', 'booking.view',
+                'maintenance.create', 'maintenance.view', 'maintenance.update_status', 'mandate.view', 'invoice.view',
+                'virtual_tour.create', 'virtual_tour.manage',
+            ],
+            'buyer' => [
+                'property.view', 'booking.view', 'booking.create', 'booking.cancel',
+            ],
+            'tenant' => [
+                'property.view', 'booking.view', 'booking.create', 'booking.cancel',
+                'maintenance.create', 'maintenance.view', 'invoice.view',
+            ],
+            'customer_support' => [
+                'property.view', 'booking.view', 'booking.cancel', 'payment.view',
+                'maintenance.view', 'maintenance.create',
+            ],
+        ];
+
+        foreach ($rolePermissionsMap as $roleSlug => $perms) {
+            $roleId = DB::table('roles')->where('slug', $roleSlug)->value('id');
+            if (! $roleId) {
+                continue;
+            }
+
+            foreach ($perms as $permSlug) {
+                $permId = DB::table('permissions')->where('slug', $permSlug)->value('id');
+                if ($permId) {
+                    DB::table('role_permissions')->updateOrInsert([
+                        'role_id' => $roleId,
+                        'permission_id' => $permId,
+                    ]);
+                }
+            }
         }
     }
 }

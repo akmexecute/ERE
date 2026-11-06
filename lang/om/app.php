@@ -1,0 +1,125 @@
+<?php
+
+declare(strict_types=1);
+
+return array (
+  'marketplace_title' => 'EthioProperty — Gabaa Qabeenyaa fi Boqonnaa Itoophiyaa',
+  'tagline' => 'Wiirtuu Qabeenya Biyyoolessa Itoophiyaa',
+  'currency' => 'Gosa Maallaqaa: Qarshii Itoophiyaa (ETB)',
+  'etb' => 'Qarshii Itoophiyaa',
+  'nav' => 
+  array (
+    'buy' => 'Qabeenya Biti',
+    'rent' => 'Kireeffadhu',
+    'lease' => 'Liizii',
+    'land' => 'Lafaa',
+    'stay' => 'Turi / Boqodhu',
+    'host_ops' => 'Keessummeessaa',
+    'agency_crm' => 'CRM Dhaabbata',
+    'developments' => 'Misooma',
+    'rentals_leases' => 'Kiree fi Waliigaltee',
+    'portfolio' => 'Portifooliyoo',
+    'work_orders' => 'Ajaja Suphaa',
+    'invoices_taxes' => 'Nagahee fi Gibira',
+    'post_property' => '+ Qabeenya Maxxansaa',
+    'login' => 'Seeni / Galmaaʼi',
+    'logout' => 'Baʼi',
+    'dashboard' => 'Gabaasa',
+  ),
+  'hero' => 
+  array (
+    'badge' => '🇪🇹 Marsaa 1 — Mootora Qabeenya Biyyoolessaa',
+    'title' => 'Gabaa Qabeenyaa fi Mooraa Kaartaa Itoophiyaa',
+    'subtitle' => 'Dhugaa Itoophiyaatiif kan qophaaʼe: Kaalendarii Itoophiyaa fi Gorgoriyoos, afaanota sadiin (Ingiliffa, አማርኛ, Afaan Oromo), mirkaneessa bilbilaa +251 OTP, fi sadarkaa bulchiinsaa 8.',
+    'today_date' => 'Guyyaa Harʼaa:',
+    'sample_villa' => 'Viilaa Boolee Medhaanialem:',
+    'price_sqm' => 'Gatii Isquweer Meetiriin (350 m²):',
+    'sign_in_otp' => 'OTP +251 Galmaaʼi →',
+    'explore_map' => 'Kaartaa fi Bakkeewwan Ilaali',
+  ),
+  'calendar_widget' => 
+  array (
+    'title' => 'Mootora Kaalendarii Itoophiyaa (SRS Kutaa 125)',
+    'algorithm_desc' => 'Herrega guyyaa Juuliyaan sirrii taʼeen saʼaatii UTC eeguun marsaa Phaagumee fi Bara Haaraa Fulbaanaa agarsiisa.',
+    'gregorian_input' => 'Guyyaa Gorgoriyoos Galchaa',
+    'ethiopian_output' => 'Guyyaa Itoophiyaa',
+    'amharic_format' => 'Bifa Amaaraa',
+    'oromo_format' => 'Bifa Afaan Oromoo',
+    'today_btn' => 'Gara Harʼaatti Jijjiiri',
+    'convert_btn' => 'Guyyaa Jijjiiri',
+    'switch_hint' => 'Afaan barbaaddan gubbaatti jijjiiruun Amaariffa / Afaan Oromoo / Ingiliffa filadhaa.',
+  ),
+  'gis_section' => 
+  array (
+    'badge' => 'Kutaa 02 — GIS fi Sadarkaa Bulchiinsaa',
+    'title' => 'Filataa Sadarkaa Bulchiinsaa 8 fi Kaartaa Bakkaa',
+    'subtitle' => 'Hanga Aanaa fi Gandaatti filannoo balʼaa kaartaa PostGIS geocoding wajjin.',
+    'postgis_ext' => 'Hojiiwwan PostGIS: ST_Covers, ST_DWithin',
+    'map_explorer' => 'Daawwataa Kaartaa Biyyoolessaa (Leaflet / OSM)',
+    'click_hint' => 'Kaartaa irratti bakka kamiyyuu tuquun mallattoo bakkaa godhaa',
+    'compact_badges' => 'Mallattoolee Gatii: ETB 45M, ETB 14.5M',
+    'drag_hint' => 'Mallattoo bakkaa sochoosuun jijjiirama lafaa ilaalaa',
+    'srid' => 'SRID: 4326 (WGS 84)',
+  ),
+  'features' => 
+  array (
+    'verification_title' => 'Sadarkaalee Mirkaneessaa',
+    'verification_desc' => 'Sadarkaa 0 (Kan hin mirkanoofne) hanga Sadarkaa 5 (Galmee Mootummaatiin Mirkanaaʼe) waraqaa eenyummaa Gandaa, Galmee Daldalaa fi odiitii qabatamaatiin.',
+    'levels_badge' => 'Sadarkaalee 0..5',
+    'roles_title' => 'Gaʼeewwan 13 fi Eeyyama Balʼaa',
+    'roles_desc' => 'Gaʼee uummataa (Bitaa, Kireeffataa, Abbaa Qabeenyaa, Keessummeessaa, Bakka Buʼaa, Misoomsaa) fi kan bulchitootaa (Bulchaa Ol-aanaa, Odiitara, Faayinaansii).',
+    'rbac_badge' => 'SRS Kutaa 140-141',
+    'audit_title' => 'Galmee Seenaa Hin Jijjiiramne',
+    'audit_desc' => 'PostgreSQL trigger dhaan kan eegamu yoo taʼu, galmee odiitii haquun ykn jijjiiruun gonkumaa hin hayyamamu (SRS Kutaa 142 fi 189).',
+    'audit_badge' => 'Trigger DB dhaan Kan Eegamu',
+  ),
+  'dashboard' => 
+  array (
+    'title' => 'Herrega Koo fi Hojiiwwan Waltajjichaa',
+    'level_verified' => 'Sadarkaa :level Mirkanaaʼe',
+    'privacy' => 'Iccitii Bilbilaa:',
+    'locale' => 'Filannoo Afaanii:',
+    'post_listing' => '+ Qabeenya Haaraa Galmeessi',
+    'sign_out' => 'Baʼi',
+    'portal_buyer_title' => 'Gabaa Qabeenya Barbaaduu',
+    'portal_buyer_desc' => 'Qabeenyawwan gurguraman, kireeffaman fi liizii sadarkaa bulchiinsaa 8 keessatti barbaadaa.',
+    'portal_owner_title' => 'Qabeenya Galmeessuu',
+    'portal_owner_desc' => 'Qabeenya haaraa maxxansaa, gatii murteessaa, galmee qulqullinaa toʼadhaa.',
+    'portal_agent_title' => 'CRM Bakka Buʼootaa fi Maamiltoota',
+    'portal_agent_desc' => 'Sadarkaalee 7 gurgurtaa hoogganaa, daawwannaa qindeessaa, komishinii herreegaa.',
+    'portal_host_title' => 'Hojiiwwan Keessummeessaa',
+    'portal_host_desc' => 'Seensaa fi bahiinsa keessummaa toʼadhaa, maallaqa qabame bulchaa, qulqullina hordofaa.',
+    'audit_trail_title' => 'Galmee Seenaa Hin Jijjiiramne (SRS Kutaa 142 fi 189)',
+    'audit_trail_desc' => 'Seenaa gochoota sirnichaa kanneen hin haqamne',
+    'immutable_badge' => 'Hin Jijjiiramne',
+    'event_action' => 'Gochoota Raawwataman',
+    'entity_type' => 'Gosa Qabeenyaa',
+    'ip_address' => 'Teessoo IP',
+    'timestamp' => 'Yeroo Raawwii (Itoophiyaa / GC)',
+    'no_audit_logs' => 'Hanga ammaatti galmeen odiitii hin jiru. Jijjiiramni godhamu asitti mulʼata.',
+  ),
+  'status' => 
+  array (
+    'available' => 'Banaadha / Kan Argamu',
+    'reserved' => 'Qabameera',
+    'contracted' => 'Waliigalteen Raawwateera',
+    'sold' => 'Gurgurameera',
+    'pending' => 'Adeemsa Mirkaneessaa Irra Jira',
+    'verified' => 'Ministeera ykn Bulchiinsa Magaalaatiin Mirkanaaʼe',
+  ),
+  'roles' => 
+  array (
+    'buyer' => 'Bitaa / Kireeffataa',
+    'property_owner' => 'Abbaa Qabeenyaa',
+    'agent' => 'Bakka Buʼaa / Dallaala',
+    'developer' => 'Misoomsaa',
+    'host' => 'Keessummeessaa',
+    'super_admin' => 'Bulchaa Ol-aanaa',
+  ),
+  'footer' => 
+  array (
+    'about' => 'Waltajjii Qabeenya Biyyoolessa Itoophiyaa. Nageenya cimaa, teeknoolojii kaartaa fi kaalendarii biyyoolessaatiin kan ijaarame.',
+    'rights' => 'Mirgi qopheessaa seeraan eegamaadha. Finfinnee, Itoophiyaa.',
+  ),
+  'custom_promo' => '',
+);

@@ -1,0 +1,131 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]: Ethiopia National Property Core
+      - generic [ref=e7]: "|"
+      - generic [ref=e8]: "Currency: ETB (ብር)"
+    - generic [ref=e9]:
+      - button "📅 ኢትዮጵያዊ ቀን (EC)" [ref=e10]:
+        - generic [ref=e11]: 📅
+        - generic [ref=e12]: ኢትዮጵያዊ ቀን (EC)
+      - generic [ref=e13]:
+        - link "English" [ref=e14] [cursor=pointer]:
+          - /url: http://127.0.0.1:8000/search?lang=en
+        - link "አማርኛ" [ref=e15] [cursor=pointer]:
+          - /url: http://127.0.0.1:8000/search?lang=am
+        - link "Afaan Oromo" [ref=e16] [cursor=pointer]:
+          - /url: http://127.0.0.1:8000/search?lang=om
+  - banner [ref=e17]:
+    - generic [ref=e18]:
+      - link "EP EthioProperty" [ref=e20] [cursor=pointer]:
+        - /url: http://127.0.0.1:8000
+        - generic [ref=e21]: EP
+        - generic [ref=e22]: EthioProperty
+      - generic [ref=e23]:
+        - link "Login / Register" [ref=e24] [cursor=pointer]:
+          - /url: http://127.0.0.1:8000/login
+        - button "Open Platform Navigation Menu" [ref=e25]:
+          - generic [ref=e26]: Menu
+  - main [ref=e27]:
+    - generic [ref=e28]:
+      - generic [ref=e30]:
+        - generic [ref=e31]:
+          - button "Purchase Real Estate" [ref=e32]
+          - button "Rentsss" [ref=e33]
+          - button "Lease" [ref=e34]
+        - generic [ref=e35]:
+          - 'textbox "Try: ''4-bedroom villa in Bole under 30 million'' or ''Office in Kazanchis''..." [ref=e36]'
+          - button "Search" [ref=e37]
+        - generic [ref=e38] [cursor=pointer]:
+          - checkbox "✓ Verified Only" [ref=e39]
+          - generic [ref=e40]: ✓ Verified Only
+        - combobox [ref=e41]:
+          - 'option "Sort: Relevance" [selected]'
+          - option "Newest First"
+          - option "Lowest Price"
+          - option "Highest Price"
+          - option "Largest Area (m²)"
+          - option "Lowest Price / m²"
+      - generic [ref=e42]:
+        - generic [ref=e43]:
+          - generic [ref=e44]:
+            - generic [ref=e45]:
+              - text: Showing
+              - strong [ref=e46]: "0"
+              - text: verified properties across Ethiopia
+            - generic [ref=e47]: Prices in ETB (ብር)
+          - generic [ref=e48]:
+            - text: 🔍
+            - heading "No properties found" [level=3] [ref=e49]
+            - paragraph [ref=e50]: No active listings match your current filters. Try expanding your search area, removing specific keywords, or adjusting price and bedroom limits.
+        - generic [ref=e51]:
+          - button "☰ List View" [ref=e52]
+          - button "🗺️ Map View" [ref=e53]
+  - contentinfo [ref=e54]:
+    - generic [ref=e55]:
+      - generic [ref=e56]:
+        - generic [ref=e57]:
+          - generic [ref=e58]:
+            - generic [ref=e59]: EP
+            - generic [ref=e60]: EthioProperty
+          - paragraph [ref=e61]: The National Ethiopian Real Estate Marketplace and Enterprise Property Management Platform. Built for certified brokerages, institutional owners, diaspora investors, and residents.
+          - generic [ref=e62]: PostGIS & Ethiopian Geocoding Engine
+        - generic [ref=e65]:
+          - heading "Marketplace Discovery" [level=3] [ref=e66]
+          - list [ref=e67]:
+            - listitem [ref=e68]:
+              - link "Residential & Commercial Sale" [ref=e69] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/search?mode=BUY
+            - listitem [ref=e70]:
+              - link "Long-Term Rentals" [ref=e71] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/search?mode=RENT
+            - listitem [ref=e72]:
+              - link "Commercial & Industrial Leases" [ref=e73] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/search?mode=LEASE
+            - listitem [ref=e74]:
+              - link "Agricultural & Urban Land" [ref=e75] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/search?category=land
+            - listitem [ref=e76]:
+              - link "Luxury Short-Term Stays" [ref=e77] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/stays/modern-garden-villa-bole
+        - generic [ref=e78]:
+          - heading "Enterprise Operations" [level=3] [ref=e79]
+          - list [ref=e80]:
+            - listitem [ref=e81]:
+              - link "Enterprise Portfolio Dashboard" [ref=e82] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/portfolio/dashboard
+            - listitem [ref=e83]:
+              - link "Unit Inventory Matrix" [ref=e84] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/portfolio/matrix
+            - listitem [ref=e85]:
+              - link "Work Orders & Maintenance" [ref=e86] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/maintenance
+            - listitem [ref=e87]:
+              - link "Tax Invoicing & VAT/TOT Compliance" [ref=e88] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/invoices
+            - listitem [ref=e89]:
+              - link "Lease Contracts & Rent Schedules" [ref=e90] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/leases
+        - generic [ref=e91]:
+          - heading "Administration & Trust" [level=3] [ref=e92]
+          - list [ref=e93]:
+            - listitem [ref=e94]:
+              - link "National Admin Center" [ref=e95] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/admin/dashboard
+            - listitem [ref=e96]:
+              - link "Language Management (Module 00)" [ref=e97] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/admin/languages
+            - listitem [ref=e98]:
+              - link "Security & OTP Watchdog (Module 01)" [ref=e99] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/admin/security
+            - listitem [ref=e100]:
+              - link "8-Level Location Hierarchy (Module 02)" [ref=e101] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/admin/locations
+      - generic [ref=e102]:
+        - generic [ref=e103]:
+          - generic [ref=e104]: © 2026 EthioProperty (ERE). All rights reserved.
+          - generic [ref=e105]: •
+          - generic [ref=e106]: Addis Ababa, Bole Sub-City, Ethiopia
+        - generic [ref=e107]:
+          - generic [ref=e108]: 📅 2019 Tikimt 17
+          - generic [ref=e109]: ETB Currency Verified

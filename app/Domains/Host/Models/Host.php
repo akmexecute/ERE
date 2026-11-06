@@ -32,6 +32,7 @@ final class Host extends Model
         'payout_schedule',
         'is_superhost',
         'status',
+        'kpi_card_preferences',
     ];
 
     protected function casts(): array
@@ -42,6 +43,7 @@ final class Host extends Model
             'average_rating' => 'decimal:2',
             'reviews_count' => 'integer',
             'is_superhost' => 'boolean',
+            'kpi_card_preferences' => 'array',
         ];
     }
 
@@ -58,5 +60,15 @@ final class Host extends Model
     public function stayProfiles(): HasMany
     {
         return $this->hasMany(StayListingProfile::class);
+    }
+
+    public function payoutDestinations(): HasMany
+    {
+        return $this->hasMany(\App\Domains\Financial\Models\HostPayoutDestination::class);
+    }
+
+    public function payouts(): HasMany
+    {
+        return $this->hasMany(\App\Domains\Financial\Models\HostPayout::class);
     }
 }

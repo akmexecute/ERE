@@ -12,6 +12,7 @@ use App\Support\Traits\Auditable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 final class StayListingProfile extends Model
@@ -92,6 +93,11 @@ final class StayListingProfile extends Model
     public function unitTypes(): HasMany
     {
         return $this->hasMany(AccommodationUnitType::class);
+    }
+
+    public function accommodationUnits(): HasManyThrough
+    {
+        return $this->hasManyThrough(AccommodationUnit::class, AccommodationUnitType::class, 'stay_listing_profile_id', 'unit_type_id');
     }
 
     public function bedConfigurations(): HasMany

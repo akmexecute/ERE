@@ -47,6 +47,47 @@ final class EthiopianCalendarConverter
         return ($ethYear + 1) % 4 === 0;
     }
 
+    /**
+     * Format a dual Gregorian & Ethiopian calendar heading for a given month range.
+     * Handles single-month, cross-month, and cross-year transitions.
+     *
+     * @return array{
+     *   gregorian_heading: string,
+     *   ethiopian_heading: string,
+     *   ethiopian_heading_am: string,
+     *   combined_heading: string,
+     *   combined_heading_am: string
+     * }
+     */
+    public static function formatDualMonthHeading(CarbonInterface $startOfMonth, CarbonInterface $endOfMonth): array
+    {
+        $startEth = self::fromGregorian($startOfMonth);
+        $endEth = self::fromGregorian($endOfMonth);
+
+        $gregHeading = $startOfMonth->format('F Y');
+
+        if ($startEth->year === $endEth->year) {
+            if ($startEth->month === $endEth->month) {
+                $ethHeadingEn = "{$startEth->monthName('en')} {$startEth->year}";
+                $ethHeadingAm = "{$startEth->monthName('am')} {$startEth->year}";
+            } else {
+                $ethHeadingEn = "{$startEth->monthName('en')} – {$endEth->monthName('en')} {$startEth->year}";
+                $ethHeadingAm = "{$startEth->monthName('am')} – {$endEth->monthName('am')} {$startEth->year}";
+            }
+        } else {
+            $ethHeadingEn = "{$startEth->monthName('en')} {$startEth->year} – {$endEth->monthName('en')} {$endEth->year}";
+            $ethHeadingAm = "{$startEth->monthName('am')} {$startEth->year} – {$endEth->monthName('am')} {$endEth->year}";
+        }
+
+        return [
+            'gregorian_heading' => $gregHeading,
+            'ethiopian_heading' => $ethHeadingEn,
+            'ethiopian_heading_am' => $ethHeadingAm,
+            'combined_heading' => "{$gregHeading} • {$ethHeadingEn}",
+            'combined_heading_am' => "{$gregHeading} • {$ethHeadingAm}",
+        ];
+    }
+
     private static function gregorianToJdn(int $year, int $month, int $day): int
     {
         $a = intdiv(14 - $month, 12);
@@ -78,7 +119,10 @@ final class EthiopianCalendarConverter
         $month = intdiv($n, 30) + 1;
         $day = ($n % 30) + 1;
 
-        return new EthiopianDate($year, $month, $day);
+        $dow = ($jdn + 1) % 7;
+        $dayOfWeek = $dow < 0 ? $dow + 7 : $dow;
+
+        return new EthiopianDate($year, $month, $day, $dayOfWeek);
     }
 
     private static function ethiopianToJdn(int $year, int $month, int $day): int

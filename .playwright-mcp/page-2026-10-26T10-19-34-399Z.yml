@@ -1,0 +1,1282 @@
+- generic [ref=f1e2]:
+  - banner [ref=f1e3]:
+    - banner [ref=f1e4]:
+      - generic [ref=f1e6]:
+        - link "home" [ref=f1e7] [cursor=pointer]:
+          - /url: /
+          - img "Logo" [ref=f1e8]
+        - generic [ref=f1e9]:
+          - generic [ref=f1e11] [cursor=pointer]:
+            - generic [ref=f1e12]: Menu
+            - img "Mernu Open Icon" [ref=f1e15]
+          - generic [ref=f1e16]:
+            - generic [ref=f1e17]:
+              - generic [ref=f1e18]:
+                - generic [ref=f1e19] [cursor=pointer]:
+                  - generic [ref=f1e20]: Home
+                  - img "Plus Icon" [ref=f1e23]
+                - generic:
+                  - link "Home 01" [ref=f1e25] [cursor=pointer]:
+                    - /url: /
+                  - link "Home 02" [ref=f1e27] [cursor=pointer]:
+                    - /url: /home-two
+              - generic [ref=f1e28]:
+                - generic [ref=f1e29] [cursor=pointer]:
+                  - generic [ref=f1e30]: Pages
+                  - img "Plus Icon" [ref=f1e33]
+                - generic [ref=f1e1893]:
+                  - generic [ref=f1e34]:
+                    - link "About Us" [ref=f1e35] [cursor=pointer]:
+                      - /url: /about
+                    - link "Contact" [ref=f1e36] [cursor=pointer]:
+                      - /url: /contact
+                    - link "Testimonial" [ref=f1e37] [cursor=pointer]:
+                      - /url: /testimonial
+                    - link "Instructions" [ref=f1e38] [cursor=pointer]:
+                      - /url: /instructions
+                  - generic [ref=f1e39]:
+                    - link "Style Guide" [ref=f1e40] [cursor=pointer]:
+                      - /url: /style-guide
+                    - link "Changelog" [ref=f1e41] [cursor=pointer]:
+                      - /url: /changelog
+                    - link "Licenses" [ref=f1e42] [cursor=pointer]:
+                      - /url: /licenses
+                    - link "404 Page" [ref=f1e43] [cursor=pointer]:
+                      - /url: /404
+              - generic [ref=f1e44]:
+                - generic [ref=f1e45] [cursor=pointer]:
+                  - generic [ref=f1e46]: Services
+                  - img "Plus Icon" [ref=f1e49]
+                - generic:
+                  - link "Services" [ref=f1e51] [cursor=pointer]:
+                    - /url: /services
+                  - link "Services Details" [ref=f1e53] [cursor=pointer]:
+                    - /url: /service/buying-assistance
+              - generic [ref=f1e54]:
+                - generic [ref=f1e55] [cursor=pointer]:
+                  - generic [ref=f1e56]: Properties
+                  - img "Plus Icon" [ref=f1e59]
+                - generic:
+                  - link "Properties" [ref=f1e61] [cursor=pointer]:
+                    - /url: /properties
+                  - link "Properties Details" [ref=f1e63] [cursor=pointer]:
+                    - /url: /properties/sunset-horizon-villas
+              - generic [ref=f1e64]:
+                - generic [ref=f1e65] [cursor=pointer]:
+                  - generic [ref=f1e66]: Insights
+                  - img "Plus Icon" [ref=f1e69]
+                - generic:
+                  - link "Insights" [ref=f1e71] [cursor=pointer]:
+                    - /url: /insights
+                  - link "Insights Details" [ref=f1e73] [cursor=pointer]:
+                    - /url: /blog/how-to-choose-the-right-property-location
+            - generic [ref=f1e75]:
+              - link "agent-single-social-block" [ref=f1e76] [cursor=pointer]:
+                - /url: https://linkedin.com/
+              - link "agent-single-social-block" [ref=f1e82] [cursor=pointer]:
+                - /url: https://www.facebook.com/
+              - link "agent-single-social-block" [ref=f1e86] [cursor=pointer]:
+                - /url: https://x.com/home
+            - link "Let’s Talk Let’s Talk" [ref=f1e91] [cursor=pointer]:
+              - /url: /contact
+              - generic [ref=f1e93]:
+                - generic [ref=f1e94]: Let’s Talk
+                - generic [ref=f1e95]: Let’s Talk
+  - main [ref=f1e103]:
+    - generic [ref=f1e104]:
+      - generic [ref=f1e107]:
+        - generic [ref=f1e108]:
+          - generic [ref=f1e109]:
+            - heading "Timeless living" [level=1] [ref=f1e111]
+            - generic [ref=f1e112]: Modern Touch.
+          - paragraph [ref=f1e115]: We help buyers, sellers, and investors discover high-value properties through expert guidance, market insight, and transparent processes.
+          - generic [ref=f1e118]:
+            - generic [ref=f1e119]:
+              - img "Two dark blue laurel branches arranged in a V shape on a transparent background." [ref=f1e120]
+              - generic [ref=f1e121]: INTERNATIONALPROPERTYAWARDS‍2026
+              - img "Two dark blue laurel branches arranged in a V shape on a transparent background." [ref=f1e122]
+            - generic [ref=f1e124]:
+              - generic [ref=f1e125]:
+                - generic [ref=f1e126]: 80K+
+                - paragraph [ref=f1e127]: TOTAL USER
+              - generic [ref=f1e128]:
+                - img "Young person with short hair and glasses wearing a dark shirt against an orange circular background." [ref=f1e129]
+                - img "Portrait of a young person with short blond hair and glasses, wearing a red shirt, against a dark background." [ref=f1e130]
+        - form "Email Form" [ref=f1e133]:
+          - generic [ref=f1e134]:
+            - generic [ref=f1e135]:
+              - generic: Location
+              - combobox "Location" [ref=f1e136] [cursor=pointer]:
+                - option "California, USA" [selected]
+                - option "Texas, USA"
+                - option "Florida, USA"
+                - option "Nevada, USA"
+            - generic [ref=f1e137]:
+              - generic: Property Type
+              - combobox "Property Type" [ref=f1e138] [cursor=pointer]:
+                - option "Residential" [selected]
+                - option "Commercial"
+                - option "Industrial"
+                - option "Hospitality"
+            - generic [ref=f1e139]:
+              - generic: Price Range
+              - combobox "Price Range" [ref=f1e140] [cursor=pointer]:
+                - option "$200,000 - $500,000" [selected]
+                - option "$800,000 - $1,200,000"
+                - option "$1,200,000 - $2,000,000"
+                - option "$2,000,000 - $3,500,000"
+            - link "Search" [ref=f1e142] [cursor=pointer]:
+              - /url: /properties
+      - img "hero bg color" [ref=f1e144]
+      - img "Modern building corner with bright yellow paneling and large blue-tinted glass windows under a clear sky." [ref=f1e146]
+    - generic [ref=f1e151]:
+      - heading "We are a real estate team dedicated to helping clients buy, sell, and invest confidently. Our approach combines market knowledge, personalized service, and modern tools for reliable outcomes." [level=2] [ref=f1e153]:
+        - generic [aria-hidden] [ref=f1e154]:
+          - generic [aria-hidden] [ref=f1e155]: W
+          - generic [aria-hidden] [ref=f1e156]: e
+        - generic [aria-hidden] [ref=f1e157]:
+          - generic [aria-hidden] [ref=f1e158]: a
+          - generic [aria-hidden] [ref=f1e159]: r
+          - generic [aria-hidden] [ref=f1e160]: e
+        - generic [aria-hidden] [ref=f1e162]: a
+        - generic [aria-hidden] [ref=f1e163]:
+          - generic [aria-hidden] [ref=f1e164]: r
+          - generic [aria-hidden] [ref=f1e165]: e
+          - generic [aria-hidden] [ref=f1e166]: a
+          - generic [aria-hidden] [ref=f1e167]: l
+        - generic [aria-hidden] [ref=f1e168]:
+          - generic [aria-hidden] [ref=f1e169]: e
+          - generic [aria-hidden] [ref=f1e170]: s
+          - generic [aria-hidden] [ref=f1e171]: t
+          - generic [aria-hidden] [ref=f1e172]: a
+          - generic [aria-hidden] [ref=f1e173]: t
+          - generic [aria-hidden] [ref=f1e174]: e
+        - generic [aria-hidden] [ref=f1e175]:
+          - generic [aria-hidden] [ref=f1e176]: t
+          - generic [aria-hidden] [ref=f1e177]: e
+          - generic [aria-hidden] [ref=f1e178]: a
+          - generic [aria-hidden] [ref=f1e179]: m
+        - generic [aria-hidden] [ref=f1e180]:
+          - generic [aria-hidden] [ref=f1e181]: d
+          - generic [aria-hidden] [ref=f1e182]: e
+          - generic [aria-hidden] [ref=f1e183]: d
+          - generic [aria-hidden] [ref=f1e184]: i
+          - generic [aria-hidden] [ref=f1e185]: c
+          - generic [aria-hidden] [ref=f1e186]: a
+          - generic [aria-hidden] [ref=f1e187]: t
+          - generic [aria-hidden] [ref=f1e188]: e
+          - generic [aria-hidden] [ref=f1e189]: d
+        - generic [aria-hidden] [ref=f1e190]:
+          - generic [aria-hidden] [ref=f1e191]: t
+          - generic [aria-hidden] [ref=f1e192]: o
+        - generic [aria-hidden] [ref=f1e193]:
+          - generic [aria-hidden] [ref=f1e194]: h
+          - generic [aria-hidden] [ref=f1e195]: e
+          - generic [aria-hidden] [ref=f1e196]: l
+          - generic [aria-hidden] [ref=f1e197]: p
+          - generic [aria-hidden] [ref=f1e198]: i
+          - generic [aria-hidden] [ref=f1e199]: "n"
+          - generic [aria-hidden] [ref=f1e200]: g
+        - generic [aria-hidden] [ref=f1e201]:
+          - generic [aria-hidden] [ref=f1e202]: c
+          - generic [aria-hidden] [ref=f1e203]: l
+          - generic [aria-hidden] [ref=f1e204]: i
+          - generic [aria-hidden] [ref=f1e205]: e
+          - generic [aria-hidden] [ref=f1e206]: "n"
+          - generic [aria-hidden] [ref=f1e207]: t
+          - generic [aria-hidden] [ref=f1e208]: s
+        - generic [aria-hidden] [ref=f1e209]:
+          - generic [aria-hidden] [ref=f1e210]: b
+          - generic [aria-hidden] [ref=f1e211]: u
+          - generic [aria-hidden] [ref=f1e212]: "y"
+          - generic [aria-hidden] [ref=f1e213]: ","
+        - generic [aria-hidden] [ref=f1e214]:
+          - generic [aria-hidden] [ref=f1e215]: s
+          - generic [aria-hidden] [ref=f1e216]: e
+          - generic [aria-hidden] [ref=f1e217]: l
+          - generic [aria-hidden] [ref=f1e218]: l
+          - generic [aria-hidden] [ref=f1e219]: ","
+        - generic [aria-hidden] [ref=f1e220]:
+          - generic [aria-hidden] [ref=f1e221]: a
+          - generic [aria-hidden] [ref=f1e222]: "n"
+          - generic [aria-hidden] [ref=f1e223]: d
+        - generic [aria-hidden] [ref=f1e224]:
+          - generic [aria-hidden] [ref=f1e225]: i
+          - generic [aria-hidden] [ref=f1e226]: "n"
+          - generic [aria-hidden] [ref=f1e227]: v
+          - generic [aria-hidden] [ref=f1e228]: e
+          - generic [aria-hidden] [ref=f1e229]: s
+          - generic [aria-hidden] [ref=f1e230]: t
+        - generic [aria-hidden] [ref=f1e231]:
+          - generic [aria-hidden] [ref=f1e232]: c
+          - generic [aria-hidden] [ref=f1e233]: o
+          - generic [aria-hidden] [ref=f1e234]: "n"
+          - generic [aria-hidden] [ref=f1e235]: f
+          - generic [aria-hidden] [ref=f1e236]: i
+          - generic [aria-hidden] [ref=f1e237]: d
+          - generic [aria-hidden] [ref=f1e238]: e
+          - generic [aria-hidden] [ref=f1e239]: "n"
+          - generic [aria-hidden] [ref=f1e240]: t
+          - generic [aria-hidden] [ref=f1e241]: l
+          - generic [aria-hidden] [ref=f1e242]: "y"
+          - generic [aria-hidden] [ref=f1e243]: .
+        - generic [aria-hidden] [ref=f1e244]:
+          - generic [aria-hidden] [ref=f1e245]: O
+          - generic [aria-hidden] [ref=f1e246]: u
+          - generic [aria-hidden] [ref=f1e247]: r
+        - generic [aria-hidden] [ref=f1e248]:
+          - generic [aria-hidden] [ref=f1e249]: a
+          - generic [aria-hidden] [ref=f1e250]: p
+          - generic [aria-hidden] [ref=f1e251]: p
+          - generic [aria-hidden] [ref=f1e252]: r
+          - generic [aria-hidden] [ref=f1e253]: o
+          - generic [aria-hidden] [ref=f1e254]: a
+          - generic [aria-hidden] [ref=f1e255]: c
+          - generic [aria-hidden] [ref=f1e256]: h
+        - generic [aria-hidden] [ref=f1e257]:
+          - generic [aria-hidden] [ref=f1e258]: c
+          - generic [aria-hidden] [ref=f1e259]: o
+          - generic [aria-hidden] [ref=f1e260]: m
+          - generic [aria-hidden] [ref=f1e261]: b
+          - generic [aria-hidden] [ref=f1e262]: i
+          - generic [aria-hidden] [ref=f1e263]: "n"
+          - generic [aria-hidden] [ref=f1e264]: e
+          - generic [aria-hidden] [ref=f1e265]: s
+        - generic [aria-hidden] [ref=f1e266]:
+          - generic [aria-hidden] [ref=f1e267]: m
+          - generic [aria-hidden] [ref=f1e268]: a
+          - generic [aria-hidden] [ref=f1e269]: r
+          - generic [aria-hidden] [ref=f1e270]: k
+          - generic [aria-hidden] [ref=f1e271]: e
+          - generic [aria-hidden] [ref=f1e272]: t
+        - generic [aria-hidden] [ref=f1e273]:
+          - generic [aria-hidden] [ref=f1e274]: k
+          - generic [aria-hidden] [ref=f1e275]: "n"
+          - generic [aria-hidden] [ref=f1e276]: o
+          - generic [aria-hidden] [ref=f1e277]: w
+          - generic [aria-hidden] [ref=f1e278]: l
+          - generic [aria-hidden] [ref=f1e279]: e
+          - generic [aria-hidden] [ref=f1e280]: d
+          - generic [aria-hidden] [ref=f1e281]: g
+          - generic [aria-hidden] [ref=f1e282]: e
+          - generic [aria-hidden] [ref=f1e283]: ","
+        - generic [aria-hidden] [ref=f1e284]:
+          - generic [aria-hidden] [ref=f1e285]: p
+          - generic [aria-hidden] [ref=f1e286]: e
+          - generic [aria-hidden] [ref=f1e287]: r
+          - generic [aria-hidden] [ref=f1e288]: s
+          - generic [aria-hidden] [ref=f1e289]: o
+          - generic [aria-hidden] [ref=f1e290]: "n"
+          - generic [aria-hidden] [ref=f1e291]: a
+          - generic [aria-hidden] [ref=f1e292]: l
+          - generic [aria-hidden] [ref=f1e293]: i
+          - generic [aria-hidden] [ref=f1e294]: z
+          - generic [aria-hidden] [ref=f1e295]: e
+          - generic [aria-hidden] [ref=f1e296]: d
+        - generic [aria-hidden] [ref=f1e297]:
+          - generic [aria-hidden] [ref=f1e298]: s
+          - generic [aria-hidden] [ref=f1e299]: e
+          - generic [aria-hidden] [ref=f1e300]: r
+          - generic [aria-hidden] [ref=f1e301]: v
+          - generic [aria-hidden] [ref=f1e302]: i
+          - generic [aria-hidden] [ref=f1e303]: c
+          - generic [aria-hidden] [ref=f1e304]: e
+          - generic [aria-hidden] [ref=f1e305]: ","
+        - generic [aria-hidden] [ref=f1e306]:
+          - generic [aria-hidden] [ref=f1e307]: a
+          - generic [aria-hidden] [ref=f1e308]: "n"
+          - generic [aria-hidden] [ref=f1e309]: d
+        - generic [aria-hidden] [ref=f1e310]:
+          - generic [aria-hidden] [ref=f1e311]: m
+          - generic [aria-hidden] [ref=f1e312]: o
+          - generic [aria-hidden] [ref=f1e313]: d
+          - generic [aria-hidden] [ref=f1e314]: e
+          - generic [aria-hidden] [ref=f1e315]: r
+          - generic [aria-hidden] [ref=f1e316]: "n"
+        - generic [aria-hidden] [ref=f1e317]:
+          - generic [aria-hidden] [ref=f1e318]: t
+          - generic [aria-hidden] [ref=f1e319]: o
+          - generic [aria-hidden] [ref=f1e320]: o
+          - generic [aria-hidden] [ref=f1e321]: l
+          - generic [aria-hidden] [ref=f1e322]: s
+        - generic [aria-hidden] [ref=f1e323]:
+          - generic [aria-hidden] [ref=f1e324]: f
+          - generic [aria-hidden] [ref=f1e325]: o
+          - generic [aria-hidden] [ref=f1e326]: r
+        - generic [aria-hidden] [ref=f1e327]:
+          - generic [aria-hidden] [ref=f1e328]: r
+          - generic [aria-hidden] [ref=f1e329]: e
+          - generic [aria-hidden] [ref=f1e330]: l
+          - generic [aria-hidden] [ref=f1e331]: i
+          - generic [aria-hidden] [ref=f1e332]: a
+          - generic [aria-hidden] [ref=f1e333]: b
+          - generic [aria-hidden] [ref=f1e334]: l
+          - generic [aria-hidden] [ref=f1e335]: e
+        - generic [aria-hidden] [ref=f1e336]:
+          - generic [aria-hidden] [ref=f1e337]: o
+          - generic [aria-hidden] [ref=f1e338]: u
+          - generic [aria-hidden] [ref=f1e339]: t
+          - generic [aria-hidden] [ref=f1e340]: c
+          - generic [aria-hidden] [ref=f1e341]: o
+          - generic [aria-hidden] [ref=f1e342]: m
+          - generic [aria-hidden] [ref=f1e343]: e
+          - generic [aria-hidden] [ref=f1e344]: s
+          - generic [aria-hidden] [ref=f1e345]: .
+      - generic [ref=f1e346]:
+        - img "about-image" [ref=f1e348]
+        - img "about-image" [ref=f1e350]
+        - img "about-image" [ref=f1e352]
+      - link [ref=f1e354] [cursor=pointer]:
+        - /url: /about
+        - generic [ref=f1e356]:
+          - generic "Read More" [ref=f1e357]:
+            - strong [ref=f1e358]:
+              - generic [aria-hidden] [ref=f1e359]:
+                - generic [aria-hidden] [ref=f1e360]: R
+                - generic [aria-hidden] [ref=f1e361]: e
+                - generic [aria-hidden] [ref=f1e362]: a
+                - generic [aria-hidden] [ref=f1e363]: d
+              - generic [aria-hidden] [ref=f1e364]:
+                - generic [aria-hidden] [ref=f1e365]: M
+                - generic [aria-hidden] [ref=f1e366]: o
+                - generic [aria-hidden] [ref=f1e367]: r
+                - generic [aria-hidden] [ref=f1e368]: e
+          - generic "Read More" [ref=f1e369]:
+            - strong [ref=f1e370]:
+              - generic [aria-hidden] [ref=f1e371]:
+                - generic [aria-hidden] [ref=f1e372]: R
+                - generic [aria-hidden] [ref=f1e373]: e
+                - generic [aria-hidden] [ref=f1e374]: a
+                - generic [aria-hidden] [ref=f1e375]: d
+              - generic [aria-hidden] [ref=f1e376]:
+                - generic [aria-hidden] [ref=f1e377]: M
+                - generic [aria-hidden] [ref=f1e378]: o
+                - generic [aria-hidden] [ref=f1e379]: r
+                - generic [aria-hidden] [ref=f1e380]: e
+    - generic [ref=f1e391]:
+      - generic [ref=f1e392]:
+        - heading "Featured Listings" [level=2] [ref=f1e394]:
+          - generic [aria-hidden] [ref=f1e395]:
+            - generic [aria-hidden] [ref=f1e397]: F
+            - generic [aria-hidden] [ref=f1e399]: e
+            - generic [aria-hidden] [ref=f1e401]: a
+            - generic [aria-hidden] [ref=f1e403]: t
+            - generic [aria-hidden] [ref=f1e405]: u
+            - generic [aria-hidden] [ref=f1e407]: r
+            - generic [aria-hidden] [ref=f1e409]: e
+            - generic [aria-hidden] [ref=f1e411]: d
+          - generic [aria-hidden] [ref=f1e412]:
+            - generic [aria-hidden] [ref=f1e414]: L
+            - generic [aria-hidden] [ref=f1e416]: i
+            - generic [aria-hidden] [ref=f1e418]: s
+            - generic [aria-hidden] [ref=f1e420]: t
+            - generic [aria-hidden] [ref=f1e422]: i
+            - generic [aria-hidden] [ref=f1e424]: "n"
+            - generic [aria-hidden] [ref=f1e426]: g
+            - generic [aria-hidden] [ref=f1e428]: s
+        - paragraph [ref=f1e430]: A selection of properties offering strong value, prime locations, and excellent long-term potential.
+      - generic [ref=f1e431]:
+        - generic [ref=f1e432]:
+          - tablist [ref=f1e433]:
+            - tab "All" [selected] [ref=f1e434] [cursor=pointer]
+            - tab "For Rent" [ref=f1e436] [cursor=pointer]
+            - tab "For Buy" [ref=f1e438] [cursor=pointer]
+          - tabpanel "All" [ref=f1e441]:
+            - list [ref=f1e443]:
+              - listitem [ref=f1e444]:
+                - generic [ref=f1e445]:
+                  - link [ref=f1e446] [cursor=pointer]:
+                    - /url: /properties/sunset-horizon-villas
+                    - generic [ref=f1e447]:
+                      - paragraph [ref=f1e448]: For
+                      - paragraph [ref=f1e449]: Rent
+                    - paragraph [ref=f1e451]: Modern Home
+                  - generic [ref=f1e452]:
+                    - generic [ref=f1e453]:
+                      - link "properties-item-title-block" [ref=f1e454] [cursor=pointer]:
+                        - /url: /properties/sunset-horizon-villas
+                        - heading "Sunset Horizon Villas" [level=3] [ref=f1e455]
+                      - paragraph [ref=f1e460]: Santorini Sunset
+                    - paragraph [ref=f1e462]: $3,750,00
+              - listitem [ref=f1e463]:
+                - generic [ref=f1e464]:
+                  - link [ref=f1e465] [cursor=pointer]:
+                    - /url: /properties/mountainview-cabin
+                    - generic [ref=f1e466]:
+                      - paragraph [ref=f1e467]: For
+                      - paragraph [ref=f1e468]: Buy
+                    - paragraph [ref=f1e470]: Seaside Retreat
+                  - generic [ref=f1e471]:
+                    - generic [ref=f1e472]:
+                      - link "properties-item-title-block" [ref=f1e473] [cursor=pointer]:
+                        - /url: /properties/mountainview-cabin
+                        - heading "Mountainview Cabin" [level=3] [ref=f1e474]
+                      - paragraph [ref=f1e479]: Aspen Heights
+                    - paragraph [ref=f1e481]: $5,750,00
+              - listitem [ref=f1e482]:
+                - generic [ref=f1e483]:
+                  - link [ref=f1e484] [cursor=pointer]:
+                    - /url: /properties/cityscape-lofts
+                    - generic [ref=f1e485]:
+                      - paragraph [ref=f1e486]: For
+                      - paragraph [ref=f1e487]: Buy
+                    - paragraph [ref=f1e489]: Contemporary
+                  - generic [ref=f1e490]:
+                    - generic [ref=f1e491]:
+                      - link "properties-item-title-block" [ref=f1e492] [cursor=pointer]:
+                        - /url: /properties/cityscape-lofts
+                        - heading "Cityscape Lofts" [level=3] [ref=f1e493]
+                      - paragraph [ref=f1e498]: New York
+                    - paragraph [ref=f1e500]: $5,250,00
+              - listitem [ref=f1e501]:
+                - generic [ref=f1e502]:
+                  - link [ref=f1e503] [cursor=pointer]:
+                    - /url: /properties/sunset-harbor-residence
+                    - generic [ref=f1e504]:
+                      - paragraph [ref=f1e505]: For
+                      - paragraph [ref=f1e506]: Rent
+                    - paragraph [ref=f1e508]: Chalet
+                  - generic [ref=f1e509]:
+                    - generic [ref=f1e510]:
+                      - link "properties-item-title-block" [ref=f1e511] [cursor=pointer]:
+                        - /url: /properties/sunset-harbor-residence
+                        - heading "Sunset Harbor Residence" [level=3] [ref=f1e512]
+                      - paragraph [ref=f1e517]: Malibu Coast
+                    - paragraph [ref=f1e519]: $2,250,00
+        - link [ref=f1e521] [cursor=pointer]:
+          - /url: /properties
+          - generic [ref=f1e523]:
+            - generic "View All Listings" [ref=f1e524]:
+              - generic [aria-hidden] [ref=f1e525]:
+                - generic [aria-hidden] [ref=f1e526]: V
+                - generic [aria-hidden] [ref=f1e527]: i
+                - generic [aria-hidden] [ref=f1e528]: e
+                - generic [aria-hidden] [ref=f1e529]: w
+              - generic [aria-hidden] [ref=f1e530]:
+                - generic [aria-hidden] [ref=f1e531]: A
+                - generic [aria-hidden] [ref=f1e532]: l
+                - generic [aria-hidden] [ref=f1e533]: l
+              - generic [aria-hidden] [ref=f1e534]:
+                - generic [aria-hidden] [ref=f1e535]: L
+                - generic [aria-hidden] [ref=f1e536]: i
+                - generic [aria-hidden] [ref=f1e537]: s
+                - generic [aria-hidden] [ref=f1e538]: t
+                - generic [aria-hidden] [ref=f1e539]: i
+                - generic [aria-hidden] [ref=f1e540]: "n"
+                - generic [aria-hidden] [ref=f1e541]: g
+                - generic [aria-hidden] [ref=f1e542]: s
+            - generic "View All Listings" [ref=f1e543]:
+              - generic [aria-hidden] [ref=f1e544]:
+                - generic [aria-hidden] [ref=f1e545]: V
+                - generic [aria-hidden] [ref=f1e546]: i
+                - generic [aria-hidden] [ref=f1e547]: e
+                - generic [aria-hidden] [ref=f1e548]: w
+              - generic [aria-hidden] [ref=f1e549]:
+                - generic [aria-hidden] [ref=f1e550]: A
+                - generic [aria-hidden] [ref=f1e551]: l
+                - generic [aria-hidden] [ref=f1e552]: l
+              - generic [aria-hidden] [ref=f1e553]:
+                - generic [aria-hidden] [ref=f1e554]: L
+                - generic [aria-hidden] [ref=f1e555]: i
+                - generic [aria-hidden] [ref=f1e556]: s
+                - generic [aria-hidden] [ref=f1e557]: t
+                - generic [aria-hidden] [ref=f1e558]: i
+                - generic [aria-hidden] [ref=f1e559]: "n"
+                - generic [aria-hidden] [ref=f1e560]: g
+                - generic [aria-hidden] [ref=f1e561]: s
+    - generic [ref=f1e572]:
+      - generic [ref=f1e573]:
+        - generic [ref=f1e574]:
+          - img "statistics-image" [ref=f1e1876]
+          - generic [ref=f1e575]:
+            - img "Modern three-story commercial building with glass windows and multiple entrances under a blue sky with clouds." [ref=f1e1878]
+            - generic [ref=f1e576]:
+              - generic [ref=f1e577]: Oceanfront Paradise
+              - generic [ref=f1e579]:
+                - paragraph [ref=f1e588]: 3 Beds
+                - paragraph [ref=f1e595]: 2 Baths
+              - generic [ref=f1e596]:
+                - generic [ref=f1e597]: $680/m
+                - paragraph [ref=f1e603]: 34 Reviews
+        - generic [ref=f1e604]:
+          - generic [ref=f1e605]:
+            - heading "A Modern Approach to Real Estate" [level=2] [ref=f1e606]:
+              - generic [aria-hidden] [ref=f1e609]: A
+              - generic [aria-hidden] [ref=f1e610]:
+                - generic [aria-hidden] [ref=f1e612]: M
+                - generic [aria-hidden] [ref=f1e614]: o
+                - generic [aria-hidden] [ref=f1e616]: d
+                - generic [aria-hidden] [ref=f1e618]: e
+                - generic [aria-hidden] [ref=f1e620]: r
+                - generic [aria-hidden] [ref=f1e622]: "n"
+              - generic [aria-hidden] [ref=f1e623]:
+                - generic [aria-hidden] [ref=f1e625]: A
+                - generic [aria-hidden] [ref=f1e627]: p
+                - generic [aria-hidden] [ref=f1e629]: p
+                - generic [aria-hidden] [ref=f1e631]: r
+                - generic [aria-hidden] [ref=f1e633]: o
+                - generic [aria-hidden] [ref=f1e635]: a
+                - generic [aria-hidden] [ref=f1e637]: c
+                - generic [aria-hidden] [ref=f1e639]: h
+              - generic [aria-hidden] [ref=f1e640]:
+                - generic [aria-hidden] [ref=f1e642]: t
+                - generic [aria-hidden] [ref=f1e644]: o
+              - generic [aria-hidden] [ref=f1e645]:
+                - generic [aria-hidden] [ref=f1e647]: R
+                - generic [aria-hidden] [ref=f1e649]: e
+                - generic [aria-hidden] [ref=f1e651]: a
+                - generic [aria-hidden] [ref=f1e653]: l
+              - generic [aria-hidden] [ref=f1e654]:
+                - generic [aria-hidden] [ref=f1e656]: E
+                - generic [aria-hidden] [ref=f1e658]: s
+                - generic [aria-hidden] [ref=f1e660]: t
+                - generic [aria-hidden] [ref=f1e662]: a
+                - generic [aria-hidden] [ref=f1e664]: t
+                - generic [aria-hidden] [ref=f1e666]: e
+            - paragraph [ref=f1e667]: We are a professional real estate team committed to helping clients navigate buying, selling, and investing with clarity and confidence. Our approach combines deep market knowledge, personalized service, and modern tools to deliver reliable outcomes.
+          - link [ref=f1e669] [cursor=pointer]:
+            - /url: /about
+            - generic [ref=f1e671]:
+              - generic "Read More" [ref=f1e672]:
+                - generic [aria-hidden] [ref=f1e673]:
+                  - generic [aria-hidden] [ref=f1e674]: R
+                  - generic [aria-hidden] [ref=f1e675]: e
+                  - generic [aria-hidden] [ref=f1e676]: a
+                  - generic [aria-hidden] [ref=f1e677]: d
+                - generic [aria-hidden] [ref=f1e678]:
+                  - generic [aria-hidden] [ref=f1e679]: M
+                  - generic [aria-hidden] [ref=f1e680]: o
+                  - generic [aria-hidden] [ref=f1e681]: r
+                  - generic [aria-hidden] [ref=f1e682]: e
+              - generic "Read More" [ref=f1e683]:
+                - generic [aria-hidden] [ref=f1e684]:
+                  - generic [aria-hidden] [ref=f1e685]: R
+                  - generic [aria-hidden] [ref=f1e686]: e
+                  - generic [aria-hidden] [ref=f1e687]: a
+                  - generic [aria-hidden] [ref=f1e688]: d
+                - generic [aria-hidden] [ref=f1e689]:
+                  - generic [aria-hidden] [ref=f1e690]: M
+                  - generic [aria-hidden] [ref=f1e691]: o
+                  - generic [aria-hidden] [ref=f1e692]: r
+                  - generic [aria-hidden] [ref=f1e693]: e
+      - generic [ref=f1e701]:
+        - generic [ref=f1e702]:
+          - generic [ref=f1e703]: 12K+
+          - paragraph [ref=f1e706]: Properties Listed
+        - generic [ref=f1e707]:
+          - strong [ref=f1e710]: 850+
+          - paragraph [ref=f1e712]: Successful Deals Closed
+        - generic [ref=f1e713]:
+          - strong [ref=f1e716]: 98%
+          - paragraph [ref=f1e718]: Client Satisfaction Rate
+        - generic [ref=f1e719]:
+          - strong [ref=f1e722]: 10+
+          - paragraph [ref=f1e724]: Years Industry Experience
+    - generic [ref=f1e728]:
+      - generic [ref=f1e729]:
+        - heading "Our Real Estate Services" [level=2] [ref=f1e731]:
+          - generic [aria-hidden] [ref=f1e732]:
+            - generic [aria-hidden] [ref=f1e734]: O
+            - generic [aria-hidden] [ref=f1e736]: u
+            - generic [aria-hidden] [ref=f1e738]: r
+          - generic [aria-hidden] [ref=f1e739]:
+            - generic [aria-hidden] [ref=f1e741]: R
+            - generic [aria-hidden] [ref=f1e743]: e
+            - generic [aria-hidden] [ref=f1e745]: a
+            - generic [aria-hidden] [ref=f1e747]: l
+          - generic [aria-hidden] [ref=f1e748]:
+            - generic [aria-hidden] [ref=f1e750]: E
+            - generic [aria-hidden] [ref=f1e752]: s
+            - generic [aria-hidden] [ref=f1e754]: t
+            - generic [aria-hidden] [ref=f1e756]: a
+            - generic [aria-hidden] [ref=f1e758]: t
+            - generic [aria-hidden] [ref=f1e760]: e
+          - generic [aria-hidden] [ref=f1e761]:
+            - generic [aria-hidden] [ref=f1e763]: S
+            - generic [aria-hidden] [ref=f1e765]: e
+            - generic [aria-hidden] [ref=f1e767]: r
+            - generic [aria-hidden] [ref=f1e769]: v
+            - generic [aria-hidden] [ref=f1e771]: i
+            - generic [aria-hidden] [ref=f1e773]: c
+            - generic [aria-hidden] [ref=f1e775]: e
+            - generic [aria-hidden] [ref=f1e777]: s
+        - link [ref=f1e779] [cursor=pointer]:
+          - /url: /services
+          - generic [ref=f1e781]:
+            - generic "View Details" [ref=f1e782]:
+              - generic [aria-hidden] [ref=f1e783]:
+                - generic [aria-hidden] [ref=f1e784]: V
+                - generic [aria-hidden] [ref=f1e785]: i
+                - generic [aria-hidden] [ref=f1e786]: e
+                - generic [aria-hidden] [ref=f1e787]: w
+              - generic [aria-hidden] [ref=f1e788]:
+                - generic [aria-hidden] [ref=f1e789]: D
+                - generic [aria-hidden] [ref=f1e790]: e
+                - generic [aria-hidden] [ref=f1e791]: t
+                - generic [aria-hidden] [ref=f1e792]: a
+                - generic [aria-hidden] [ref=f1e793]: i
+                - generic [aria-hidden] [ref=f1e794]: l
+                - generic [aria-hidden] [ref=f1e795]: s
+            - generic "View Details" [ref=f1e796]:
+              - generic [aria-hidden] [ref=f1e797]:
+                - generic [aria-hidden] [ref=f1e798]: V
+                - generic [aria-hidden] [ref=f1e799]: i
+                - generic [aria-hidden] [ref=f1e800]: e
+                - generic [aria-hidden] [ref=f1e801]: w
+              - generic [aria-hidden] [ref=f1e802]:
+                - generic [aria-hidden] [ref=f1e803]: D
+                - generic [aria-hidden] [ref=f1e804]: e
+                - generic [aria-hidden] [ref=f1e805]: t
+                - generic [aria-hidden] [ref=f1e806]: a
+                - generic [aria-hidden] [ref=f1e807]: i
+                - generic [aria-hidden] [ref=f1e808]: l
+                - generic [aria-hidden] [ref=f1e809]: s
+      - list [ref=f1e819]:
+        - listitem [ref=f1e820]:
+          - link [ref=f1e821] [cursor=pointer]:
+            - /url: /service/buying-assistance
+            - img "services-item-image" [ref=f1e1880]
+            - heading "Buying Assistance" [level=3] [ref=f1e824]
+        - listitem [ref=f1e828]:
+          - link [ref=f1e829] [cursor=pointer]:
+            - /url: /service/selling-marketing
+            - img "services-item-image" [ref=f1e1882]
+            - heading "Selling & Marketing" [level=3] [ref=f1e832]
+        - listitem [ref=f1e836]:
+          - link [ref=f1e837] [cursor=pointer]:
+            - /url: /service/rental-leasing
+            - img "services-item-image" [ref=f1e1884]
+            - heading "Rental & Leasing" [level=3] [ref=f1e840]
+        - listitem [ref=f1e844]:
+          - link [ref=f1e845] [cursor=pointer]:
+            - /url: /service/investment-consulting
+            - img "services-item-image" [ref=f1e1886]
+            - heading "Investment Consulting" [level=3] [ref=f1e848]
+    - generic [ref=f1e857]:
+      - heading "A Smarter Way to Buy, Sell & Invest in Property" [level=2] [ref=f1e860]:
+        - generic [aria-hidden] [ref=f1e863]: A
+        - generic [aria-hidden] [ref=f1e864]:
+          - generic [aria-hidden] [ref=f1e866]: S
+          - generic [aria-hidden] [ref=f1e868]: m
+          - generic [aria-hidden] [ref=f1e870]: a
+          - generic [aria-hidden] [ref=f1e872]: r
+          - generic [aria-hidden] [ref=f1e874]: t
+          - generic [aria-hidden] [ref=f1e876]: e
+          - generic [aria-hidden] [ref=f1e878]: r
+        - generic [aria-hidden] [ref=f1e879]:
+          - generic [aria-hidden] [ref=f1e881]: W
+          - generic [aria-hidden] [ref=f1e883]: a
+          - generic [aria-hidden] [ref=f1e885]: "y"
+        - generic [aria-hidden] [ref=f1e886]:
+          - generic [aria-hidden] [ref=f1e888]: t
+          - generic [aria-hidden] [ref=f1e890]: o
+        - generic [aria-hidden] [ref=f1e891]:
+          - generic [aria-hidden] [ref=f1e893]: B
+          - generic [aria-hidden] [ref=f1e895]: u
+          - generic [aria-hidden] [ref=f1e897]: "y"
+          - generic [aria-hidden] [ref=f1e899]: ","
+        - generic [aria-hidden] [ref=f1e900]:
+          - generic [aria-hidden] [ref=f1e902]: S
+          - generic [aria-hidden] [ref=f1e904]: e
+          - generic [aria-hidden] [ref=f1e906]: l
+          - generic [aria-hidden] [ref=f1e908]: l
+        - generic [aria-hidden] [ref=f1e911]: "&"
+        - generic [aria-hidden] [ref=f1e912]:
+          - generic [aria-hidden] [ref=f1e914]: I
+          - generic [aria-hidden] [ref=f1e916]: "n"
+          - generic [aria-hidden] [ref=f1e918]: v
+          - generic [aria-hidden] [ref=f1e920]: e
+          - generic [aria-hidden] [ref=f1e922]: s
+          - generic [aria-hidden] [ref=f1e924]: t
+        - generic [aria-hidden] [ref=f1e925]:
+          - generic [aria-hidden] [ref=f1e927]: i
+          - generic [aria-hidden] [ref=f1e929]: "n"
+        - generic [aria-hidden] [ref=f1e930]:
+          - generic [aria-hidden] [ref=f1e932]: P
+          - generic [aria-hidden] [ref=f1e934]: r
+          - generic [aria-hidden] [ref=f1e936]: o
+          - generic [aria-hidden] [ref=f1e938]: p
+          - generic [aria-hidden] [ref=f1e940]: e
+          - generic [aria-hidden] [ref=f1e942]: r
+          - generic [aria-hidden] [ref=f1e944]: t
+          - generic [aria-hidden] [ref=f1e946]: "y"
+      - generic [ref=f1e949]:
+        - generic [ref=f1e950]:
+          - generic [ref=f1e951]: "01"
+          - generic [ref=f1e953]:
+            - heading "Find Properties Accurately" [level=3] [ref=f1e954]
+            - paragraph [ref=f1e955]: Use filters to narrow listings by location, price, type, and lifestyle without endless scrolling.
+        - generic [ref=f1e956]:
+          - generic [ref=f1e957]: "02"
+          - generic [ref=f1e959]:
+            - heading "Personalized Property Recommendations" [level=3] [ref=f1e960]
+            - paragraph [ref=f1e961]: Tell us what you want and get property suggestions based on your preferences.
+        - generic [ref=f1e962]:
+          - generic [ref=f1e963]: "03"
+          - generic [ref=f1e965]:
+            - heading "Explore Properties Near You" [level=3] [ref=f1e966]
+            - paragraph [ref=f1e967]: Find homes, apartments, and commercial spaces in your favorite neighborhoods.
+        - generic [ref=f1e968]:
+          - generic [ref=f1e969]: "04"
+          - generic [ref=f1e971]:
+            - heading "Don't miss great opportunities." [level=3] [ref=f1e972]
+            - paragraph [ref=f1e973]: Get notified when new properties match your searches, so you can act fast.
+    - generic [ref=f1e977]:
+      - generic [ref=f1e978]:
+        - heading "What Our Client Say" [level=2] [ref=f1e980]:
+          - generic [aria-hidden] [ref=f1e981]:
+            - generic [aria-hidden] [ref=f1e983]: W
+            - generic [aria-hidden] [ref=f1e985]: h
+            - generic [aria-hidden] [ref=f1e987]: a
+            - generic [aria-hidden] [ref=f1e989]: t
+          - generic [aria-hidden] [ref=f1e990]:
+            - generic [aria-hidden] [ref=f1e992]: O
+            - generic [aria-hidden] [ref=f1e994]: u
+            - generic [aria-hidden] [ref=f1e996]: r
+          - generic [aria-hidden] [ref=f1e997]:
+            - generic [aria-hidden] [ref=f1e999]: C
+            - generic [aria-hidden] [ref=f1e1001]: l
+            - generic [aria-hidden] [ref=f1e1003]: i
+            - generic [aria-hidden] [ref=f1e1005]: e
+            - generic [aria-hidden] [ref=f1e1007]: "n"
+            - generic [aria-hidden] [ref=f1e1009]: t
+          - generic [aria-hidden] [ref=f1e1010]:
+            - generic [aria-hidden] [ref=f1e1012]: S
+            - generic [aria-hidden] [ref=f1e1014]: a
+            - generic [aria-hidden] [ref=f1e1016]: "y"
+        - generic [ref=f1e1017]:
+          - img "Product Icon" [ref=f1e1887]
+          - generic [ref=f1e1018]:
+            - generic [ref=f1e1019]: "4.98"
+            - paragraph [ref=f1e1020]: Out of 5
+          - img "Product Icon" [ref=f1e1888]
+      - generic [ref=f1e1022]:
+        - generic [ref=f1e1023]:
+          - generic [ref=f1e1024]:
+            - generic [ref=f1e1025]:
+              - img "testimonial-client-image" [ref=f1e1026]
+              - generic [ref=f1e1027]:
+                - generic [ref=f1e1028]: Micky Lisban
+                - paragraph [ref=f1e1029]: Zwolle, Netherlands
+            - paragraph [ref=f1e1031]: "5.0"
+          - paragraph [ref=f1e1036]: Felt like a true home away from home! The apartment was spotless, beautifully decorated, and just steps from Central Park. The host was super responsive – I’d definitely stay again.
+        - generic [ref=f1e1037]:
+          - img "Young man in a blue shirt with arms crossed, smiling softly against a white background." [ref=f1e1039]
+          - link "open lightbox" [ref=f1e1041] [cursor=pointer]:
+            - /url: "#"
+        - generic [ref=f1e1048]:
+          - generic [ref=f1e1049]:
+            - generic [ref=f1e1050]:
+              - img "testimonial-client-image" [ref=f1e1051]
+              - generic [ref=f1e1052]:
+                - generic [ref=f1e1053]: Patrick T.
+                - paragraph [ref=f1e1054]: Warsaw, Poland
+            - paragraph [ref=f1e1056]: "5.0"
+          - paragraph [ref=f1e1061]: Great value for the location. Comfortable beds, modern decor, and the subway is so close by. Ideal choice for a weekend in the city.
+        - generic [ref=f1e1062]:
+          - generic [ref=f1e1063]:
+            - generic [ref=f1e1064]:
+              - img "testimonial-client-image" [ref=f1e1065]
+              - generic [ref=f1e1066]:
+                - generic [ref=f1e1067]: Inessa J.
+                - paragraph [ref=f1e1068]: Vienna, Austria
+            - paragraph [ref=f1e1070]: "5.0"
+          - paragraph [ref=f1e1075]: Such a comfortable stay! The beds were great, the apartment was quiet, and the host made check-in super easy. With a 100% response rate, communication was smooth and stress-free. Can’t wait to return again soon!
+        - generic [ref=f1e1076]:
+          - generic [ref=f1e1077]:
+            - generic [ref=f1e1078]:
+              - img "testimonial-client-image" [ref=f1e1079]
+              - generic [ref=f1e1080]:
+                - generic [ref=f1e1081]: Michael B.
+                - paragraph [ref=f1e1082]: Porto, Portugal
+            - paragraph [ref=f1e1084]: "5.0"
+          - paragraph [ref=f1e1089]: Superhost service all the way. The place was beautiful, communication was instant, and I felt right at home from the start. The atmosphere was so welcoming. Five stars without a doubt!
+    - generic [ref=f1e1093]:
+      - generic [ref=f1e1094]:
+        - heading "Simple, Transparent Pricing" [level=2] [ref=f1e1096]:
+          - generic [aria-hidden] [ref=f1e1097]:
+            - generic [aria-hidden] [ref=f1e1099]: S
+            - generic [aria-hidden] [ref=f1e1101]: i
+            - generic [aria-hidden] [ref=f1e1103]: m
+            - generic [aria-hidden] [ref=f1e1105]: p
+            - generic [aria-hidden] [ref=f1e1107]: l
+            - generic [aria-hidden] [ref=f1e1109]: e
+            - generic [aria-hidden] [ref=f1e1111]: ","
+          - generic [aria-hidden] [ref=f1e1112]:
+            - generic [aria-hidden] [ref=f1e1114]: T
+            - generic [aria-hidden] [ref=f1e1116]: r
+            - generic [aria-hidden] [ref=f1e1118]: a
+            - generic [aria-hidden] [ref=f1e1120]: "n"
+            - generic [aria-hidden] [ref=f1e1122]: s
+            - generic [aria-hidden] [ref=f1e1124]: p
+            - generic [aria-hidden] [ref=f1e1126]: a
+            - generic [aria-hidden] [ref=f1e1128]: r
+            - generic [aria-hidden] [ref=f1e1130]: e
+            - generic [aria-hidden] [ref=f1e1132]: "n"
+            - generic [aria-hidden] [ref=f1e1134]: t
+          - generic [aria-hidden] [ref=f1e1135]:
+            - generic [aria-hidden] [ref=f1e1137]: P
+            - generic [aria-hidden] [ref=f1e1139]: r
+            - generic [aria-hidden] [ref=f1e1141]: i
+            - generic [aria-hidden] [ref=f1e1143]: c
+            - generic [aria-hidden] [ref=f1e1145]: i
+            - generic [aria-hidden] [ref=f1e1147]: "n"
+            - generic [aria-hidden] [ref=f1e1149]: g
+        - paragraph [ref=f1e1151]: Choose the plan that fits your property goals. No hidden fees. No long-term commitments.
+      - generic [ref=f1e1152]:
+        - generic [ref=f1e1153]:
+          - generic [ref=f1e1154]:
+            - generic [ref=f1e1155]:
+              - generic [ref=f1e1156]: PROFESSIONAL
+              - generic [ref=f1e1157]: $29/ month
+            - list [ref=f1e1159]:
+              - listitem [ref=f1e1160]: Advanced property search & filters
+              - listitem [ref=f1e1161]: AI-powered property recommendations
+              - listitem [ref=f1e1162]: Location insights & market trends
+              - listitem [ref=f1e1163]: New listing alerts
+              - listitem [ref=f1e1164]: Schedule property viewings
+              - listitem [ref=f1e1165]: Priority email & chat support
+          - link [ref=f1e1167] [cursor=pointer]:
+            - /url: /contact
+            - generic [ref=f1e1169]:
+              - generic "Start Free Trial" [ref=f1e1170]:
+                - generic [aria-hidden] [ref=f1e1171]:
+                  - generic [aria-hidden] [ref=f1e1172]: S
+                  - generic [aria-hidden] [ref=f1e1173]: t
+                  - generic [aria-hidden] [ref=f1e1174]: a
+                  - generic [aria-hidden] [ref=f1e1175]: r
+                  - generic [aria-hidden] [ref=f1e1176]: t
+                - generic [aria-hidden] [ref=f1e1177]:
+                  - generic [aria-hidden] [ref=f1e1178]: F
+                  - generic [aria-hidden] [ref=f1e1179]: r
+                  - generic [aria-hidden] [ref=f1e1180]: e
+                  - generic [aria-hidden] [ref=f1e1181]: e
+                - generic [aria-hidden] [ref=f1e1182]:
+                  - generic [aria-hidden] [ref=f1e1183]: T
+                  - generic [aria-hidden] [ref=f1e1184]: r
+                  - generic [aria-hidden] [ref=f1e1185]: i
+                  - generic [aria-hidden] [ref=f1e1186]: a
+                  - generic [aria-hidden] [ref=f1e1187]: l
+              - generic "Start Free Trial" [ref=f1e1188]:
+                - generic [aria-hidden] [ref=f1e1189]:
+                  - generic [aria-hidden] [ref=f1e1190]: S
+                  - generic [aria-hidden] [ref=f1e1191]: t
+                  - generic [aria-hidden] [ref=f1e1192]: a
+                  - generic [aria-hidden] [ref=f1e1193]: r
+                  - generic [aria-hidden] [ref=f1e1194]: t
+                - generic [aria-hidden] [ref=f1e1195]:
+                  - generic [aria-hidden] [ref=f1e1196]: F
+                  - generic [aria-hidden] [ref=f1e1197]: r
+                  - generic [aria-hidden] [ref=f1e1198]: e
+                  - generic [aria-hidden] [ref=f1e1199]: e
+                - generic [aria-hidden] [ref=f1e1200]:
+                  - generic [aria-hidden] [ref=f1e1201]: T
+                  - generic [aria-hidden] [ref=f1e1202]: r
+                  - generic [aria-hidden] [ref=f1e1203]: i
+                  - generic [aria-hidden] [ref=f1e1204]: a
+                  - generic [aria-hidden] [ref=f1e1205]: l
+        - generic [ref=f1e1206]:
+          - generic [ref=f1e1207]:
+            - generic [ref=f1e1208]:
+              - generic [ref=f1e1209]: PREMIUM
+              - generic [ref=f1e1210]: $79/ month
+            - list [ref=f1e1212]:
+              - listitem [ref=f1e1213]: Everything in Professional
+              - listitem [ref=f1e1214]: Investment performance insights
+              - listitem [ref=f1e1215]: Property comparison tools
+              - listitem [ref=f1e1216]: Dedicated property advisor
+              - listitem [ref=f1e1217]: Early access to new listings
+              - listitem [ref=f1e1218]: Phone & priority support
+          - link [ref=f1e1220] [cursor=pointer]:
+            - /url: /contact
+            - generic [ref=f1e1222]:
+              - generic "Talk to an Expert" [ref=f1e1223]:
+                - generic [aria-hidden] [ref=f1e1224]:
+                  - generic [aria-hidden] [ref=f1e1225]: T
+                  - generic [aria-hidden] [ref=f1e1226]: a
+                  - generic [aria-hidden] [ref=f1e1227]: l
+                  - generic [aria-hidden] [ref=f1e1228]: k
+                - generic [aria-hidden] [ref=f1e1229]:
+                  - generic [aria-hidden] [ref=f1e1230]: t
+                  - generic [aria-hidden] [ref=f1e1231]: o
+                - generic [aria-hidden] [ref=f1e1232]:
+                  - generic [aria-hidden] [ref=f1e1233]: a
+                  - generic [aria-hidden] [ref=f1e1234]: "n"
+                - generic [aria-hidden] [ref=f1e1235]:
+                  - generic [aria-hidden] [ref=f1e1236]: E
+                  - generic [aria-hidden] [ref=f1e1237]: x
+                  - generic [aria-hidden] [ref=f1e1238]: p
+                  - generic [aria-hidden] [ref=f1e1239]: e
+                  - generic [aria-hidden] [ref=f1e1240]: r
+                  - generic [aria-hidden] [ref=f1e1241]: t
+              - generic "Talk to an Expert" [ref=f1e1242]:
+                - generic [aria-hidden] [ref=f1e1243]:
+                  - generic [aria-hidden] [ref=f1e1244]: T
+                  - generic [aria-hidden] [ref=f1e1245]: a
+                  - generic [aria-hidden] [ref=f1e1246]: l
+                  - generic [aria-hidden] [ref=f1e1247]: k
+                - generic [aria-hidden] [ref=f1e1248]:
+                  - generic [aria-hidden] [ref=f1e1249]: t
+                  - generic [aria-hidden] [ref=f1e1250]: o
+                - generic [aria-hidden] [ref=f1e1251]:
+                  - generic [aria-hidden] [ref=f1e1252]: a
+                  - generic [aria-hidden] [ref=f1e1253]: "n"
+                - generic [aria-hidden] [ref=f1e1254]:
+                  - generic [aria-hidden] [ref=f1e1255]: E
+                  - generic [aria-hidden] [ref=f1e1256]: x
+                  - generic [aria-hidden] [ref=f1e1257]: p
+                  - generic [aria-hidden] [ref=f1e1258]: e
+                  - generic [aria-hidden] [ref=f1e1259]: r
+                  - generic [aria-hidden] [ref=f1e1260]: t
+    - generic [ref=f1e1264]:
+      - heading "Meet Our Experts - Agents" [level=2] [ref=f1e1267]:
+        - generic [aria-hidden] [ref=f1e1268]:
+          - generic [aria-hidden] [ref=f1e1270]: M
+          - generic [aria-hidden] [ref=f1e1272]: e
+          - generic [aria-hidden] [ref=f1e1274]: e
+          - generic [aria-hidden] [ref=f1e1276]: t
+        - generic [aria-hidden] [ref=f1e1277]:
+          - generic [aria-hidden] [ref=f1e1279]: O
+          - generic [aria-hidden] [ref=f1e1281]: u
+          - generic [aria-hidden] [ref=f1e1283]: r
+        - generic [aria-hidden] [ref=f1e1284]:
+          - generic [aria-hidden] [ref=f1e1286]: E
+          - generic [aria-hidden] [ref=f1e1288]: x
+          - generic [aria-hidden] [ref=f1e1290]: p
+          - generic [aria-hidden] [ref=f1e1292]: e
+          - generic [aria-hidden] [ref=f1e1294]: r
+          - generic [aria-hidden] [ref=f1e1296]: t
+          - generic [aria-hidden] [ref=f1e1298]: s
+        - generic [aria-hidden] [ref=f1e1301]: "-"
+        - generic [aria-hidden] [ref=f1e1302]:
+          - generic [aria-hidden] [ref=f1e1304]: A
+          - generic [aria-hidden] [ref=f1e1306]: g
+          - generic [aria-hidden] [ref=f1e1308]: e
+          - generic [aria-hidden] [ref=f1e1310]: "n"
+          - generic [aria-hidden] [ref=f1e1312]: t
+          - generic [aria-hidden] [ref=f1e1314]: s
+      - generic [ref=f1e1315]:
+        - generic [ref=f1e1316]:
+          - img "agent-card-image" [ref=f1e1318]
+          - generic [ref=f1e1319]:
+            - generic [ref=f1e1320]:
+              - generic [ref=f1e1321]: Senior Property Consultant
+              - heading "Jane Cooper" [level=3] [ref=f1e1322]
+            - generic [ref=f1e1323]:
+              - link "agent-single-social-block" [ref=f1e1324] [cursor=pointer]:
+                - /url: https://linkedin.com/
+              - link "agent-single-social-block" [ref=f1e1330] [cursor=pointer]:
+                - /url: https://www.facebook.com/
+              - link "agent-single-social-block" [ref=f1e1334] [cursor=pointer]:
+                - /url: https://x.com/home
+        - generic [ref=f1e1338]:
+          - img "agent-card-image" [ref=f1e1340]
+          - generic [ref=f1e1341]:
+            - generic [ref=f1e1342]:
+              - generic [ref=f1e1343]: Buyer Relations Manager
+              - heading "Brooklyn Simmons" [level=3] [ref=f1e1344]
+            - generic [ref=f1e1345]:
+              - link "agent-single-social-block" [ref=f1e1346] [cursor=pointer]:
+                - /url: https://linkedin.com/
+              - link "agent-single-social-block" [ref=f1e1352] [cursor=pointer]:
+                - /url: https://www.facebook.com/
+              - link "agent-single-social-block" [ref=f1e1356] [cursor=pointer]:
+                - /url: https://x.com/home
+        - generic [ref=f1e1360]:
+          - img "agent-card-image" [ref=f1e1362]
+          - generic [ref=f1e1363]:
+            - generic [ref=f1e1364]:
+              - generic [ref=f1e1365]: Investment Advisor
+              - heading "Wade Warren" [level=3] [ref=f1e1366]
+            - generic [ref=f1e1367]:
+              - link "agent-single-social-block" [ref=f1e1368] [cursor=pointer]:
+                - /url: https://linkedin.com/
+              - link "agent-single-social-block" [ref=f1e1374] [cursor=pointer]:
+                - /url: https://www.facebook.com/
+              - link "agent-single-social-block" [ref=f1e1378] [cursor=pointer]:
+                - /url: https://x.com/home
+        - generic [ref=f1e1382]:
+          - img "agent-card-image" [ref=f1e1384]
+          - generic [ref=f1e1385]:
+            - generic [ref=f1e1386]:
+              - generic [ref=f1e1387]: Rental & Leasing Specialist
+              - heading "Robert Fox" [level=3] [ref=f1e1388]
+            - generic [ref=f1e1389]:
+              - link "agent-single-social-block" [ref=f1e1390] [cursor=pointer]:
+                - /url: https://linkedin.com/
+              - link "agent-single-social-block" [ref=f1e1396] [cursor=pointer]:
+                - /url: https://www.facebook.com/
+              - link "agent-single-social-block" [ref=f1e1400] [cursor=pointer]:
+                - /url: https://x.com/home
+    - generic [ref=f1e1407]:
+      - generic [ref=f1e1408]:
+        - heading "Real Estate Insights & Resources" [level=2] [ref=f1e1410]:
+          - generic [aria-hidden] [ref=f1e1411]:
+            - generic [aria-hidden] [ref=f1e1413]: R
+            - generic [aria-hidden] [ref=f1e1415]: e
+            - generic [aria-hidden] [ref=f1e1417]: a
+            - generic [aria-hidden] [ref=f1e1419]: l
+          - generic [aria-hidden] [ref=f1e1420]:
+            - generic [aria-hidden] [ref=f1e1422]: E
+            - generic [aria-hidden] [ref=f1e1424]: s
+            - generic [aria-hidden] [ref=f1e1426]: t
+            - generic [aria-hidden] [ref=f1e1428]: a
+            - generic [aria-hidden] [ref=f1e1430]: t
+            - generic [aria-hidden] [ref=f1e1432]: e
+          - generic [aria-hidden] [ref=f1e1433]:
+            - generic [aria-hidden] [ref=f1e1435]: I
+            - generic [aria-hidden] [ref=f1e1437]: "n"
+            - generic [aria-hidden] [ref=f1e1439]: s
+            - generic [aria-hidden] [ref=f1e1441]: i
+            - generic [aria-hidden] [ref=f1e1443]: g
+            - generic [aria-hidden] [ref=f1e1445]: h
+            - generic [aria-hidden] [ref=f1e1447]: t
+            - generic [aria-hidden] [ref=f1e1449]: s
+          - generic [aria-hidden] [ref=f1e1452]: "&"
+          - generic [aria-hidden] [ref=f1e1453]:
+            - generic [aria-hidden] [ref=f1e1455]: R
+            - generic [aria-hidden] [ref=f1e1457]: e
+            - generic [aria-hidden] [ref=f1e1459]: s
+            - generic [aria-hidden] [ref=f1e1461]: o
+            - generic [aria-hidden] [ref=f1e1463]: u
+            - generic [aria-hidden] [ref=f1e1465]: r
+            - generic [aria-hidden] [ref=f1e1467]: c
+            - generic [aria-hidden] [ref=f1e1469]: e
+            - generic [aria-hidden] [ref=f1e1471]: s
+        - link [ref=f1e1473] [cursor=pointer]:
+          - /url: /insights
+          - generic [ref=f1e1475]:
+            - generic "All Blog Post" [ref=f1e1476]:
+              - generic [aria-hidden] [ref=f1e1477]:
+                - generic [aria-hidden] [ref=f1e1478]: A
+                - generic [aria-hidden] [ref=f1e1479]: l
+                - generic [aria-hidden] [ref=f1e1480]: l
+              - generic [aria-hidden] [ref=f1e1481]:
+                - generic [aria-hidden] [ref=f1e1482]: B
+                - generic [aria-hidden] [ref=f1e1483]: l
+                - generic [aria-hidden] [ref=f1e1484]: o
+                - generic [aria-hidden] [ref=f1e1485]: g
+              - generic [aria-hidden] [ref=f1e1486]:
+                - generic [aria-hidden] [ref=f1e1487]: P
+                - generic [aria-hidden] [ref=f1e1488]: o
+                - generic [aria-hidden] [ref=f1e1489]: s
+                - generic [aria-hidden] [ref=f1e1490]: t
+            - generic "All Blog Post" [ref=f1e1491]:
+              - generic [aria-hidden] [ref=f1e1492]:
+                - generic [aria-hidden] [ref=f1e1493]: A
+                - generic [aria-hidden] [ref=f1e1494]: l
+                - generic [aria-hidden] [ref=f1e1495]: l
+              - generic [aria-hidden] [ref=f1e1496]:
+                - generic [aria-hidden] [ref=f1e1497]: B
+                - generic [aria-hidden] [ref=f1e1498]: l
+                - generic [aria-hidden] [ref=f1e1499]: o
+                - generic [aria-hidden] [ref=f1e1500]: g
+              - generic [aria-hidden] [ref=f1e1501]:
+                - generic [aria-hidden] [ref=f1e1502]: P
+                - generic [aria-hidden] [ref=f1e1503]: o
+                - generic [aria-hidden] [ref=f1e1504]: s
+                - generic [aria-hidden] [ref=f1e1505]: t
+      - generic [ref=f1e1513]:
+        - list [ref=f1e1515]:
+          - listitem [ref=f1e1516]:
+            - generic [ref=f1e1517]:
+              - link "blog-item-image-block" [ref=f1e1518] [cursor=pointer]:
+                - /url: /blog/how-to-choose-the-right-property-location
+                - paragraph [ref=f1e1520]: BUSINESS
+                - img "blog-item-image" [ref=f1e1889]
+              - generic [ref=f1e1521]:
+                - generic [ref=f1e1522]:
+                  - paragraph [ref=f1e1529]: June 1, 2024
+                  - paragraph [ref=f1e1536]: 3 min read
+                - link "blog-item-title-block" [ref=f1e1537] [cursor=pointer]:
+                  - /url: /blog/how-to-choose-the-right-property-location
+                  - heading "How to Choose the Right Property Location" [level=3] [ref=f1e1538]
+        - list [ref=f1e1540]:
+          - listitem [ref=f1e1541]:
+            - generic [ref=f1e1543]:
+              - generic [ref=f1e1544]:
+                - generic [ref=f1e1545]:
+                  - paragraph [ref=f1e1552]: August 2, 2024
+                  - paragraph [ref=f1e1559]: 4 min read
+                - paragraph [ref=f1e1561]: BUSINESS
+              - link "blog-item-title-block" [ref=f1e1562] [cursor=pointer]:
+                - /url: /blog/buying-vs-investing-whats-right-for-you-today
+                - 'heading "Buying vs Investing: What’s Right for You Today?" [level=3] [ref=f1e1563]'
+          - listitem [ref=f1e1564]:
+            - generic [ref=f1e1566]:
+              - generic [ref=f1e1567]:
+                - generic [ref=f1e1568]:
+                  - paragraph [ref=f1e1575]: July 4, 2024
+                  - paragraph [ref=f1e1582]: 6 min read
+                - paragraph [ref=f1e1584]: BUSINESS
+              - link "blog-item-title-block" [ref=f1e1585] [cursor=pointer]:
+                - /url: /blog/property-market-trends-shaping-the-real-estate-industry
+                - heading "Property Market Trends Shaping The Real Estate Industry" [level=3] [ref=f1e1586]
+          - listitem [ref=f1e1587]:
+            - generic [ref=f1e1589]:
+              - generic [ref=f1e1590]:
+                - generic [ref=f1e1591]:
+                  - paragraph [ref=f1e1598]: May 6, 2025
+                  - paragraph [ref=f1e1605]: 4 min read
+                - paragraph [ref=f1e1607]: BUSINESS
+              - link "blog-item-title-block" [ref=f1e1608] [cursor=pointer]:
+                - /url: /blog/how-market-trends-shape-real-estate-investment-decisions
+                - heading "How Market Trends Shape Real Estate Investment Decisions" [level=3] [ref=f1e1609]
+    - generic [ref=f1e1613]:
+      - heading "Have questions or ready to explore your options?" [level=2] [ref=f1e1616]:
+        - generic [aria-hidden] [ref=f1e1617]:
+          - generic [aria-hidden] [ref=f1e1619]: H
+          - generic [aria-hidden] [ref=f1e1621]: a
+          - generic [aria-hidden] [ref=f1e1623]: v
+          - generic [aria-hidden] [ref=f1e1625]: e
+        - generic [aria-hidden] [ref=f1e1626]:
+          - generic [aria-hidden] [ref=f1e1628]: q
+          - generic [aria-hidden] [ref=f1e1630]: u
+          - generic [aria-hidden] [ref=f1e1632]: e
+          - generic [aria-hidden] [ref=f1e1634]: s
+          - generic [aria-hidden] [ref=f1e1636]: t
+          - generic [aria-hidden] [ref=f1e1638]: i
+          - generic [aria-hidden] [ref=f1e1640]: o
+          - generic [aria-hidden] [ref=f1e1642]: "n"
+          - generic [aria-hidden] [ref=f1e1644]: s
+        - generic [aria-hidden] [ref=f1e1645]:
+          - generic [aria-hidden] [ref=f1e1647]: o
+          - generic [aria-hidden] [ref=f1e1649]: r
+        - generic [aria-hidden] [ref=f1e1650]:
+          - generic [aria-hidden] [ref=f1e1652]: r
+          - generic [aria-hidden] [ref=f1e1654]: e
+          - generic [aria-hidden] [ref=f1e1656]: a
+          - generic [aria-hidden] [ref=f1e1658]: d
+          - generic [aria-hidden] [ref=f1e1660]: "y"
+        - generic [aria-hidden] [ref=f1e1661]:
+          - generic [aria-hidden] [ref=f1e1663]: t
+          - generic [aria-hidden] [ref=f1e1665]: o
+        - generic [aria-hidden] [ref=f1e1666]:
+          - generic [aria-hidden] [ref=f1e1668]: e
+          - generic [aria-hidden] [ref=f1e1670]: x
+          - generic [aria-hidden] [ref=f1e1672]: p
+          - generic [aria-hidden] [ref=f1e1674]: l
+          - generic [aria-hidden] [ref=f1e1676]: o
+          - generic [aria-hidden] [ref=f1e1678]: r
+          - generic [aria-hidden] [ref=f1e1680]: e
+        - generic [aria-hidden] [ref=f1e1681]:
+          - generic [aria-hidden] [ref=f1e1683]: "y"
+          - generic [aria-hidden] [ref=f1e1685]: o
+          - generic [aria-hidden] [ref=f1e1687]: u
+          - generic [aria-hidden] [ref=f1e1689]: r
+        - generic [aria-hidden] [ref=f1e1690]:
+          - generic [aria-hidden] [ref=f1e1692]: o
+          - generic [aria-hidden] [ref=f1e1694]: p
+          - generic [aria-hidden] [ref=f1e1696]: t
+          - generic [aria-hidden] [ref=f1e1698]: i
+          - generic [aria-hidden] [ref=f1e1700]: o
+          - generic [aria-hidden] [ref=f1e1702]: "n"
+          - generic [aria-hidden] [ref=f1e1704]: s
+          - generic [aria-hidden] [ref=f1e1706]: "?"
+      - form "Email Form 2" [ref=f1e1709]:
+        - heading "Fill out the form below and one of our agents will contact you shortly." [level=3] [ref=f1e1711]
+        - generic [ref=f1e1712]:
+          - textbox "contact-form-text-field" [ref=f1e1714]:
+            - /placeholder: Your name
+          - generic [ref=f1e1715]:
+            - textbox "contact-form-text-field" [ref=f1e1717]:
+              - /placeholder: Phone number
+            - textbox "contact-form-text-field" [ref=f1e1719]:
+              - /placeholder: Email address
+          - textbox "contact-form-text-field" [ref=f1e1721]:
+            - /placeholder: Message
+        - button "Send Now" [ref=f1e1723] [cursor=pointer]
+      - generic [ref=f1e1724]:
+        - generic [ref=f1e1725]: Landmark Place Slough SLI IPG, United Kingdom
+        - link "(134) 574 - 128 - 301" [ref=f1e1738] [cursor=pointer]:
+          - /url: tel:(134)574-128-301
+        - link "example@gmail.com" [ref=f1e1745] [cursor=pointer]:
+          - /url: mailto:example@gmail.com
+  - contentinfo [ref=f1e1752]:
+    - generic [ref=f1e1755]:
+      - generic [ref=f1e1756]:
+        - link [ref=f1e1757] [cursor=pointer]:
+          - /url: /
+          - img "Logo" [ref=f1e1758]
+        - generic [ref=f1e1759]:
+          - link "social-link-block" [ref=f1e1760] [cursor=pointer]:
+            - /url: https://linkedin.com/
+          - link "social-link-block" [ref=f1e1766] [cursor=pointer]:
+            - /url: https://fb.com/
+          - link "social-link-block" [ref=f1e1770] [cursor=pointer]:
+            - /url: https://x.com/home
+      - generic [ref=f1e1774]:
+        - generic [ref=f1e1775]:
+          - generic [ref=f1e1776]:
+            - heading "Ready to Take the Next Step?" [level=2] [ref=f1e1777]
+            - paragraph [ref=f1e1778]: Whether you are buying, selling, or investing, our team is here to help you move forward with confidence.
+          - link [ref=f1e1780] [cursor=pointer]:
+            - /url: /contact
+            - generic [ref=f1e1782]:
+              - generic "Contact Us Today" [ref=f1e1783]:
+                - generic [aria-hidden] [ref=f1e1784]:
+                  - generic [aria-hidden] [ref=f1e1785]: C
+                  - generic [aria-hidden] [ref=f1e1786]: o
+                  - generic [aria-hidden] [ref=f1e1787]: "n"
+                  - generic [aria-hidden] [ref=f1e1788]: t
+                  - generic [aria-hidden] [ref=f1e1789]: a
+                  - generic [aria-hidden] [ref=f1e1790]: c
+                  - generic [aria-hidden] [ref=f1e1791]: t
+                - generic [aria-hidden] [ref=f1e1792]:
+                  - generic [aria-hidden] [ref=f1e1793]: U
+                  - generic [aria-hidden] [ref=f1e1794]: s
+                - generic [aria-hidden] [ref=f1e1795]:
+                  - generic [aria-hidden] [ref=f1e1796]: T
+                  - generic [aria-hidden] [ref=f1e1797]: o
+                  - generic [aria-hidden] [ref=f1e1798]: d
+                  - generic [aria-hidden] [ref=f1e1799]: a
+                  - generic [aria-hidden] [ref=f1e1800]: "y"
+              - generic "Contact Us Today" [ref=f1e1801]:
+                - generic [aria-hidden] [ref=f1e1802]:
+                  - generic [aria-hidden] [ref=f1e1803]: C
+                  - generic [aria-hidden] [ref=f1e1804]: o
+                  - generic [aria-hidden] [ref=f1e1805]: "n"
+                  - generic [aria-hidden] [ref=f1e1806]: t
+                  - generic [aria-hidden] [ref=f1e1807]: a
+                  - generic [aria-hidden] [ref=f1e1808]: c
+                  - generic [aria-hidden] [ref=f1e1809]: t
+                - generic [aria-hidden] [ref=f1e1810]:
+                  - generic [aria-hidden] [ref=f1e1811]: U
+                  - generic [aria-hidden] [ref=f1e1812]: s
+                - generic [aria-hidden] [ref=f1e1813]:
+                  - generic [aria-hidden] [ref=f1e1814]: T
+                  - generic [aria-hidden] [ref=f1e1815]: o
+                  - generic [aria-hidden] [ref=f1e1816]: d
+                  - generic [aria-hidden] [ref=f1e1817]: a
+                  - generic [aria-hidden] [ref=f1e1818]: "y"
+        - generic [ref=f1e1826]:
+          - link "Home" [ref=f1e1827] [cursor=pointer]:
+            - /url: /
+          - link "Services" [ref=f1e1832] [cursor=pointer]:
+            - /url: /services
+          - link "About" [ref=f1e1837] [cursor=pointer]:
+            - /url: /about
+          - link "Properties" [ref=f1e1842] [cursor=pointer]:
+            - /url: /properties
+          - link "Style Guide" [ref=f1e1847] [cursor=pointer]:
+            - /url: /style-guide
+          - link "Not Found" [ref=f1e1852] [cursor=pointer]:
+            - /url: /404
+          - link "Password" [ref=f1e1857] [cursor=pointer]:
+            - /url: /401
+        - generic [ref=f1e1862]:
+          - generic [ref=f1e1863]:
+            - paragraph [ref=f1e1864]: Landmark Place Slough SLI IPG, United Kingdom
+            - link "(134) 574 - 128 - 301" [ref=f1e1865] [cursor=pointer]:
+              - /url: tel:(134)574-128-301
+          - img "footer-image" [ref=f1e1867]
+      - generic [ref=f1e1868]:
+        - paragraph [ref=f1e1870]:
+          - text: Copyright © | Designed by Urbano - Powered by
+          - link "Webflow" [ref=f1e1871] [cursor=pointer]:
+            - /url: https://webflow.com/templates
+        - generic [ref=f1e1872]:
+          - link "Licenses" [ref=f1e1873] [cursor=pointer]:
+            - /url: /licenses
+          - link "Changelog" [ref=f1e1875] [cursor=pointer]:
+            - /url: /changelog

@@ -9,6 +9,7 @@ use App\Domains\Listing\Models\Listing;
 use App\Domains\User\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
@@ -16,9 +17,15 @@ final readonly class RevealSellerPhoneAction
 {
     public static function resolveEffectivePrivacy(?string $listingOverride, ?string $sellerDefault): PhonePrivacyMode
     {
-        $raw = $listingOverride ?: ($sellerDefault ?: PhonePrivacyMode::ShowPhone->value);
+        if ($listingOverride !== null && $listingOverride !== '') {
+            return PhonePrivacyMode::tryFrom($listingOverride) ?? PhonePrivacyMode::HidePhone;
+        }
 
-        return PhonePrivacyMode::tryFrom($raw) ?? PhonePrivacyMode::ShowPhone;
+        if ($sellerDefault !== null && $sellerDefault !== '') {
+            return PhonePrivacyMode::tryFrom($sellerDefault) ?? PhonePrivacyMode::HidePhone;
+        }
+
+        return PhonePrivacyMode::HidePhone;
     }
 
     public function execute(
@@ -39,6 +46,14 @@ final readonly class RevealSellerPhoneAction
             );
         }
 
+        // Validate relationship: seller must be publisher or property owner
+        $isSeller = ($listing->published_by_user_id === $seller->id)
+            || ($listing->property && $listing->property->owner_id === $seller->id);
+
+        if (! $isSeller) {
+            throw new AccessDeniedHttpException('Seller is not associated with this listing.');
+        }
+
         $rateKey = 'phone_reveal:'.($viewer?->id ?? $ipAddress ?? 'anon');
         if (RateLimiter::tooManyAttempts($rateKey, maxAttempts: 15)) {
             throw ValidationException::withMessages([
@@ -56,6 +71,21 @@ final readonly class RevealSellerPhoneAction
             'user_agent' => $userAgent ? mb_substr($userAgent, 0, 512) : null,
             'created_at' => now(),
         ]);
+
+        if (Schema::hasTable('audit_logs')) {
+            DB::table('audit_logs')->insert([
+                'id' => (string) \Illuminate\Support\Str::uuid(),
+                'user_id' => $viewer?->id,
+                'action' => 'listing.phone_revealed',
+                'auditable_type' => Listing::class,
+                'auditable_id' => (string) $listing->id,
+                'new_values' => json_encode(['seller_id' => $seller->id, 'property_id' => $listing->property_id]),
+                'reason' => 'Authorized seller contact reveal',
+                'ip_address' => $ipAddress,
+                'user_agent' => $userAgent ? mb_substr($userAgent, 0, 500) : null,
+                'created_at' => now(),
+            ]);
+        }
 
         return (string) $seller->phone;
     }

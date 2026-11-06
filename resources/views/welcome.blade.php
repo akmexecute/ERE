@@ -6,33 +6,33 @@
                 <div class="lg:col-span-7 space-y-5">
                     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
                         <span>🇪🇹</span>
-                        <span>Milestone 1 — National Real Estate Engine</span>
+                        <span>{{ __('app.hero.badge') }}</span>
                     </div>
 
                     <h1 class="text-3xl sm:text-5xl font-bold tracking-tight text-white leading-tight">
-                        Ethiopian Property Marketplace &amp; PostGIS Spatial Engine
+                        {{ __('app.hero.title') }}
                     </h1>
 
                     <p class="text-slate-300 text-sm sm:text-base max-w-2xl leading-relaxed">
-                        Built for Ethiopian realities: dual Ethiopian Calendar (EC) &amp; Gregorian (GC), trilingual localization (English, አማርኛ, Afaan Oromo), +251 OTP identity verification, and 8-level administrative location hierarchy.
+                        {{ __('app.hero.subtitle') }}
                     </p>
 
                     <!-- Interactive Ethiopian Calendar & Currency Bar in Hero -->
                     <div class="p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
                         <div>
-                            <span class="text-slate-400 block font-medium">Today's Date:</span>
+                            <span class="text-slate-400 block font-medium">{{ __('app.hero.today_date') }}</span>
                             <span class="text-emerald-300 font-semibold text-sm">
                                 @ethDate(now())
                             </span>
                         </div>
                         <div>
-                            <span class="text-slate-400 block font-medium">Bole Medhanialem Villa:</span>
+                            <span class="text-slate-400 block font-medium">{{ __('app.hero.sample_villa') }}</span>
                             <span class="text-white font-semibold text-sm">
                                 @etb(45000000)
                             </span>
                         </div>
                         <div>
-                            <span class="text-slate-400 block font-medium">Price / m² (350 m²):</span>
+                            <span class="text-slate-400 block font-medium">{{ __('app.hero.price_sqm') }}</span>
                             <span class="text-amber-300 font-semibold text-sm">
                                 {{ \App\Support\Money\EtbFormatter::format(\App\Support\Money\EtbFormatter::calculatePricePerSqm(45000000, 350) ?? 0, true) }} / m²
                             </span>
@@ -44,13 +44,13 @@
                             href="{{ url('/login') }}"
                             class="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold text-sm shadow-md transition"
                         >
-                            Sign In with +251 OTP &rarr;
+                            {{ __('app.hero.sign_in_otp') }}
                         </a>
                         <a
                             href="#map-section"
                             class="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white font-semibold text-sm border border-white/20 transition"
                         >
-                            Explore Map &amp; Locations
+                            {{ __('app.hero.explore_map') }}
                         </a>
                     </div>
                 </div>
@@ -74,13 +74,13 @@
                         class="bg-white/10 border border-white/20 rounded-2xl p-6 backdrop-blur-md text-white space-y-4"
                     >
                         <div class="flex items-center justify-between border-b border-white/10 pb-3">
-                            <h3 class="font-bold text-sm text-emerald-300">Ethiopian Calendar Engine (SRS Section 125)</h3>
+                            <h3 class="font-bold text-sm text-emerald-300">{{ __('app.calendar_widget.title') }}</h3>
                             <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-200 font-mono">JDN Algorithm</span>
                         </div>
 
                         <div class="space-y-2 text-xs">
                             <p class="text-slate-300">
-                                Exact Julian Day Number arithmetic preserving UTC timestamps while displaying localized Pagume leap cycles and Meskerem New Year.
+                                {{ __('app.calendar_widget.algorithm_desc') }}
                             </p>
 
                             <div class="bg-black/30 p-3 rounded-xl space-y-1 font-mono text-[11px]">
@@ -91,7 +91,7 @@
                         </div>
 
                         <div class="pt-2 text-center text-xs text-slate-300 border-t border-white/10">
-                            Switch language anytime above to toggle Amharic / Afaan Oromo / English.
+                            {{ __('app.calendar_widget.switch_hint') }}
                         </div>
                     </div>
                 </div>
@@ -102,13 +102,12 @@
         <section id="map-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
             <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
                 <div>
-                    <span class="text-xs font-bold uppercase tracking-wider text-teal-700">Module 02 — GIS &amp; Location Hierarchy</span>
-                    <h2 class="text-2xl font-bold text-slate-900 mt-1">8-Level Administrative Picker &amp; Spatial Map</h2>
-                    <p class="text-sm text-slate-600">Cascading selection down to Woredas &amp; Kebeles with PostGIS reverse geocoding pin drops.</p>
+                    <span class="text-xs font-bold uppercase tracking-wider text-teal-700">{{ __('app.gis_section.badge') }}</span>
+                    <h2 class="text-2xl font-bold text-slate-900 mt-1">{{ __('app.gis_section.title') }}</h2>
+                    <p class="text-sm text-slate-600">{{ __('app.gis_section.subtitle') }}</p>
                 </div>
                 <div class="flex items-center gap-2 text-xs font-medium text-slate-600 bg-slate-100 px-3 py-1.5 rounded-lg">
-                    <span>Active PostGIS Ext:</span>
-                    <span class="font-mono text-emerald-700 font-bold">ST_Covers, ST_DWithin</span>
+                    <span>{{ __('app.gis_section.postgis_ext') }}</span>
                 </div>
             </div>
 
@@ -163,20 +162,20 @@
                 <div class="px-5 py-4 border-b border-slate-200 flex items-center justify-between flex-wrap gap-2">
                     <div class="flex items-center gap-2">
                         <span class="w-3 h-3 rounded-full bg-teal-600 animate-pulse"></span>
-                        <h3 class="text-sm font-semibold text-slate-900">National Map Explorer (Leaflet / OSM Abstraction)</h3>
+                        <h3 class="text-sm font-semibold text-slate-900">{{ __('app.gis_section.map_explorer') }}</h3>
                     </div>
-                    <span class="text-xs text-slate-500">Click anywhere on the map or drag the pin to drop location</span>
+                    <span class="text-xs text-slate-500">{{ __('app.gis_section.click_hint') }}</span>
                 </div>
 
                 <div id="marketplace-map" class="w-full h-96 z-10"></div>
 
                 <div class="px-5 py-3 bg-slate-50 border-t border-slate-200 flex flex-wrap items-center justify-between text-xs text-slate-600 gap-2">
                     <div class="flex items-center gap-4">
-                        <span>Compact Badges: <strong class="text-teal-800">ETB 45M</strong>, <strong class="text-teal-800">ETB 14.5M</strong></span>
+                        <span>{{ __('app.gis_section.compact_badges') }}</span>
                         <span class="text-slate-300">|</span>
-                        <span>Drag marker to test pin movement</span>
+                        <span>{{ __('app.gis_section.drag_hint') }}</span>
                     </div>
-                    <span class="font-medium text-teal-700">SRID: 4326 (WGS 84)</span>
+                    <span class="font-medium text-teal-700">{{ __('app.gis_section.srid') }}</span>
                 </div>
             </div>
         </section>
@@ -192,31 +191,31 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
                         <div class="flex items-center justify-between">
-                            <h4 class="text-sm font-semibold text-slate-900">Verification Hierarchy</h4>
-                            <span class="text-[10px] px-2 py-0.5 rounded bg-teal-100 text-teal-800 font-bold">Levels 0..5</span>
+                            <h4 class="text-sm font-semibold text-slate-900">{{ __('app.features.verification_title') }}</h4>
+                            <span class="text-[10px] px-2 py-0.5 rounded bg-teal-100 text-teal-800 font-bold">{{ __('app.features.levels_badge') }}</span>
                         </div>
                         <p class="text-xs text-slate-600 leading-relaxed">
-                            Level 0 (Unverified), Level 1 (Phone OTP Verified), Level 2 (National ID / Kebele Card), Level 3 (Trade License / TIN), Level 4 (On-site Physical Audit), Level 5 (Government Registry API Verified).
+                            {{ __('app.features.verification_desc') }}
                         </p>
                     </div>
 
                     <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
                         <div class="flex items-center justify-between">
-                            <h4 class="text-sm font-semibold text-slate-900">13 Roles &amp; Granular RBAC</h4>
-                            <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold">SRS Sec. 140-141</span>
+                            <h4 class="text-sm font-semibold text-slate-900">{{ __('app.features.roles_title') }}</h4>
+                            <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold">{{ __('app.features.rbac_badge') }}</span>
                         </div>
                         <p class="text-xs text-slate-600 leading-relaxed">
-                            Public roles (Buyer, Tenant, Owner, Host, Agent, Developer) and Staff roles (Super Admin, Platform Admin, Verification Officer, Moderator, Finance).
+                            {{ __('app.features.roles_desc') }}
                         </p>
                     </div>
 
                     <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
                         <div class="flex items-center justify-between">
-                            <h4 class="text-sm font-semibold text-slate-900">Immutable Audit Trail</h4>
-                            <span class="text-[10px] px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-bold">DB Trigger Enforced</span>
+                            <h4 class="text-sm font-semibold text-slate-900">{{ __('app.features.audit_title') }}</h4>
+                            <span class="text-[10px] px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-bold">{{ __('app.features.audit_badge') }}</span>
                         </div>
                         <p class="text-xs text-slate-600 leading-relaxed">
-                            Append-only PostgreSQL database trigger strictly forbids UPDATE and DELETE statements on <code class="text-xs">audit_logs</code> (SRS Section 142 &amp; 189).
+                            {{ __('app.features.audit_desc') }}
                         </p>
                     </div>
                 </div>

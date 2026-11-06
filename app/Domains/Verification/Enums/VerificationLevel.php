@@ -54,15 +54,39 @@ enum VerificationLevel: int
      */
     public function visibleExplanation(string $locale = 'en'): string
     {
-        $core = match ($this) {
-            self::Unverified => 'No identity or property documentation has been reviewed yet.',
-            self::IdentityVerified => 'Phone OTP and government-issued personal ID have been verified by the platform.',
-            self::SellerOrCompanyVerified => 'Seller identity or company trade license & TIN registration have been verified.',
-            self::DocumentsSubmitted => 'Supporting property ownership or lease documents have been uploaded to the secure vault.',
-            self::ProfessionalReview => 'Submitted property documents have been reviewed for completeness according to platform procedure.',
-            self::TransactionReady => 'All platform-required identity and pre-transaction document checks have been completed.',
+        $core = match ($locale) {
+            'am' => match ($this) {
+                self::Unverified => 'እስካሁን ምንም አይነት የማንነት ወይም የባለቤትነት ሰነድ አልተመረመረም።',
+                self::IdentityVerified => 'የስልክ ቁጥርና በመንግስት የተሰጠ የግል መታወቂያ በመድረኩ ተረጋግጧል።',
+                self::SellerOrCompanyVerified => 'የሻጭ ማንነት ወይም የድርጅቱ ንግድ ፈቃድና የግብር ከፋይ መለያ ቁጥር (TIN) ተረጋግጧል።',
+                self::DocumentsSubmitted => 'የንብረቱ ባለቤትነት ወይም የሊዝ ሰነዶች ወደ ደህንነቱ የተጠበቀው የሰነድ ማከማቻ ገብተዋል።',
+                self::ProfessionalReview => 'የቀረቡት የንብረት ሰነዶች በመድረኩ የአሰራር ሥርዓት መሠረት የተሟሉ መሆናቸው ተመርምሯል።',
+                self::TransactionReady => 'ሁሉም የመድረኩ ቅድመ-ግብይት ሰነድ እና የማንነት ማረጋገጫ ፍተሻዎች ተጠናቀዋል።',
+            },
+            'om' => match ($this) {
+                self::Unverified => 'Ragaan eenyummaa yookiin qabeenyaa kamiyyuu ammayyuu hin qoratamne.',
+                self::IdentityVerified => 'OTP bilbilaa fi waraqaan eenyummaa mootummaan kenname sirnichaan mirkanaaʼeera.',
+                self::SellerOrCompanyVerified => 'Eenyummaan gurguraa yookiin hayyamni daldalaa fi koodiin TIN mirkanaaʼeera.',
+                self::DocumentsSubmitted => 'Sanadoonni abbaa qabeenyummaa yookiin kireeffannaa baankii sanadaa keessatti galaniiru.',
+                self::ProfessionalReview => 'Sanadoonni dhiyaatan akkaataa adeemsa sirnichaatiin guutuu ta\'uun isaanii qoratameera.',
+                self::TransactionReady => 'Qorannoowwan sanadaa fi eenyummaa duraa fi daldalaa barbaachisan hundi xumuramaniiru.',
+            },
+            default => match ($this) {
+                self::Unverified => 'No identity or property documentation has been reviewed yet.',
+                self::IdentityVerified => 'Phone OTP and government-issued personal ID have been verified by the platform.',
+                self::SellerOrCompanyVerified => 'Seller identity or company trade license & TIN registration have been verified.',
+                self::DocumentsSubmitted => 'Supporting property ownership or lease documents have been uploaded to the secure vault.',
+                self::ProfessionalReview => 'Submitted property documents have been reviewed for completeness according to platform procedure.',
+                self::TransactionReady => 'All platform-required identity and pre-transaction document checks have been completed.',
+            },
         };
 
-        return $core.' Platform verification is an internal trust check conducted in accordance with Ethiopian Real Estate Proclamation No. 1357/2024 guidelines and does NOT constitute official government land-registry title certification.';
+        $disclaimer = match ($locale) {
+            'am' => ' የERE ማረጋገጫ የመድረክ ማረጋገጫ ሂደት ነው። በመንግስት የመሬት አስተዳደር የተሰጠ ህጋዊ የይዞታ ማረጋገጫ (ካርታ) አይደለም፤ እንዲሁም ከሚመለከተው የመንግስት አካል ጋር የባለቤትነት ሰነዶችን ማረጋገጥን አይተካም።',
+            'om' => ' Mirkaneessi ERE adeemsa mirkaneessa sirnichaa qofa. Waraqaa ragaa abbaa qabeenyummaa lafaa mootummaa miti, akkasumas qaama mootummaa dhimmi ilaallatu waliin sanadoota abbaa qabeenyummaa mirkaneessuu bakka hin bu\'u.',
+            default => ' ERE verification is a platform verification process. It is not official government certification of land ownership and does not replace verification of ownership documents with the relevant government authority.',
+        };
+
+        return $core . ' ' . $disclaimer;
     }
 }

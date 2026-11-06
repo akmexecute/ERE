@@ -1,0 +1,307 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e6]:
+        - link "LogoLogo Text":
+          - /url: /
+          - img "Logo"
+          - img "Logo Text"
+        - navigation [ref=e7]:
+          - generic [ref=e8]:
+            - link "Property" [ref=e9] [cursor=pointer]:
+              - /url: /properties
+            - link "Services" [ref=e10] [cursor=pointer]:
+              - /url: /services
+            - link "About" [ref=e11] [cursor=pointer]:
+              - /url: /about
+            - link "Insights" [ref=e12] [cursor=pointer]:
+              - /url: /insights
+            - link "Contact" [ref=e13] [cursor=pointer]:
+              - /url: /contact
+            - link "Let’s Talk Let’s Talk" [ref=e14] [cursor=pointer]:
+              - /url: "#"
+              - generic [ref=e16]:
+                - generic [ref=e17]: Let’s Talk
+                - generic [ref=e18]: Let’s Talk
+        - generic [ref=e19]: Menu
+  - main [ref=e25]:
+    - generic [ref=e26]:
+      - generic [ref=e29]:
+        - option "California, USA" [selected]
+        - option "Texas, USA"
+        - option "Florida, USA"
+        - option "Nevada, USA"
+        - option "Residential" [selected]
+        - option "Commercial"
+        - option "Industrial"
+        - option "Hospitality"
+        - option "$200,000 - $500,000" [selected]
+        - option "$800,000 - $1,200,000"
+        - option "$1,200,000 - $2,000,000"
+        - option "$2,000,000 - $3,500,000"
+      - generic [ref=e35]:
+        - img "hero bg color"
+      - generic [ref=e36]:
+        - img "Modern building corner with bright yellow paneling and large blue-tinted glass windows under a clear sky."
+    - generic [ref=e43]:
+      - img "about-image"
+    - generic [ref=e53]:
+      - list [ref=e56]:
+        - listitem [ref=e57]
+        - listitem [ref=e58]
+        - listitem [ref=e59]
+        - listitem [ref=e60]
+      - list [ref=e63]:
+        - listitem [ref=e64]:
+          - generic [ref=e65]:
+            - link [ref=e66] [cursor=pointer]:
+              - /url: /properties/sunset-horizon-villas
+              - generic [ref=e67]:
+                - paragraph [ref=e68]: For
+                - paragraph [ref=e69]: Rent
+              - paragraph [ref=e71]: Modern Home
+            - generic [ref=e72]:
+              - generic [ref=e73]:
+                - link "properties-item-title-block" [ref=e74] [cursor=pointer]:
+                  - /url: /properties/sunset-horizon-villas
+                  - heading "Sunset Horizon Villas" [level=3] [ref=e75]
+                - paragraph [ref=e80]: Santorini Sunset
+              - paragraph [ref=e82]: $3,750,00
+        - listitem [ref=e83]:
+          - generic [ref=e84]:
+            - link [ref=e85] [cursor=pointer]:
+              - /url: /properties/sunset-harbor-residence
+              - generic [ref=e86]:
+                - paragraph [ref=e87]: For
+                - paragraph [ref=e88]: Rent
+              - paragraph [ref=e90]: Chalet
+            - generic [ref=e91]:
+              - generic [ref=e92]:
+                - link "properties-item-title-block" [ref=e93] [cursor=pointer]:
+                  - /url: /properties/sunset-harbor-residence
+                  - heading "Sunset Harbor Residence" [level=3] [ref=e94]
+                - paragraph [ref=e99]: Malibu Coast
+              - paragraph [ref=e101]: $2,250,00
+        - listitem [ref=e102]:
+          - generic [ref=e103]:
+            - link [ref=e104] [cursor=pointer]:
+              - /url: /properties/ocean-breeze-suites
+              - generic [ref=e105]:
+                - paragraph [ref=e106]: For
+                - paragraph [ref=e107]: Rent
+              - paragraph [ref=e109]: Chalet
+            - generic [ref=e110]:
+              - generic [ref=e111]:
+                - link "properties-item-title-block" [ref=e112] [cursor=pointer]:
+                  - /url: /properties/ocean-breeze-suites
+                  - heading "Ocean Breeze Suites" [level=3] [ref=e113]
+                - paragraph [ref=e118]: Malibu Coast
+              - paragraph [ref=e120]: $4,250,00
+        - listitem [ref=e121]:
+          - generic [ref=e122]:
+            - link [ref=e123] [cursor=pointer]:
+              - /url: /properties/harbor-view-compact-home
+              - generic [ref=e124]:
+                - paragraph [ref=e125]: For
+                - paragraph [ref=e126]: Rent
+              - paragraph [ref=e128]: Chalet
+            - generic [ref=e129]:
+              - generic [ref=e130]:
+                - link "properties-item-title-block" [ref=e131] [cursor=pointer]:
+                  - /url: /properties/harbor-view-compact-home
+                  - heading "Harbor View Compact Home" [level=3] [ref=e132]
+                - paragraph [ref=e137]: Portland
+              - paragraph [ref=e139]: $4,750,00
+      - list [ref=e142]:
+        - listitem [ref=e143]:
+          - generic [ref=e144]:
+            - link [ref=e145] [cursor=pointer]:
+              - /url: /properties/mountainview-cabin
+              - generic [ref=e146]:
+                - paragraph [ref=e147]: For
+                - paragraph [ref=e148]: Buy
+              - paragraph [ref=e150]: Seaside Retreat
+            - generic [ref=e151]:
+              - generic [ref=e152]:
+                - link "properties-item-title-block" [ref=e153] [cursor=pointer]:
+                  - /url: /properties/mountainview-cabin
+                  - heading "Mountainview Cabin" [level=3] [ref=e154]
+                - paragraph [ref=e159]: Aspen Heights
+              - paragraph [ref=e161]: $5,750,00
+        - listitem [ref=e162]:
+          - generic [ref=e163]:
+            - link [ref=e164] [cursor=pointer]:
+              - /url: /properties/cityscape-lofts
+              - generic [ref=e165]:
+                - paragraph [ref=e166]: For
+                - paragraph [ref=e167]: Buy
+              - paragraph [ref=e169]: Contemporary
+            - generic [ref=e170]:
+              - generic [ref=e171]:
+                - link "properties-item-title-block" [ref=e172] [cursor=pointer]:
+                  - /url: /properties/cityscape-lofts
+                  - heading "Cityscape Lofts" [level=3] [ref=e173]
+                - paragraph [ref=e178]: New York
+              - paragraph [ref=e180]: $5,250,00
+        - listitem [ref=e181]:
+          - generic [ref=e182]:
+            - link [ref=e183] [cursor=pointer]:
+              - /url: /properties/cedar-lane-tiny-home
+              - generic [ref=e184]:
+                - paragraph [ref=e185]: For
+                - paragraph [ref=e186]: Buy
+              - paragraph [ref=e188]: Chalet
+            - generic [ref=e189]:
+              - generic [ref=e190]:
+                - link "properties-item-title-block" [ref=e191] [cursor=pointer]:
+                  - /url: /properties/cedar-lane-tiny-home
+                  - heading "Cedar Lane Tiny Home" [level=3] [ref=e192]
+                - paragraph [ref=e197]: Flagstaff, AZ
+              - paragraph [ref=e199]: $4,250,00
+        - listitem [ref=e200]:
+          - generic [ref=e201]:
+            - link [ref=e202] [cursor=pointer]:
+              - /url: /properties/willow-creek-family-module
+              - generic [ref=e203]:
+                - paragraph [ref=e204]: For
+                - paragraph [ref=e205]: Buy
+              - paragraph [ref=e207]: Chalet
+            - generic [ref=e208]:
+              - generic [ref=e209]:
+                - link "properties-item-title-block" [ref=e210] [cursor=pointer]:
+                  - /url: /properties/willow-creek-family-module
+                  - heading "Willow Creek Family Module" [level=3] [ref=e211]
+                - paragraph [ref=e216]: Asheville, NC
+              - paragraph [ref=e218]: $3,750,00
+    - generic [ref=e224]:
+      - img "statistics-image"
+      - generic [ref=e225]:
+        - generic [ref=e226]:
+          - img "Modern three-story commercial building with glass windows and multiple entrances under a blue sky with clouds."
+        - generic [ref=e227]:
+          - generic [ref=e228]: Oceanfront Paradise
+          - generic [ref=e230]:
+            - paragraph [ref=e239]: 3 Beds
+            - paragraph [ref=e246]: 2 Baths
+          - generic [ref=e247]:
+            - generic [ref=e248]: $680/m
+            - paragraph [ref=e254]: 34 Reviews
+    - generic [ref=e274]:
+      - generic [ref=e275]:
+        - generic [ref=e276]: "01"
+        - generic [ref=e278]:
+          - heading "Find Properties Accurately" [level=3] [ref=e279]
+          - paragraph [ref=e280]: Use filters to narrow listings by location, price, type, and lifestyle without endless scrolling.
+      - generic [ref=e281]:
+        - generic [ref=e282]: "02"
+        - generic [ref=e284]:
+          - heading "Personalized Property Recommendations" [level=3] [ref=e285]
+          - paragraph [ref=e286]: Tell us what you want and get property suggestions based on your preferences.
+      - generic [ref=e287]:
+        - generic [ref=e288]: "03"
+        - generic [ref=e290]:
+          - heading "Explore Properties Near You" [level=3] [ref=e291]
+          - paragraph [ref=e292]: Find homes, apartments, and commercial spaces in your favorite neighborhoods.
+      - generic [ref=e293]:
+        - generic [ref=e294]: "04"
+        - generic [ref=e296]:
+          - heading "Don't miss great opportunities." [level=3] [ref=e297]
+          - paragraph [ref=e298]: Get notified when new properties match your searches, so you can act fast.
+    - generic [ref=e306]:
+      - generic [ref=e307]:
+        - generic [ref=e308]:
+          - generic [ref=e309]:
+            - img "testimonial-client-image"
+            - generic [ref=e310]:
+              - generic [ref=e311]: Micky Lisban
+              - paragraph [ref=e312]: Zwolle, Netherlands
+          - paragraph [ref=e314]: "5.0"
+        - paragraph [ref=e319]: Felt like a true home away from home! The apartment was spotless, beautifully decorated, and just steps from Central Park. The host was super responsive – I’d definitely stay again.
+      - generic [ref=e320]:
+        - generic [ref=e321]:
+          - img "Young man in a blue shirt with arms crossed, smiling softly against a white background."
+        - link [ref=e323] [cursor=pointer]:
+          - /url: "#"
+      - generic [ref=e327]:
+        - generic [ref=e328]:
+          - generic [ref=e329]:
+            - img "testimonial-client-image"
+            - generic [ref=e330]:
+              - generic [ref=e331]: Patrick T.
+              - paragraph [ref=e332]: Warsaw, Poland
+          - paragraph [ref=e334]: "5.0"
+        - paragraph [ref=e339]: Great value for the location. Comfortable beds, modern decor, and the subway is so close by. Ideal choice for a weekend in the city.
+      - generic [ref=e340]:
+        - generic [ref=e341]:
+          - generic [ref=e342]:
+            - img "testimonial-client-image"
+            - generic [ref=e343]:
+              - generic [ref=e344]: Inessa J.
+              - paragraph [ref=e345]: Vienna, Austria
+          - paragraph [ref=e347]: "5.0"
+        - paragraph [ref=e352]: Such a comfortable stay! The beds were great, the apartment was quiet, and the host made check-in super easy. With a 100% response rate, communication was smooth and stress-free. Can’t wait to return again soon!
+      - generic [ref=e353]:
+        - generic [ref=e354]:
+          - generic [ref=e355]:
+            - img "testimonial-client-image"
+            - generic [ref=e356]:
+              - generic [ref=e357]: Michael B.
+              - paragraph [ref=e358]: Porto, Portugal
+          - paragraph [ref=e360]: "5.0"
+        - paragraph [ref=e365]: Superhost service all the way. The place was beautiful, communication was instant, and I felt right at home from the start. The atmosphere was so welcoming. Five stars without a doubt!
+    - list [ref=e404]:
+      - listitem [ref=e405]
+      - listitem [ref=e406]
+      - listitem [ref=e407]
+  - contentinfo [ref=e415]:
+    - generic [ref=e418]:
+      - generic [ref=e419]:
+        - link "Logo":
+          - /url: /
+          - img "Logo"
+        - generic [ref=e420]:
+          - link "social-link-block" [ref=e421] [cursor=pointer]:
+            - /url: https://linkedin.com/
+          - link "social-link-block" [ref=e427] [cursor=pointer]:
+            - /url: https://fb.com/
+          - link "social-link-block" [ref=e431] [cursor=pointer]:
+            - /url: https://x.com/home
+      - generic [ref=e435]:
+        - generic [ref=e436]:
+          - generic [ref=e437]:
+            - heading "Ready to Take the Next Step?" [level=2] [ref=e438]
+            - paragraph [ref=e439]: Whether you are buying, selling, or investing, our team is here to help you move forward with confidence.
+          - link [ref=e441] [cursor=pointer]:
+            - /url: /contact
+        - generic [ref=e445]:
+          - link [ref=e446] [cursor=pointer]:
+            - /url: /
+          - link [ref=e447] [cursor=pointer]:
+            - /url: /services
+          - link [ref=e448] [cursor=pointer]:
+            - /url: /about
+          - link [ref=e449] [cursor=pointer]:
+            - /url: /properties
+          - link [ref=e450] [cursor=pointer]:
+            - /url: /style-guide
+          - link [ref=e451] [cursor=pointer]:
+            - /url: /404
+          - link [ref=e452] [cursor=pointer]:
+            - /url: /401
+        - generic [ref=e453]:
+          - generic [ref=e454]:
+            - paragraph [ref=e455]: Landmark Place Slough SLI IPG, United Kingdom
+            - link "(134) 574 - 128 - 301" [ref=e456] [cursor=pointer]:
+              - /url: tel:(134)574-128-301
+          - generic [ref=e457]:
+            - img "footer-image"
+      - generic [ref=e458]:
+        - paragraph [ref=e460]:
+          - text: Copyright © | Designed by Urbano - Powered by
+          - link "Webflow" [ref=e461] [cursor=pointer]:
+            - /url: https://webflow.com/templates
+        - generic [ref=e462]:
+          - link "Licenses" [ref=e463] [cursor=pointer]:
+            - /url: /licenses
+          - link "Changelog" [ref=e464] [cursor=pointer]:
+            - /url: /changelog

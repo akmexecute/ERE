@@ -15,3 +15,9 @@ Schedule::command('bookings:expire-holds')->everyMinute();
 
 // SRS Sections 37 & 126: Aggregate daily real estate market analytics
 Schedule::command('analytics:aggregate-daily')->dailyAt('00:05');
+
+// SRS Sections 18 & 124: Process saved search alert matches
+Schedule::command('alerts:process-saved-searches')->hourly();
+
+// Phase 2 Milestone 2: Process stay lifecycle triggers, missed checkouts, 48h deposit releases, and 14d review publishing
+Schedule::command('stay:process-lifecycle')->hourly();

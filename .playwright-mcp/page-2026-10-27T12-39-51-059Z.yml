@@ -1,0 +1,227 @@
+- generic [active] [ref=f2e1]:
+  - generic [ref=f2e3]:
+    - generic [ref=f2e4]:
+      - generic [ref=f2e5]: Ethiopia National Property Core
+      - generic [ref=f2e7]: "|"
+      - generic [ref=f2e8]: "Currency: ETB (ብር)"
+    - generic [ref=f2e9]:
+      - button "📅 ኢትዮጵያዊ ቀን (EC)" [ref=f2e10]:
+        - generic [ref=f2e11]: 📅
+        - generic [ref=f2e12]: ኢትዮጵያዊ ቀን (EC)
+      - generic [ref=f2e13]:
+        - link "English" [ref=f2e14] [cursor=pointer]:
+          - /url: http://127.0.0.1:8000/search?transaction_mode=RENT&lang=en
+        - link "አማርኛ" [ref=f2e15] [cursor=pointer]:
+          - /url: http://127.0.0.1:8000/search?transaction_mode=RENT&lang=am
+        - link "Afaan Oromo" [ref=f2e16] [cursor=pointer]:
+          - /url: http://127.0.0.1:8000/search?transaction_mode=RENT&lang=om
+  - banner [ref=f2e17]:
+    - generic [ref=f2e18]:
+      - link "EP EthioProperty" [ref=f2e20] [cursor=pointer]:
+        - /url: http://127.0.0.1:8000
+        - generic [ref=f2e21]: EP
+        - generic [ref=f2e22]: EthioProperty
+      - generic [ref=f2e23]:
+        - link "Login / Register" [ref=f2e24] [cursor=pointer]:
+          - /url: http://127.0.0.1:8000/login
+        - button "Open Platform Navigation Menu" [ref=f2e25]:
+          - generic [ref=f2e26]: Menu
+  - main [ref=f2e27]:
+    - generic [ref=f2e28]:
+      - generic [ref=f2e30]:
+        - generic [ref=f2e31]:
+          - button "Purchase Real Estate" [ref=f2e32]
+          - button "Rentsss" [ref=f2e33]
+          - button "Lease" [ref=f2e34]
+        - generic [ref=f2e35]:
+          - 'textbox "Try: ''4-bedroom villa in Bole under 30 million'' or ''Office in Kazanchis''..." [ref=f2e36]'
+          - button "Search" [ref=f2e37]
+        - generic [ref=f2e38] [cursor=pointer]:
+          - checkbox "✓ Verified Only" [ref=f2e39]
+          - generic [ref=f2e40]: ✓ Verified Only
+        - combobox [ref=f2e41]:
+          - 'option "Sort: Relevance" [selected]'
+          - option "Newest First"
+          - option "Lowest Price"
+          - option "Highest Price"
+          - option "Largest Area (m²)"
+          - option "Lowest Price / m²"
+      - generic [ref=f2e42]:
+        - generic [ref=f2e43]:
+          - generic [ref=f2e44]:
+            - generic [ref=f2e45]:
+              - text: Showing
+              - strong [ref=f2e46]: "3"
+              - text: verified properties across Ethiopia
+            - generic [ref=f2e47]: Prices in ETB (ብር)
+          - generic [ref=f2e48]:
+            - article [ref=f2e49]:
+              - generic [ref=f2e50]:
+                - generic [ref=f2e51]:
+                  - generic [ref=f2e52]: 🏢
+                  - generic [ref=f2e54]:
+                    - generic [ref=f2e55]: ETH-AA-KZ-RES-00001002
+                    - button "Unverified (Level 0) details" [ref=f2e57] [cursor=pointer]:
+                      - generic [ref=f2e58]: ○
+                      - generic [ref=f2e59]: Unverified (Level 0)
+                      - generic [ref=f2e60]: ⓘ
+                - generic [ref=f2e61]:
+                  - generic [ref=f2e62]:
+                    - generic [ref=f2e63]: ETB 85,000
+                    - generic [ref=f2e64]: —
+                  - heading [level=2] [ref=f2e65]:
+                    - link "Kazanchis Diplomatic Villa with Private Garden" [ref=f2e66] [cursor=pointer]:
+                      - /url: http://127.0.0.1:8000/listings/kazanchis-diplomatic-villa-with-private-garden-for-rent
+                  - paragraph [ref=f2e67]: Addis Ababa, Ethiopia
+                  - generic [ref=f2e68]:
+                    - generic [ref=f2e69]:
+                      - text: 🛏
+                      - strong [ref=f2e70]: "4"
+                      - text: Beds
+                    - generic [ref=f2e71]:
+                      - text: 🚿
+                      - strong [ref=f2e72]: "3"
+                      - text: Baths
+                    - generic [ref=f2e73]:
+                      - text: 📐
+                      - strong [ref=f2e74]: "320"
+                      - text: m²
+              - link "View Asset & Legal Vault →" [ref=f2e76] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/listings/kazanchis-diplomatic-villa-with-private-garden-for-rent
+            - article [ref=f2e77]:
+              - generic [ref=f2e78]:
+                - generic [ref=f2e79]:
+                  - generic [ref=f2e80]: 🏢
+                  - generic [ref=f2e82]:
+                    - generic [ref=f2e83]: ETH-AA-BOLE-RES-00001001
+                    - button "Unverified (Level 0) details" [ref=f2e85] [cursor=pointer]:
+                      - generic [ref=f2e86]: ○
+                      - generic [ref=f2e87]: Unverified (Level 0)
+                      - generic [ref=f2e88]: ⓘ
+                - generic [ref=f2e89]:
+                  - generic [ref=f2e90]:
+                    - generic [ref=f2e91]: ETB 45,000
+                    - generic [ref=f2e92]: —
+                  - heading [level=2] [ref=f2e93]:
+                    - link "Bole Atlas Executive 3-Bedroom Apartment" [ref=f2e94] [cursor=pointer]:
+                      - /url: http://127.0.0.1:8000/listings/bole-atlas-executive-3-bedroom-apartment-for-rent
+                  - paragraph [ref=f2e95]: Addis Ababa, Ethiopia
+                  - generic [ref=f2e96]:
+                    - generic [ref=f2e97]:
+                      - text: 🛏
+                      - strong [ref=f2e98]: "3"
+                      - text: Beds
+                    - generic [ref=f2e99]:
+                      - text: 🚿
+                      - strong [ref=f2e100]: "2"
+                      - text: Baths
+                    - generic [ref=f2e101]:
+                      - text: 📐
+                      - strong [ref=f2e102]: "165"
+                      - text: m²
+              - link "View Asset & Legal Vault →" [ref=f2e104] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/listings/bole-atlas-executive-3-bedroom-apartment-for-rent
+            - article [ref=f2e105]:
+              - generic [ref=f2e106]:
+                - generic [ref=f2e107]:
+                  - generic [ref=f2e108]: 🏢
+                  - generic [ref=f2e110]:
+                    - generic [ref=f2e111]: ETH-AA-CMC-RES-00001003
+                    - button "Unverified (Level 0) details" [ref=f2e113] [cursor=pointer]:
+                      - generic [ref=f2e114]: ○
+                      - generic [ref=f2e115]: Unverified (Level 0)
+                      - generic [ref=f2e116]: ⓘ
+                - generic [ref=f2e117]:
+                  - generic [ref=f2e118]:
+                    - generic [ref=f2e119]: ETB 30,000
+                    - generic [ref=f2e120]: —
+                  - heading [level=2] [ref=f2e121]:
+                    - link "CMC Sun City Modern 2-Bedroom Flat" [ref=f2e122] [cursor=pointer]:
+                      - /url: http://127.0.0.1:8000/listings/cmc-sun-city-modern-2-bedroom-flat-for-rent
+                  - paragraph [ref=f2e123]: Addis Ababa, Ethiopia
+                  - generic [ref=f2e124]:
+                    - generic [ref=f2e125]:
+                      - text: 🛏
+                      - strong [ref=f2e126]: "2"
+                      - text: Beds
+                    - generic [ref=f2e127]:
+                      - text: 🚿
+                      - strong [ref=f2e128]: "1"
+                      - text: Baths
+                    - generic [ref=f2e129]:
+                      - text: 📐
+                      - strong [ref=f2e130]: "95"
+                      - text: m²
+              - link "View Asset & Legal Vault →" [ref=f2e132] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/listings/cmc-sun-city-modern-2-bedroom-flat-for-rent
+        - generic [ref=f2e133]:
+          - button "☰ List View" [ref=f2e134]
+          - button "🗺️ Map View" [ref=f2e135]
+  - contentinfo [ref=f2e136]:
+    - generic [ref=f2e137]:
+      - generic [ref=f2e138]:
+        - generic [ref=f2e139]:
+          - generic [ref=f2e140]:
+            - generic [ref=f2e141]: EP
+            - generic [ref=f2e142]: EthioProperty
+          - paragraph [ref=f2e143]: The National Ethiopian Real Estate Marketplace and Enterprise Property Management Platform. Built for certified brokerages, institutional owners, diaspora investors, and residents.
+          - generic [ref=f2e144]: PostGIS & Ethiopian Geocoding Engine
+        - generic [ref=f2e147]:
+          - heading "Marketplace Discovery" [level=3] [ref=f2e148]
+          - list [ref=f2e149]:
+            - listitem [ref=f2e150]:
+              - link "Residential & Commercial Sale" [ref=f2e151] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/search?mode=BUY
+            - listitem [ref=f2e152]:
+              - link "Long-Term Rentals" [ref=f2e153] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/search?mode=RENT
+            - listitem [ref=f2e154]:
+              - link "Commercial & Industrial Leases" [ref=f2e155] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/search?mode=LEASE
+            - listitem [ref=f2e156]:
+              - link "Agricultural & Urban Land" [ref=f2e157] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/search?category=land
+            - listitem [ref=f2e158]:
+              - link "Luxury Short-Term Stays" [ref=f2e159] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/stays/modern-garden-villa-bole
+        - generic [ref=f2e160]:
+          - heading "Enterprise Operations" [level=3] [ref=f2e161]
+          - list [ref=f2e162]:
+            - listitem [ref=f2e163]:
+              - link "Enterprise Portfolio Dashboard" [ref=f2e164] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/portfolio/dashboard
+            - listitem [ref=f2e165]:
+              - link "Unit Inventory Matrix" [ref=f2e166] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/portfolio/matrix
+            - listitem [ref=f2e167]:
+              - link "Work Orders & Maintenance" [ref=f2e168] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/maintenance
+            - listitem [ref=f2e169]:
+              - link "Tax Invoicing & VAT/TOT Compliance" [ref=f2e170] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/invoices
+            - listitem [ref=f2e171]:
+              - link "Lease Contracts & Rent Schedules" [ref=f2e172] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/leases
+        - generic [ref=f2e173]:
+          - heading "Administration & Trust" [level=3] [ref=f2e174]
+          - list [ref=f2e175]:
+            - listitem [ref=f2e176]:
+              - link "National Admin Center" [ref=f2e177] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/admin/dashboard
+            - listitem [ref=f2e178]:
+              - link "Language Management (Module 00)" [ref=f2e179] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/admin/languages
+            - listitem [ref=f2e180]:
+              - link "Security & OTP Watchdog (Module 01)" [ref=f2e181] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/admin/security
+            - listitem [ref=f2e182]:
+              - link "8-Level Location Hierarchy (Module 02)" [ref=f2e183] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/admin/locations
+      - generic [ref=f2e184]:
+        - generic [ref=f2e185]:
+          - generic [ref=f2e186]: © 2026 EthioProperty (ERE). All rights reserved.
+          - generic [ref=f2e187]: •
+          - generic [ref=f2e188]: Addis Ababa, Bole Sub-City, Ethiopia
+        - generic [ref=f2e189]:
+          - generic [ref=f2e190]: 📅 2019 Tikimt 17
+          - generic [ref=f2e191]: ETB Currency Verified

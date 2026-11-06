@@ -24,11 +24,13 @@ final readonly class CalculateCancellationRefundAction
         string $checkInDate,
         float $accommodationNetSubtotalEtb,
         float $cleaningFeeEtb,
-        CarbonImmutable|string|null $cancelledAt = null
+        \DateTimeInterface|string|null $cancelledAt = null
     ): array {
         $now = $cancelledAt instanceof CarbonImmutable
             ? $cancelledAt
-            : CarbonImmutable::parse($cancelledAt ?? 'now', 'Africa/Addis_Ababa');
+            : ($cancelledAt instanceof \DateTimeInterface
+                ? CarbonImmutable::instance($cancelledAt)
+                : CarbonImmutable::parse($cancelledAt ?? 'now', 'Africa/Addis_Ababa'));
 
         // Standard check-in at 14:00 East Africa Time
         $checkInMoment = CarbonImmutable::parse($checkInDate.' 14:00:00', 'Africa/Addis_Ababa');

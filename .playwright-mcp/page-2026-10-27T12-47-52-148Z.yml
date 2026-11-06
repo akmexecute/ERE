@@ -1,0 +1,247 @@
+- generic [active] [ref=f7e1]:
+  - generic [ref=f7e3]:
+    - generic [ref=f7e4]:
+      - generic [ref=f7e5]: Ethiopia National Property Core
+      - generic [ref=f7e7]: "|"
+      - generic [ref=f7e8]: "Currency: ETB (ብር)"
+    - generic [ref=f7e9]:
+      - button "📅 ኢትዮጵያዊ ቀን (EC)" [ref=f7e10]:
+        - generic [ref=f7e11]: 📅
+        - generic [ref=f7e12]: ኢትዮጵያዊ ቀን (EC)
+      - generic [ref=f7e13]:
+        - link "English" [ref=f7e14] [cursor=pointer]:
+          - /url: http://127.0.0.1:8000/listings/kazanchis-diplomatic-villa-with-private-garden-for-rent?lang=en
+        - link "አማርኛ" [ref=f7e15] [cursor=pointer]:
+          - /url: http://127.0.0.1:8000/listings/kazanchis-diplomatic-villa-with-private-garden-for-rent?lang=am
+        - link "Afaan Oromo" [ref=f7e16] [cursor=pointer]:
+          - /url: http://127.0.0.1:8000/listings/kazanchis-diplomatic-villa-with-private-garden-for-rent?lang=om
+  - banner [ref=f7e17]:
+    - generic [ref=f7e18]:
+      - generic [ref=f7e19]:
+        - link "EP EthioProperty" [ref=f7e20] [cursor=pointer]:
+          - /url: http://127.0.0.1:8000
+          - generic [ref=f7e21]: EP
+          - generic [ref=f7e22]: EthioProperty
+        - navigation [ref=f7e23]:
+          - link "Purchase Real Estate" [ref=f7e24] [cursor=pointer]:
+            - /url: http://127.0.0.1:8000/search?mode=BUY
+          - link "Rentsss" [ref=f7e25] [cursor=pointer]:
+            - /url: http://127.0.0.1:8000/search?mode=RENT
+          - link "Lease" [ref=f7e26] [cursor=pointer]:
+            - /url: http://127.0.0.1:8000/search?mode=LEASE
+          - link "Land" [ref=f7e27] [cursor=pointer]:
+            - /url: http://127.0.0.1:8000/search?category=land
+          - link "Stay Stays" [ref=f7e28] [cursor=pointer]:
+            - /url: http://127.0.0.1:8000/stays/modern-garden-villa-bole
+            - text: Stay
+            - generic [ref=f7e29]: Stays
+          - link "Developments Projects" [ref=f7e30] [cursor=pointer]:
+            - /url: http://127.0.0.1:8000/projects/bole-tower-residences
+            - text: Developments
+            - generic [ref=f7e31]: Projects
+      - generic [ref=f7e32]:
+        - link "+ + Post Property" [ref=f7e33] [cursor=pointer]:
+          - /url: http://127.0.0.1:8000/listings/create
+          - generic [ref=f7e34]: +
+          - generic [ref=f7e35]: + Post Property
+        - link "Login / Register" [ref=f7e36] [cursor=pointer]:
+          - /url: http://127.0.0.1:8000/login
+        - button "Open Platform Navigation Menu" [ref=f7e37]:
+          - generic [ref=f7e42]: Menu
+  - main [ref=f7e43]:
+    - generic [ref=f7e44]:
+      - navigation [ref=f7e45]:
+        - generic [ref=f7e46]:
+          - link "← Back to Search" [ref=f7e47] [cursor=pointer]:
+            - /url: http://127.0.0.1:8000/search
+          - generic [ref=f7e48]: /
+          - generic [ref=f7e49]: Addis Ababa
+          - generic [ref=f7e50]: /
+          - generic [ref=f7e51]: Bole
+          - generic [ref=f7e52]: /
+          - generic [ref=f7e53]: ETH-AA-KZ-RES-00001002
+        - generic [ref=f7e54]:
+          - generic [ref=f7e55]: Rent (ETB)
+          - button "Documents Submitted (Level 3) details" [ref=f7e57] [cursor=pointer]:
+            - generic [ref=f7e58]: ✓
+            - generic [ref=f7e59]: Documents Submitted (Level 3)
+            - generic [ref=f7e60]: ⓘ
+      - generic [ref=f7e61]:
+        - generic [ref=f7e62]:
+          - generic [ref=f7e63]:
+            - generic [ref=f7e64]: Villa
+            - generic [ref=f7e65]: ETH-AA-KZ-RES-00001002
+          - heading "Kazanchis Diplomatic Villa with Private Garden" [level=1] [ref=f7e66]
+          - paragraph [ref=f7e67]: ካዛንቺስ ዲፕሎማቲክ ቪላ ከመናፈሻ ጋር
+          - paragraph [ref=f7e68]:
+            - generic [ref=f7e69]: 📍
+            - generic [ref=f7e70]: ECA Quarter, Kazanchis, Addis Ababa
+        - generic [ref=f7e71]:
+          - generic [ref=f7e72]: Asking Price
+          - generic [ref=f7e73]: ETB 85,000
+          - generic [ref=f7e74]: Price is negotiable
+      - generic [ref=f7e75]:
+        - generic [ref=f7e76]:
+          - generic [ref=f7e78]:
+            - generic [ref=f7e79]: 🏢
+            - generic [ref=f7e80]: No photos uploaded for this property
+          - generic [ref=f7e81]:
+            - heading "Physical Specifications & Layout" [level=2] [ref=f7e82]
+            - generic [ref=f7e83]:
+              - generic [ref=f7e84]:
+                - generic [ref=f7e85]: Land Area
+                - strong [ref=f7e86]: 0 m²
+              - generic [ref=f7e87]:
+                - generic [ref=f7e88]: Building Area
+                - strong [ref=f7e89]: 320 m²
+              - generic [ref=f7e90]:
+                - generic [ref=f7e91]: Bedrooms
+                - strong [ref=f7e92]: "4"
+              - generic [ref=f7e93]:
+                - generic [ref=f7e94]: Bathrooms
+                - strong [ref=f7e95]: "3"
+              - generic [ref=f7e96]:
+                - generic [ref=f7e97]: Floors
+                - strong [ref=f7e98]: G+0
+              - generic [ref=f7e99]:
+                - generic [ref=f7e100]: Parking Spaces
+                - strong [ref=f7e101]: 0 Cars
+              - generic [ref=f7e102]:
+                - generic [ref=f7e103]: Condition
+                - strong [ref=f7e104]: Good
+              - generic [ref=f7e105]:
+                - generic [ref=f7e106]: Construction Status
+                - strong [ref=f7e107]: Completed
+          - generic [ref=f7e108]:
+            - heading "Critical Utilities & Infrastructure" [level=2] [ref=f7e109]
+            - generic [ref=f7e110]:
+              - generic [ref=f7e111]:
+                - generic [ref=f7e112]: ⚡
+                - generic [ref=f7e113]:
+                  - text: "Backup Generator:"
+                  - strong [ref=f7e114]: None
+              - generic [ref=f7e115]:
+                - generic [ref=f7e116]: 💧
+                - generic [ref=f7e117]:
+                  - text: "Water Supply:"
+                  - strong [ref=f7e118]: Municipal
+              - generic [ref=f7e119]:
+                - generic [ref=f7e120]: 🛡️
+                - generic [ref=f7e121]:
+                  - text: "24/7 Security:"
+                  - strong [ref=f7e122]: None
+              - generic [ref=f7e123]:
+                - generic [ref=f7e124]: 🌐
+                - generic [ref=f7e125]:
+                  - text: "Internet Connection:"
+                  - strong [ref=f7e126]: Fiber ready
+              - generic [ref=f7e127]:
+                - generic [ref=f7e128]: 🔌
+                - generic [ref=f7e129]:
+                  - text: "Electricity Grid:"
+                  - strong [ref=f7e130]: Grid single phase
+              - generic [ref=f7e131]:
+                - generic [ref=f7e132]: ☀️
+                - generic [ref=f7e133]:
+                  - text: "Solar Power:"
+                  - strong [ref=f7e134]: None
+          - generic [ref=f7e135]:
+            - heading "Property Description" [level=2] [ref=f7e136]
+            - paragraph [ref=f7e137]: Luxury 4-bedroom villa suitable for diplomatic or executive staff in Kazanchis.
+          - generic [ref=f7e138]:
+            - generic [ref=f7e139]:
+              - generic [ref=f7e140]: ⚖️
+              - generic [ref=f7e141]: Ethiopian Real Estate Proclamation No. 1357/2024 Compliance
+            - paragraph [ref=f7e142]: All listings on EthioProperty operate under national platform consumer transparency rules. Platform verification badges certify that platform documentation review protocols have been carried out and do NOT constitute government land-registry title deed certification.
+        - generic [ref=f7e144]:
+          - generic [ref=f7e145]:
+            - generic [ref=f7e146]: A
+            - generic [ref=f7e147]:
+              - generic [ref=f7e148]: Almaz Ayele
+              - generic [ref=f7e149]: Property Owner / Seller
+          - generic [ref=f7e150]:
+            - 'link "📞 Call Seller: +251911778899" [ref=f7e151] [cursor=pointer]':
+              - /url: tel:+251911778899
+              - generic [ref=f7e152]: 📞
+              - generic [ref=f7e153]: "Call Seller: +251911778899"
+            - button "💬 Direct Platform Message" [ref=f7e154]:
+              - generic [ref=f7e155]: 💬
+              - generic [ref=f7e156]: Direct Platform Message
+            - link "📝 Apply to Rent / Lease" [ref=f7e157] [cursor=pointer]:
+              - /url: http://127.0.0.1:8000/rental-applications/create?property_id=2&listing_id=2
+              - generic [ref=f7e158]: 📝
+              - generic [ref=f7e159]: Apply to Rent / Lease
+          - generic [ref=f7e160]:
+            - generic [ref=f7e161]:
+              - generic [ref=f7e162]: 🔒
+              - generic [ref=f7e163]: Private Document Vault
+            - paragraph [ref=f7e164]: Ownership deeds and site plans are securely vaulted on encrypted storage and available upon verified transaction request.
+          - button "Report this property (scam / wrong price / duplicate)" [ref=f7e166]
+  - contentinfo [ref=f7e167]:
+    - generic [ref=f7e168]:
+      - generic [ref=f7e169]:
+        - generic [ref=f7e170]:
+          - generic [ref=f7e171]:
+            - generic [ref=f7e172]: EP
+            - generic [ref=f7e173]: EthioProperty
+          - paragraph [ref=f7e174]: The National Ethiopian Real Estate Marketplace and Enterprise Property Management Platform. Built for certified brokerages, institutional owners, diaspora investors, and residents.
+          - generic [ref=f7e175]: PostGIS & Ethiopian Geocoding Engine
+        - generic [ref=f7e178]:
+          - heading "Marketplace Discovery" [level=3] [ref=f7e179]
+          - list [ref=f7e180]:
+            - listitem [ref=f7e181]:
+              - link "Residential & Commercial Sale" [ref=f7e182] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/search?mode=BUY
+            - listitem [ref=f7e183]:
+              - link "Long-Term Rentals" [ref=f7e184] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/search?mode=RENT
+            - listitem [ref=f7e185]:
+              - link "Commercial & Industrial Leases" [ref=f7e186] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/search?mode=LEASE
+            - listitem [ref=f7e187]:
+              - link "Agricultural & Urban Land" [ref=f7e188] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/search?category=land
+            - listitem [ref=f7e189]:
+              - link "Luxury Short-Term Stays" [ref=f7e190] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/stays/modern-garden-villa-bole
+        - generic [ref=f7e191]:
+          - heading "Enterprise Operations" [level=3] [ref=f7e192]
+          - list [ref=f7e193]:
+            - listitem [ref=f7e194]:
+              - link "Enterprise Portfolio Dashboard" [ref=f7e195] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/portfolio/dashboard
+            - listitem [ref=f7e196]:
+              - link "Unit Inventory Matrix" [ref=f7e197] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/portfolio/matrix
+            - listitem [ref=f7e198]:
+              - link "Work Orders & Maintenance" [ref=f7e199] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/maintenance
+            - listitem [ref=f7e200]:
+              - link "Tax Invoicing & VAT/TOT Compliance" [ref=f7e201] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/invoices
+            - listitem [ref=f7e202]:
+              - link "Lease Contracts & Rent Schedules" [ref=f7e203] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/leases
+        - generic [ref=f7e204]:
+          - heading "Administration & Trust" [level=3] [ref=f7e205]
+          - list [ref=f7e206]:
+            - listitem [ref=f7e207]:
+              - link "National Admin Center" [ref=f7e208] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/admin/dashboard
+            - listitem [ref=f7e209]:
+              - link "Language Management (Module 00)" [ref=f7e210] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/admin/languages
+            - listitem [ref=f7e211]:
+              - link "Security & OTP Watchdog (Module 01)" [ref=f7e212] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/admin/security
+            - listitem [ref=f7e213]:
+              - link "8-Level Location Hierarchy (Module 02)" [ref=f7e214] [cursor=pointer]:
+                - /url: http://127.0.0.1:8000/admin/locations
+      - generic [ref=f7e215]:
+        - generic [ref=f7e216]:
+          - generic [ref=f7e217]: © 2026 EthioProperty (ERE). All rights reserved.
+          - generic [ref=f7e218]: •
+          - generic [ref=f7e219]: Addis Ababa, Bole Sub-City, Ethiopia
+        - generic [ref=f7e220]:
+          - generic [ref=f7e221]: 📅 2019 Tikimt 17
+          - generic [ref=f7e222]: ETB Currency Verified

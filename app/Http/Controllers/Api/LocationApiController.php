@@ -15,12 +15,49 @@ final class LocationApiController extends Controller
     public function children(Request $request): JsonResponse
     {
         $parentId = $request->query('parent_id');
-        if (! $parentId) {
+        $parentSlug = $request->query('parent_slug');
+        $parentCode = $request->query('parent_code');
+        $isRoot = $request->boolean('root') || $parentId === 'root' || ($parentId === null && $parentSlug === null && $parentCode === null);
+
+        $resolvedParentId = null;
+
+        if ($isRoot) {
+            $rootCountry = Location::getRootCountry();
+            $resolvedParentId = $rootCountry?->id;
+        } elseif ($parentSlug) {
+            $resolvedParentId = Location::query()->where('slug', $parentSlug)->value('id');
+        } elseif ($parentCode) {
+            $resolvedParentId = Location::query()->where('code', $parentCode)->value('id');
+        } elseif (is_numeric($parentId)) {
+            $resolvedParentId = (int) $parentId;
+        }
+
+        if (! $resolvedParentId) {
             return response()->json(['data' => []]);
         }
 
+        $parent = Location::query()->find($resolvedParentId);
+        if (! $parent || ! $parent->is_active) {
+            return response()->json(['data' => []]);
+        }
+
+        // Safeguard: Ensure no ancestor in hierarchy is inactive
+        if ($parent->ancestry_path && $parent->ancestry_path !== '/') {
+            $ancestorIds = array_values(array_filter(explode('/', trim($parent->ancestry_path, '/')), 'is_numeric'));
+            if (! empty($ancestorIds)) {
+                $hasInactiveAncestor = Location::query()
+                    ->whereIn('id', $ancestorIds)
+                    ->where('is_active', false)
+                    ->exists();
+
+                if ($hasInactiveAncestor) {
+                    return response()->json(['data' => []]);
+                }
+            }
+        }
+
         $children = Location::query()
-            ->where('parent_id', $parentId)
+            ->where('parent_id', $resolvedParentId)
             ->where('is_active', true)
             ->orderBy('sort_order')
             ->orderBy('name_en')

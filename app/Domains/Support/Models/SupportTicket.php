@@ -22,6 +22,13 @@ final class SupportTicket extends Model
         'uuid',
         'ticket_code',
         'user_id',
+        'contract_id',
+        'offer_id',
+        'against_user_id',
+        'property_id',
+        'transaction_reference',
+        'seller_snapshot_json',
+        'evidence_json',
         'category',
         'priority',
         'subject',
@@ -30,9 +37,34 @@ final class SupportTicket extends Model
         'status',
     ];
 
+    protected $casts = [
+        'seller_snapshot_json' => 'array',
+        'evidence_json' => 'array',
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function contract(): BelongsTo
+    {
+        return $this->belongsTo(\App\Domains\Developer\Models\DeveloperSalesContract::class, 'contract_id');
+    }
+
+    public function offer(): BelongsTo
+    {
+        return $this->belongsTo(\App\Domains\Offer\Models\PropertyOffer::class, 'offer_id');
+    }
+
+    public function againstUser(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'against_user_id');
+    }
+
+    public function property(): BelongsTo
+    {
+        return $this->belongsTo(\App\Domains\Property\Models\Property::class, 'property_id');
     }
 
     public function assignedStaff(): BelongsTo

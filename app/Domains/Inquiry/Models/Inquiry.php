@@ -7,7 +7,7 @@ namespace App\Domains\Inquiry\Models;
 use App\Domains\Inquiry\Enums\InquiryStatus;
 use App\Domains\Listing\Models\Listing;
 use App\Domains\Property\Models\Property;
-use App\Domains\User\Models\Company;
+use App\Domains\Company\Models\Company;
 use App\Domains\User\Models\User;
 use App\Support\Traits\Auditable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;

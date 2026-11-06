@@ -6,9 +6,13 @@ namespace Tests\Feature;
 
 use App\Domains\Analytics\Models\MarketAnalyticsSnapshot;
 use App\Domains\Analytics\Services\MarketAnalyticsCalculator;
+use App\Domains\Engagement\Actions\CheckPriceAndStatusAlertsAction;
+use App\Domains\Engagement\Actions\ProcessSavedSearchAlertsAction;
 use App\Domains\Engagement\Models\CollectionItem;
 use App\Domains\Engagement\Models\Favorite;
+use App\Domains\Engagement\Models\PriceAlert;
 use App\Domains\Engagement\Models\SavedCollection;
+use App\Domains\Engagement\Models\SavedSearch;
 use App\Domains\Identity\Enums\PhonePrivacyMode;
 use App\Domains\Inquiry\Actions\RevealSellerPhoneAction;
 use App\Domains\Inquiry\Enums\InquiryStatus;
@@ -25,12 +29,15 @@ use App\Domains\Property\Enums\PropertyStatus;
 use App\Domains\Property\Models\Property;
 use App\Domains\Property\Models\PropertyCategory;
 use App\Domains\Property\Models\PropertyType;
+use App\Domains\Support\Models\SupportTicket;
 use App\Domains\User\Models\User;
 use Database\Seeders\PropertyTaxonomySeeder;
 use Database\Seeders\RbacRolePermissionSeeder;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -414,18 +421,585 @@ final class EngagementAndInquiryPipelineTest extends TestCase
         $this->get('/inbox')->assertRedirect('/login');
         $this->get('/admin/dashboard')->assertRedirect('/login');
 
-        // Authenticated users get 200 OK
-        $this->actingAs($this->buyer);
+        // Create real inquiry for the buyer
+        Inquiry::query()->create([
+            'uuid' => (string) Str::uuid(),
+            'inquiry_code' => 'INQ-2026-0000482',
+            'listing_id' => $this->listing->id,
+            'property_id' => $this->property->id,
+            'buyer_id' => $this->buyer->id,
+            'seller_id' => $this->seller->id,
+            'lead_source' => 'website',
+            'status' => InquiryStatus::New->value,
+            'initial_message' => 'Is this property still available?',
+            'unread_buyer_count' => 0,
+            'unread_seller_count' => 1,
+            'last_message_at' => now(),
+        ]);
 
+        // Authenticated buyer gets 200 for inbox
+        $this->actingAs($this->buyer);
         $responseInbox = $this->get('/inbox');
         $responseInbox->assertStatus(200);
         $responseInbox->assertSee('Inquiries');
         $responseInbox->assertSee('INQ-2026-0000482');
 
+        // Ordinary buyer is denied access to admin dashboard (SRS Section 214)
+        $this->get('/admin/dashboard')->assertStatus(403);
+
+        // Administrator user is granted access
+        $admin = User::query()->create([
+            'uuid' => (string) Str::uuid(),
+            'name' => 'National Platform Administrator',
+            'phone' => '+251933445566',
+            'status' => 'active',
+        ]);
+        $admin->assignRole('super_admin');
+
+        $this->actingAs($admin);
         $responseAdmin = $this->get('/admin/dashboard');
         $responseAdmin->assertStatus(200);
-        $responseAdmin->assertSee('National Admin & Market Intelligence Center', false);
+        $responseAdmin->assertSee('National Admin &amp; Market Intelligence Center', false);
         $responseAdmin->assertSee('platform_asking_price_indicator');
         $responseAdmin->assertSee('Addis Ababa');
+    }
+
+    public function test_favorites_and_collection_endpoints_enforce_ownership_and_privacy(): void
+    {
+        $this->actingAs($this->buyer);
+
+        // 1. Add favorite via HTTP POST
+        $resFav = $this->post('/favorites', ['listing_id' => $this->listing->id]);
+        $resFav->assertStatus(302);
+        $this->assertDatabaseHas('favorites', [
+            'user_id' => $this->buyer->id,
+            'listing_id' => $this->listing->id,
+        ]);
+
+        // 2. Remove favorite via HTTP DELETE
+        $resDel = $this->delete('/favorites/'.$this->listing->id);
+        $resDel->assertStatus(302);
+        $this->assertDatabaseMissing('favorites', [
+            'user_id' => $this->buyer->id,
+            'listing_id' => $this->listing->id,
+        ]);
+
+        // 3. Create private collection
+        $resCol = $this->post('/collections', [
+            'name' => 'Bole Commercial Investments',
+            'description' => 'Target properties for Q4',
+            'is_private' => true,
+        ]);
+        $resCol->assertStatus(302);
+
+        $collection = SavedCollection::query()->where('name', 'Bole Commercial Investments')->firstOrFail();
+        $this->assertSame($this->buyer->id, $collection->user_id);
+        $this->assertTrue((bool) $collection->is_private);
+
+        // 4. Add item with personal note
+        $this->post("/collections/{$collection->uuid}/items", [
+            'listing_id' => $this->listing->id,
+            'personal_note' => 'Spacious compound, prime location.',
+        ])->assertStatus(302);
+
+        $this->assertDatabaseHas('collection_items', [
+            'collection_id' => $collection->id,
+            'listing_id' => $this->listing->id,
+            'personal_note' => 'Spacious compound, prime location.',
+        ]);
+
+        // 5. Another user attempting to access private collection gets 403 Forbidden
+        $otherUser = User::query()->create([
+            'uuid' => (string) Str::uuid(),
+            'name' => 'Other Buyer',
+            'phone' => '+251944556677',
+            'status' => 'active',
+        ]);
+        $this->actingAs($otherUser);
+        $this->get("/collections/{$collection->uuid}")->assertStatus(403);
+    }
+
+    public function test_saved_searches_and_price_alerts_validation_and_persistence(): void
+    {
+        $this->actingAs($this->buyer);
+
+        // 1. Saved search validation: Invalid frequency rejected
+        $this->postJson('/saved-searches', [
+            'name' => 'Addis Villas',
+            'filters_json' => ['city' => 'Addis Ababa'],
+            'frequency' => 'invalid_freq',
+        ])->assertStatus(422);
+
+        // Valid saved search stored
+        $resSearch = $this->postJson('/saved-searches', [
+            'name' => 'Bole 4-Bed Villas',
+            'filters_json' => ['city' => 'Addis Ababa', 'subcity' => 'Bole', 'bedrooms' => 4],
+            'frequency' => 'daily',
+        ]);
+        $resSearch->assertStatus(201);
+        $this->assertDatabaseHas('saved_searches', [
+            'user_id' => $this->buyer->id,
+            'name' => 'Bole 4-Bed Villas',
+            'frequency' => 'daily',
+        ]);
+
+        // 2. Price alert subscription
+        $resAlert = $this->post('/price-alerts', [
+            'listing_id' => $this->listing->id,
+            'notify_price_drop' => true,
+            'notify_status_change' => true,
+        ]);
+        $resAlert->assertStatus(302);
+        $this->assertDatabaseHas('price_alerts', [
+            'user_id' => $this->buyer->id,
+            'listing_id' => $this->listing->id,
+            'baseline_price_etb' => 25_000_000,
+            'notify_on_price_drop' => true,
+        ]);
+    }
+
+    public function test_inquiry_creation_prevents_self_inquiry_and_enforces_pipeline_transitions(): void
+    {
+        // 1. Seller cannot make an inquiry on their own listing (Self-inquiry prevention)
+        $this->actingAs($this->seller);
+        $this->postJson('/inquiries', [
+            'listing_id' => $this->listing->id,
+            'initial_message' => 'I want to inquire on my own villa.',
+        ])->assertStatus(403);
+
+        // 2. Buyer submits valid inquiry
+        $this->actingAs($this->buyer);
+        $resInq = $this->postJson('/inquiries', [
+            'listing_id' => $this->listing->id,
+            'initial_message' => 'Selam! Is this villa available for inspection this Saturday?',
+            'lead_source' => 'website',
+        ]);
+        $resInq->assertStatus(201);
+
+        $inquiryUuid = $resInq->json('inquiry.uuid');
+        $this->assertNotNull($inquiryUuid);
+
+        $inquiry = Inquiry::query()->where('uuid', $inquiryUuid)->firstOrFail();
+        $this->assertMatchesRegularExpression('/^INQ-\d{4}-\d{7}$/', $inquiry->inquiry_code);
+        $this->assertSame(InquiryStatus::New, $inquiry->status);
+
+        // 3. Valid pipeline transition: 'new' -> 'contacted'
+        $this->actingAs($this->seller);
+        $this->post("/inquiries/{$inquiryUuid}/status", ['status' => 'contacted'])
+            ->assertStatus(302);
+        $this->assertSame(InquiryStatus::Contacted, $inquiry->fresh()->status);
+
+        // 4. Invalid pipeline transition: cannot transition directly from 'contacted' to 'closed'
+        $this->post("/inquiries/{$inquiryUuid}/status", ['status' => 'closed'])
+            ->assertStatus(302)
+            ->assertSessionHasErrors(['status']);
+    }
+
+    public function test_messaging_authorization_and_attachment_guards(): void
+    {
+        $inquiry = Inquiry::query()->create([
+            'uuid' => (string) Str::uuid(),
+            'inquiry_code' => 'INQ-2026-0000999',
+            'listing_id' => $this->listing->id,
+            'property_id' => $this->property->id,
+            'buyer_id' => $this->buyer->id,
+            'seller_id' => $this->seller->id,
+            'lead_source' => 'website',
+            'status' => InquiryStatus::New->value,
+            'initial_message' => 'Initial inquiry text.',
+            'unread_seller_count' => 0,
+        ]);
+
+        // Unauthorized third party gets 403 Forbidden
+        $intruder = User::query()->create([
+            'uuid' => (string) Str::uuid(),
+            'name' => 'Intruder',
+            'phone' => '+251999887766',
+            'status' => 'active',
+        ]);
+        $this->actingAs($intruder);
+        $this->post("/inquiries/{$inquiry->uuid}/messages", [
+            'body' => 'Unauthorized message attempt.',
+        ])->assertStatus(403);
+
+        // Authorized buyer sends message
+        $this->actingAs($this->buyer);
+        $this->post("/inquiries/{$inquiry->uuid}/messages", [
+            'body' => 'When can we meet at the property?',
+        ])->assertStatus(302);
+
+        $this->assertDatabaseHas('messages', [
+            'inquiry_id' => $inquiry->id,
+            'sender_id' => $this->buyer->id,
+            'body' => 'When can we meet at the property?',
+        ]);
+        $this->assertSame(1, $inquiry->fresh()->unread_seller_count);
+    }
+
+    public function test_seller_dashboard_data_scoping(): void
+    {
+        // Create second seller with independent listing
+        $otherSeller = User::query()->create([
+            'uuid' => (string) Str::uuid(),
+            'name' => 'Other Seller',
+            'phone' => '+251988112233',
+            'status' => 'active',
+        ]);
+
+        $this->actingAs($this->seller);
+        $res = $this->get('/seller/dashboard');
+        $res->assertStatus(200);
+        $res->assertSee('Seller Dashboard');
+        $res->assertSee($this->property->title_en);
+
+        // JSON API view scopes strictly
+        $jsonRes = $this->getJson('/seller/dashboard');
+        $jsonRes->assertStatus(200);
+        $jsonRes->assertJsonPath('activeListingsCount', 1);
+    }
+
+    public function test_support_ticket_lifecycle_and_staff_authorization(): void
+    {
+        $this->actingAs($this->buyer);
+
+        // 1. Buyer submits support ticket
+        $resTicket = $this->postJson('/support/tickets', [
+            'category' => 'verification',
+            'priority' => 'high',
+            'subject' => 'Request property title verification review',
+            'description' => 'I would like to verify the ownership title for Bole property ETH-AA-BOLE-RES-00001245.',
+        ]);
+        $resTicket->assertStatus(201);
+
+        $ticketUuid = $resTicket->json('ticket.uuid');
+        $ticketCode = $resTicket->json('ticket.ticket_code');
+        $this->assertNotNull($ticketUuid);
+        $this->assertMatchesRegularExpression('/^TKT-\d{4}-\d{7}$/', $ticketCode);
+
+        // 2. Another ordinary user gets 403 viewing the ticket
+        $stranger = User::query()->create([
+            'uuid' => (string) Str::uuid(),
+            'name' => 'Stranger',
+            'phone' => '+251977665544',
+            'status' => 'active',
+        ]);
+        $this->actingAs($stranger);
+        $this->get("/support/tickets/{$ticketUuid}")->assertStatus(403);
+
+        // 3. Staff member can view ticket and update status
+        $staff = User::query()->create([
+            'uuid' => (string) Str::uuid(),
+            'name' => 'Support Officer',
+            'phone' => '+251966554433',
+            'status' => 'active',
+        ]);
+        $staff->assignRole('super_admin');
+
+        $this->actingAs($staff);
+        $this->get("/support/tickets/{$ticketUuid}")->assertStatus(200);
+
+        // Update status to 'in_progress'
+        $this->post("/support/tickets/{$ticketUuid}/status", [
+            'status' => 'in_progress',
+        ])->assertStatus(302);
+
+        $this->assertDatabaseHas('support_tickets', [
+            'uuid' => $ticketUuid,
+            'status' => 'in_progress',
+        ]);
+    }
+
+    public function test_notification_preferences_management(): void
+    {
+        $this->actingAs($this->buyer);
+
+        // Update preferences
+        $this->post('/notifications/preferences', [
+            'channel_in_app' => true,
+            'channel_email' => true,
+            'channel_sms' => false,
+            'channel_push' => false,
+            'channel_telegram' => true,
+            'marketing_opt_in' => false,
+        ])->assertStatus(302);
+
+        $this->assertDatabaseHas('notification_preferences', [
+            'user_id' => $this->buyer->id,
+            'channel_sms' => false,
+            'channel_telegram' => true,
+            'marketing_opt_in' => false,
+        ]);
+    }
+
+    public function test_multi_channel_notification_service_dispatches_and_respects_preferences(): void
+    {
+        $this->seed(\Database\Seeders\NotificationTemplateSeeder::class);
+
+        $service = app(\App\Domains\Notification\Services\MultiChannelNotificationService::class);
+
+        // 1. Service notification (inquiry.received) sent across allowed channels
+        $result = $service->send(
+            recipient: $this->seller,
+            eventKey: 'inquiry.received',
+            data: [
+                'buyer_name' => $this->buyer->name,
+                'property_title' => $this->property->title_en,
+                'property_code' => $this->property->property_code,
+            ],
+            isMarketing: false
+        );
+
+        $this->assertSame('sent', $result['status']);
+        $this->assertContains('in_app', $result['channels_sent']);
+
+        // 2. Marketing notification suppressed when user has marketing_opt_in = false
+        $this->seller->notificationPreferences()->updateOrCreate(
+            ['user_id' => $this->seller->id],
+            ['marketing_opt_in' => false, 'channel_in_app' => true]
+        );
+
+        $marketResult = $service->send(
+            recipient: $this->seller,
+            eventKey: 'inquiry.received',
+            data: ['buyer_name' => 'Investor'],
+            isMarketing: true
+        );
+
+        $this->assertSame('suppressed', $marketResult['status']);
+        $this->assertSame('User has opted out of marketing communications.', $marketResult['reason']);
+    }
+
+    public function test_saved_search_alert_processing_matches_listings_and_updates_timestamp(): void
+    {
+        $this->seed(\Database\Seeders\NotificationTemplateSeeder::class);
+
+        $search = SavedSearch::query()->create([
+            'user_id' => $this->buyer->id,
+            'name' => 'Bole 3-Bedroom Villas',
+            'frequency' => 'instant',
+            'filters_json' => [
+                'transaction_mode' => 'BUY',
+                'max_price' => 30_000_000,
+            ],
+            'is_active' => true,
+            'last_notified_at' => now()->subDay(),
+        ]);
+
+        $action = new ProcessSavedSearchAlertsAction();
+        $result = $action->execute('instant');
+
+        $this->assertSame(1, $result['searches_evaluated']);
+        $this->assertGreaterThanOrEqual(1, $result['total_matches']);
+        $this->assertSame(1, $result['alerts_dispatched']);
+
+        $search->refresh();
+        $this->assertNotNull($search->last_notified_at);
+
+        // Artisan command test
+        $this->artisan('alerts:process-saved-searches', ['--frequency' => 'instant'])
+            ->assertSuccessful();
+    }
+
+    public function test_price_drop_alerts_trigger_notifications_and_update_baseline(): void
+    {
+        $this->seed(\Database\Seeders\NotificationTemplateSeeder::class);
+
+        $alert = PriceAlert::query()->create([
+            'user_id' => $this->buyer->id,
+            'listing_id' => $this->listing->id,
+            'property_id' => $this->property->id,
+            'baseline_price_etb' => 15_000_000.00,
+            'notify_on_price_drop' => true,
+            'notify_on_status_change' => true,
+            'is_active' => true,
+        ]);
+
+        $checker = new CheckPriceAndStatusAlertsAction();
+
+        // 1. Price increase: no alerts dispatched
+        $dispatched = $checker->onPriceChanged($this->listing, 15_000_000, 16_000_000);
+        $this->assertSame(0, $dispatched);
+
+        // 2. Price drop: alert dispatched, baseline updated
+        $dispatchedDrop = $checker->onPriceChanged($this->listing, 15_000_000, 13_500_000);
+        $this->assertSame(1, $dispatchedDrop);
+
+        $alert->refresh();
+        $this->assertSame('13500000.00', (string) $alert->baseline_price_etb);
+        $this->assertNotNull($alert->last_triggered_at);
+
+        // 3. Status change alert
+        $statusDispatched = $checker->onStatusChanged($this->listing, 'draft', 'published');
+        $this->assertSame(1, $statusDispatched);
+    }
+
+    public function test_inquiry_creation_and_messaging_dispatch_notifications(): void
+    {
+        $this->seed(\Database\Seeders\NotificationTemplateSeeder::class);
+
+        // 1. Submit inquiry as buyer -> seller receives notification
+        $response = $this->actingAs($this->buyer)
+            ->postJson(route('inquiries.store'), [
+                'listing_id' => $this->listing->id,
+                'initial_message' => 'Hello, I am interested in viewing this property.',
+                'lead_source' => 'website',
+            ]);
+
+        $response->assertStatus(201);
+        $inquiryUuid = $response->json('inquiry.uuid');
+
+        // 2. Buyer sends reply message -> seller notified
+        $msgResponse = $this->actingAs($this->buyer)
+            ->postJson(route('inquiries.messages.store', ['uuid' => $inquiryUuid]), [
+                'body' => 'Can we schedule a visit for tomorrow at 2 PM?',
+            ]);
+        $msgResponse->assertStatus(201);
+
+        // 3. Seller sends reply message -> buyer notified
+        $sellerReply = $this->actingAs($this->seller)
+            ->postJson(route('inquiries.messages.store', ['uuid' => $inquiryUuid]), [
+                'body' => 'Yes, tomorrow 2 PM works perfectly.',
+            ]);
+        $sellerReply->assertStatus(201);
+    }
+
+    public function test_attachment_download_blocks_path_traversal_and_enforces_rbac(): void
+    {
+        Storage::fake('local');
+        $file = UploadedFile::fake()->create('contract.pdf', 500, 'application/pdf');
+
+        $inquiry = Inquiry::query()->create([
+            'uuid' => (string) Str::uuid(),
+            'inquiry_code' => 'INQ-2026-999999',
+            'listing_id' => $this->listing->id,
+            'property_id' => $this->property->id,
+            'buyer_id' => $this->buyer->id,
+            'seller_id' => $this->seller->id,
+            'status' => InquiryStatus::New,
+            'initial_message' => 'Test',
+        ]);
+
+        $storedPath = $file->store("inquiries/{$inquiry->id}", 'local');
+        $message = Message::query()->create([
+            'uuid' => (string) Str::uuid(),
+            'inquiry_id' => $inquiry->id,
+            'sender_id' => $this->buyer->id,
+            'message_type' => 'attachment',
+            'body' => 'Contract attached',
+        ]);
+
+        $validAttachment = MessageAttachment::query()->create([
+            'message_id' => $message->id,
+            'storage_disk' => 'local',
+            'storage_path' => $storedPath,
+            'original_filename' => 'contract.pdf',
+            'mime_type' => 'application/pdf',
+            'file_size_bytes' => 500,
+        ]);
+
+        // 1. Participant can download
+        $this->actingAs($this->buyer)
+            ->get(route('inquiries.attachments.download', [
+                'uuid' => $inquiry->uuid,
+                'attachmentId' => $validAttachment->id,
+            ]))
+            ->assertStatus(200);
+
+        // 2. Unrelated user is rejected (403)
+        $unrelatedUser = User::query()->create([
+            'uuid' => (string) Str::uuid(),
+            'name' => 'Stranger',
+            'phone' => '+251999888777',
+            'status' => 'active',
+        ]);
+
+        $this->actingAs($unrelatedUser)
+            ->get(route('inquiries.attachments.download', [
+                'uuid' => $inquiry->uuid,
+                'attachmentId' => $validAttachment->id,
+            ]))
+            ->assertStatus(403);
+
+        // 3. Path traversal attempt in DB record is blocked (403)
+        $maliciousAttachment = MessageAttachment::query()->create([
+            'message_id' => $message->id,
+            'storage_disk' => 'local',
+            'storage_path' => '../../etc/passwd',
+            'original_filename' => 'passwd',
+            'mime_type' => 'text/plain',
+            'file_size_bytes' => 100,
+        ]);
+
+        $this->actingAs($this->buyer)
+            ->get(route('inquiries.attachments.download', [
+                'uuid' => $inquiry->uuid,
+                'attachmentId' => $maliciousAttachment->id,
+            ]))
+            ->assertStatus(403);
+    }
+
+    public function test_comparison_matrix_returns_null_highest_verification_when_all_unverified(): void
+    {
+        $action = new ComparePropertiesMatrixAction();
+
+        $result = $action->execute([
+            ['id' => 1, 'price_etb' => 10_000_000, 'verification_level' => 0],
+            ['id' => 2, 'price_etb' => 20_000_000, 'verification_level' => 0],
+        ]);
+
+        $this->assertNull($result['highlights']['highest_verification_id']);
+
+        // With one verified property, it is highlighted
+        $resultVerified = $action->execute([
+            ['id' => 1, 'price_etb' => 10_000_000, 'verification_level' => 0],
+            ['id' => 2, 'price_etb' => 20_000_000, 'verification_level' => 1],
+        ]);
+
+        $this->assertSame(2, $resultVerified['highlights']['highest_verification_id']);
+    }
+
+    public function test_support_ticket_creation_dispatches_notification_and_staff_rbac(): void
+    {
+        $this->seed(\Database\Seeders\NotificationTemplateSeeder::class);
+
+        // 1. User creates support ticket -> gets notification
+        $response = $this->actingAs($this->buyer)
+            ->post(route('support.tickets.store'), [
+                'category' => 'technical',
+                'priority' => 'high',
+                'subject' => 'Cannot upload listing photos',
+                'description' => 'Image upload times out on 5MB photos.',
+            ]);
+
+        $response->assertRedirect();
+        $ticket = SupportTicket::query()->where('user_id', $this->buyer->id)->firstOrFail();
+        $this->assertStringStartsWith('TKT-', $ticket->ticket_code);
+
+        // 2. Regular user cannot update ticket status (403)
+        $this->actingAs($this->buyer)
+            ->post(route('support.tickets.status.update', ['uuid' => $ticket->uuid]), [
+                'status' => 'closed',
+            ])
+            ->assertStatus(403);
+
+        // 3. Customer support staff CAN update ticket status
+        $supportStaff = User::query()->create([
+            'uuid' => (string) Str::uuid(),
+            'name' => 'Support Agent Dawit',
+            'phone' => '+251911999888',
+            'status' => 'active',
+        ]);
+        $supportStaff->assignRole('customer_support');
+
+        $this->actingAs($supportStaff)
+            ->post(route('support.tickets.status.update', ['uuid' => $ticket->uuid]), [
+                'status' => 'in_progress',
+                'assigned_staff_id' => $supportStaff->id,
+            ])
+            ->assertRedirect();
+
+        $ticket->refresh();
+        $this->assertSame('in_progress', $ticket->status);
+        $this->assertSame($supportStaff->id, $ticket->assigned_staff_id);
     }
 }

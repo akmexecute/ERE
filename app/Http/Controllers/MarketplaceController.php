@@ -9,6 +9,7 @@ use App\Domains\Listing\Models\Listing;
 use App\Domains\Location\Models\Location;
 use App\Domains\Marketplace\Actions\ParseNaturalPropertyQueryAction;
 use App\Domains\Marketplace\Queries\SearchMarketplaceListingsQuery;
+use App\Domains\Property\Models\PropertyCategory;
 use App\Domains\Property\Models\PropertyType;
 use App\Support\Money\EtbFormatter;
 use Illuminate\Http\Request;
@@ -24,13 +25,34 @@ final class MarketplaceController extends Controller
         $rawQuery = trim((string) $request->input('q', ''));
         $parsed = $rawQuery !== '' ? $naturalParser->execute($rawQuery) : [];
 
+        $categoryParam = $request->input('category');
+        $categoryId = $request->input('category_id');
+        $categoryCode = $request->input('category_code', $parsed['category_code'] ?? null);
+
+        if ($categoryParam) {
+            $cat = PropertyCategory::query()
+                ->where('slug', strtolower((string) $categoryParam))
+                ->orWhere('code', strtoupper((string) $categoryParam))
+                ->first();
+            if ($cat) {
+                $categoryId = $cat->id;
+            }
+        }
+
+        $rawMode = $request->input('transaction_mode') ?? $request->input('mode') ?? ($parsed['transaction_mode'] ?? null);
+        $transactionMode = $rawMode ? strtoupper((string) $rawMode) : ($categoryParam ? null : 'BUY');
+
         $filters = [
-            'transaction_mode' => $request->input('transaction_mode', $parsed['transaction_mode'] ?? 'BUY'),
+            'transaction_mode' => $transactionMode,
+            'category_id' => $categoryId,
+            'category_code' => $categoryCode,
+            'property_type_id' => $request->input('property_type_id'),
+            'amenities' => $request->input('amenities', ! empty($parsed['amenities']) ? $parsed['amenities'] : null),
             'sort' => $request->input('sort', 'relevance'),
             'min_price_etb' => $request->input('min_price', $parsed['min_price_etb'] ?? null),
             'max_price_etb' => $request->input('max_price', $parsed['max_price_etb'] ?? null),
             'min_bedrooms' => $request->input('bedrooms', $parsed['min_bedrooms'] ?? null),
-            'min_verification_level' => $request->boolean('verified_only') ? 1 : $request->input('min_verification_level'),
+            'min_verification_level' => $request->boolean('verified_only') ? 1 : ($request->filled('min_verification_level') ? (int) $request->input('min_verification_level') : null),
             'ne_lat' => $request->input('ne_lat'),
             'ne_lng' => $request->input('ne_lng'),
             'sw_lat' => $request->input('sw_lat'),
@@ -40,26 +62,34 @@ final class MarketplaceController extends Controller
             'radius_meters' => $request->input('radius_meters'),
         ];
 
-        // Match location keyword if present
+        // Match location keyword against dynamic location hierarchy
         $locationKeyword = $request->input('location', $parsed['location_keyword'] ?? null);
         if ($locationKeyword) {
             $matchedLoc = Location::query()
-                ->where('name_en', 'like', "%{$locationKeyword}%")
+                ->where('slug', $locationKeyword)
+                ->orWhere('name_en', 'like', "%{$locationKeyword}%")
                 ->orWhere('name_am', 'like', "%{$locationKeyword}%")
+                ->orWhere('name_om', 'like', "%{$locationKeyword}%")
                 ->first();
 
             if ($matchedLoc) {
-                if ($matchedLoc->type === 'city') {
+                if ($matchedLoc->level === 'city') {
                     $filters['city_id'] = $matchedLoc->id;
-                } elseif ($matchedLoc->type === 'subcity') {
+                } elseif ($matchedLoc->level === 'subcity') {
                     $filters['subcity_id'] = $matchedLoc->id;
+                } elseif ($matchedLoc->level === 'region') {
+                    $filters['region_id'] = $matchedLoc->id;
+                } elseif ($matchedLoc->level === 'woreda') {
+                    $filters['woreda_id'] = $matchedLoc->id;
+                } elseif ($matchedLoc->level === 'kebele') {
+                    $filters['kebele_id'] = $matchedLoc->id;
                 } else {
                     $filters['neighborhood_id'] = $matchedLoc->id;
                 }
             }
         }
 
-        // Match property type if present
+        // Match property type against configurable taxonomy
         $typeSlug = $request->input('property_type', $parsed['property_type_slug'] ?? null);
         if ($typeSlug) {
             $matchedType = PropertyType::query()->where('slug', $typeSlug)->first();

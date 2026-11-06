@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\Domains\Listing\Models;
 
+use App\Domains\Company\Models\Company;
 use App\Domains\Listing\Enums\ListingStatus;
+use App\Domains\Moderation\Models\FraudSignal;
+use App\Domains\Moderation\Models\ModerationAction;
+use App\Domains\Moderation\Models\PropertyReport;
 use App\Domains\Property\Models\Property;
-use App\Domains\User\Models\Company;
 use App\Domains\User\Models\User;
 use App\Support\Traits\Auditable;
 use Illuminate\Database\Eloquent\Model;
@@ -14,7 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-final class Listing extends Model
+class Listing extends Model
 {
     use Auditable, SoftDeletes;
 
@@ -85,5 +88,50 @@ final class Listing extends Model
     public function priceHistories(): HasMany
     {
         return $this->hasMany(ListingPriceHistory::class, 'listing_id')->orderByDesc('created_at');
+    }
+
+    public function fraudSignals(): HasMany
+    {
+        return $this->hasMany(FraudSignal::class, 'listing_id');
+    }
+
+    public function matchedFraudSignals(): HasMany
+    {
+        return $this->hasMany(FraudSignal::class, 'matched_listing_id');
+    }
+
+    public function moderationActions(): HasMany
+    {
+        return $this->hasMany(ModerationAction::class, 'listing_id')->orderByDesc('created_at');
+    }
+
+    public function propertyReports(): HasMany
+    {
+        return $this->hasMany(PropertyReport::class, 'listing_id');
+    }
+
+    public function reports(): HasMany
+    {
+        return $this->hasMany(PropertyReport::class, 'listing_id');
+    }
+
+    public function favorites(): HasMany
+    {
+        return $this->hasMany(\App\Domains\Engagement\Models\Favorite::class, 'listing_id');
+    }
+
+    public function inquiries(): HasMany
+    {
+        return $this->hasMany(\App\Domains\Inquiry\Models\Inquiry::class, 'listing_id')->orderByDesc('last_message_at');
+    }
+
+    public function priceAlerts(): HasMany
+    {
+        return $this->hasMany(\App\Domains\Engagement\Models\PriceAlert::class, 'listing_id');
+    }
+
+    public function stayProfile(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(\App\Domains\Stay\Models\StayListingProfile::class, 'listing_id');
     }
 }

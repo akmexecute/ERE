@@ -47,20 +47,20 @@ final class DocumentVersion extends Model
     }
 
     /**
-     * Generate a temporary signed download URL valid for 5 minutes (SRS Sections 28-29 & 144).
+     * Generate a temporary signed download URL valid for at most 5 minutes (SRS Sections 28-29 & 144).
+     * Cryptographically signed route strictly enforced by Laravel signed middleware.
      */
     public function generateTemporarySignedUrl(int $minutes = 5): string
     {
-        $disk = Storage::disk($this->storage_disk);
+        $validMinutes = min(max(1, $minutes), 5);
 
-        if (method_exists($disk, 'temporaryUrl')) {
-            try {
-                return $disk->temporaryUrl($this->storage_path, now()->addMinutes($minutes));
-            } catch (\Throwable) {
-                // Fallback for local driver or non-s3 test disk
-            }
-        }
-
-        return url("/documents/download/{$this->document->uuid}/v/{$this->version_number}");
+        return \Illuminate\Support\Facades\URL::temporarySignedRoute(
+            'documents.download',
+            now()->addMinutes($validMinutes),
+            [
+                'uuid' => $this->document->uuid,
+                'version' => $this->version_number,
+            ]
+        );
     }
 }

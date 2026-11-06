@@ -11,7 +11,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 final class ModerationAction extends Model
 {
-    public const UPDATED_AT = null;
+    public $timestamps = false;
+
+    protected $table = 'moderation_actions';
 
     protected $fillable = [
         'listing_id',

@@ -30,7 +30,7 @@ final class IdentityAndOtpTest extends TestCase
         $this->assertSame(6, strlen($code));
         $this->assertDatabaseHas('otp_codes', [
             'phone' => '+251911234567',
-            'code_hash' => hash('sha256', $code),
+            'code_hash' => hash_hmac('sha256', $code, (string) config('app.key')),
             'purpose' => 'login',
         ]);
     }

@@ -41,6 +41,20 @@ final class AggregateDailyMarketAnalyticsCommand extends Command
                 ->map(fn ($l) => ['price_etb' => (float) $l->price_etb, 'price_per_sqm_etb' => $l->price_per_sqm_etb ? (float) $l->price_per_sqm_etb : null])
                 ->all();
 
+            $nationalNewListings = Listing::query()
+                ->where('transaction_mode', $mode)
+                ->where(function ($q) use ($snapshotDate) {
+                    $q->whereDate('published_at', $snapshotDate)
+                        ->orWhereDate('created_at', $snapshotDate);
+                })
+                ->count();
+
+            $nationalInquiries = DB::table('inquiries')
+                ->join('listings', 'listings.id', '=', 'inquiries.listing_id')
+                ->where('listings.transaction_mode', $mode)
+                ->whereDate('inquiries.created_at', $snapshotDate)
+                ->count();
+
             $nationalSummary = MarketAnalyticsCalculator::summarizeListings($nationalListings);
 
             MarketAnalyticsSnapshot::query()->updateOrCreate(
@@ -51,6 +65,8 @@ final class AggregateDailyMarketAnalyticsCommand extends Command
                 ],
                 [
                     'active_listings_count' => $nationalSummary['count'],
+                    'new_listings_count' => $nationalNewListings,
+                    'inquiries_count' => $nationalInquiries,
                     'avg_asking_price_etb' => $nationalSummary['avg_asking_price_etb'],
                     'median_asking_price_etb' => $nationalSummary['median_asking_price_etb'],
                     'avg_price_per_sqm_etb' => $nationalSummary['avg_price_per_sqm_etb'],
@@ -70,6 +86,24 @@ final class AggregateDailyMarketAnalyticsCommand extends Command
                     ->map(fn ($l) => ['price_etb' => (float) $l->price_etb, 'price_per_sqm_etb' => $l->price_per_sqm_etb ? (float) $l->price_per_sqm_etb : null])
                     ->all();
 
+                $cityNewListings = Listing::query()
+                    ->join('properties', 'properties.id', '=', 'listings.property_id')
+                    ->where('listings.transaction_mode', $mode)
+                    ->where('properties.city_id', $city->id)
+                    ->where(function ($q) use ($snapshotDate) {
+                        $q->whereDate('listings.published_at', $snapshotDate)
+                            ->orWhereDate('listings.created_at', $snapshotDate);
+                    })
+                    ->count();
+
+                $cityInquiries = DB::table('inquiries')
+                    ->join('properties', 'properties.id', '=', 'inquiries.property_id')
+                    ->join('listings', 'listings.id', '=', 'inquiries.listing_id')
+                    ->where('listings.transaction_mode', $mode)
+                    ->where('properties.city_id', $city->id)
+                    ->whereDate('inquiries.created_at', $snapshotDate)
+                    ->count();
+
                 $citySummary = MarketAnalyticsCalculator::summarizeListings($cityListings);
 
                 MarketAnalyticsSnapshot::query()->updateOrCreate(
@@ -81,6 +115,8 @@ final class AggregateDailyMarketAnalyticsCommand extends Command
                     [
                         'region_id' => $city->parent_id,
                         'active_listings_count' => $citySummary['count'],
+                        'new_listings_count' => $cityNewListings,
+                        'inquiries_count' => $cityInquiries,
                         'avg_asking_price_etb' => $citySummary['avg_asking_price_etb'],
                         'median_asking_price_etb' => $citySummary['median_asking_price_etb'],
                         'avg_price_per_sqm_etb' => $citySummary['avg_price_per_sqm_etb'],

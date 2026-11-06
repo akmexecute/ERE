@@ -7,6 +7,7 @@ namespace App\Domains\Listing\Actions;
 use App\Domains\Listing\Enums\ListingStatus;
 use App\Domains\Listing\Models\Listing;
 use App\Domains\Property\Models\Property;
+use App\Domains\Property\Models\PropertyType;
 use App\Domains\User\Models\User;
 use App\Support\Money\EtbFormatter;
 use Illuminate\Support\Facades\DB;
@@ -26,37 +27,24 @@ final readonly class CreateOrUpdateListingAction
     {
         $listingType = DB::table('listing_types')->where('id', $payload['listing_type_id'])->firstOrFail();
 
-        // Business Rule (SRS Section 3.1): Prevent duplicate active listings of the exact same transaction_mode on one Property
-        $conflictingQuery = Listing::query()
-            ->where('property_id', $property->id)
-            ->where('transaction_mode', $listingType->transaction_mode)
-            ->whereIn('status', [
-                ListingStatus::PendingReview->value,
-                ListingStatus::Approved->value,
-                ListingStatus::Published->value,
-            ]);
+        // 1. Authoritative Area Denominator (SRS Section 36 & Master Prompt Section 9.1)
+        // Strict adherence to property type area basis — never silently substitute land_area for building_area or vice versa.
+        $propertyType = PropertyType::query()->find($property->property_type_id);
+        $areaBasis = $propertyType?->area_basis ?? 'building_area';
 
-        if ($existingListing) {
-            $conflictingQuery->where('id', '!=', $existingListing->id);
-        }
-
-        if ($conflictingQuery->exists()) {
-            throw ValidationException::withMessages([
-                'listing_type_id' => ["This property already has an active {$listingType->transaction_mode} listing."],
-            ]);
-        }
-
-        // Determine appropriate area denominator per PropertyType (SRS Section 36)
-        $areaBasis = DB::table('property_types')
-            ->where('id', $property->property_type_id)
-            ->value('area_basis') ?? 'building_area';
-
-        $relevantAreaSqm = $areaBasis === 'land_area'
-            ? ($property->land_area_sqm ?: $property->building_area_sqm)
-            : ($property->building_area_sqm ?: $property->land_area_sqm);
+        $relevantAreaSqm = match ($areaBasis) {
+            'land_area' => ($property->land_area_sqm !== null && (float) $property->land_area_sqm > 0)
+                ? (float) $property->land_area_sqm
+                : null,
+            default => ($property->building_area_sqm !== null && (float) $property->building_area_sqm > 0)
+                ? (float) $property->building_area_sqm
+                : null,
+        };
 
         $priceEtb = (float) $payload['price_etb'];
-        $pricePerSqm = EtbFormatter::calculatePricePerSqm($priceEtb, $relevantAreaSqm);
+        $pricePerSqm = ($relevantAreaSqm !== null && $relevantAreaSqm > 0 && $priceEtb > 0)
+            ? EtbFormatter::calculatePricePerSqm($priceEtb, $relevantAreaSqm)
+            : null;
 
         $photoCount = DB::table('property_images')->where('property_id', $property->id)->count();
         $roomTags = DB::table('property_images')->where('property_id', $property->id)->pluck('room_tag')->all();
@@ -78,10 +66,31 @@ final readonly class CreateOrUpdateListingAction
             $pricePerSqm,
             $quality
         ): Listing {
+            // Business Rule & Race-Condition Prevention (SRS Section 3.1 & Master Prompt Section 8.4)
+            // Check for active listing with row locking
+            $conflictingQuery = Listing::query()
+                ->where('property_id', $property->id)
+                ->where('transaction_mode', $listingType->transaction_mode)
+                ->whereIn('status', [
+                    ListingStatus::PendingReview->value,
+                    ListingStatus::Approved->value,
+                    ListingStatus::Published->value,
+                ]);
+
+            if ($existingListing) {
+                $conflictingQuery->where('id', '!=', $existingListing->id);
+            }
+
+            if ($conflictingQuery->lockForUpdate()->exists()) {
+                throw ValidationException::withMessages([
+                    'listing_type_id' => ["This property already has an active {$listingType->transaction_mode} listing."],
+                ]);
+            }
+
             if (! $existingListing) {
-                $seq = Listing::withTrashed()->count() + 1;
-                $listingCode = sprintf('LST-%s-%07d', date('Y'), $seq);
-                $slug = Str::slug($property->title_en.'-'.$property->property_code.'-'.$listingType->slug);
+                $listingCode = $this->generateAtomicListingCode();
+                $slug = $this->generateUniqueSlug($property, $listingType);
+                $status = $payload['status'] ?? ListingStatus::Draft->value;
 
                 return Listing::query()->create([
                     'uuid' => (string) Str::uuid(),
@@ -100,12 +109,15 @@ final readonly class CreateOrUpdateListingAction
                     'quality_score' => $quality['score'],
                     'missing_quality_fields' => $quality['missing_fields'],
                     'phone_privacy_override' => $payload['phone_privacy_override'] ?? null,
-                    'status' => ListingStatus::Draft->value,
+                    'status' => $status,
+                    'submitted_at' => $status === ListingStatus::PendingReview->value ? now() : null,
                 ]);
             }
 
             $oldPrice = (float) $existingListing->price_etb;
-            $existingListing->update([
+            $newStatus = $payload['status'] ?? $existingListing->status;
+
+            $updateData = [
                 'listing_type_id' => $listingType->id,
                 'transaction_mode' => $listingType->transaction_mode,
                 'price_etb' => $priceEtb,
@@ -115,12 +127,25 @@ final readonly class CreateOrUpdateListingAction
                 'quality_score' => $quality['score'],
                 'missing_quality_fields' => $quality['missing_fields'],
                 'phone_privacy_override' => $payload['phone_privacy_override'] ?? $existingListing->phone_privacy_override,
-            ]);
+            ];
+
+            if ($newStatus !== $existingListing->status) {
+                $updateData['status'] = $newStatus;
+                if ($newStatus === ListingStatus::PendingReview->value) {
+                    $updateData['submitted_at'] = now();
+                }
+            }
+
+            $existingListing->update($updateData);
 
             // Record immutable Price History when price changes (SRS Sections 189 & 212)
-            if (abs($oldPrice - $priceEtb) >= 1.0 && $oldPrice > 0) {
-                $delta = $priceEtb - $oldPrice;
-                $pct = round(($delta / $oldPrice) * 100, 2);
+            $oldCents = EtbFormatter::toMinorUnits($oldPrice);
+            $newCents = EtbFormatter::toMinorUnits($priceEtb);
+
+            if ($oldCents !== $newCents && $oldCents > 0) {
+                $deltaCents = $newCents - $oldCents;
+                $delta = EtbFormatter::fromMinorUnits($deltaCents);
+                $pct = round(((float) $deltaCents / (float) $oldCents) * 100, 2);
 
                 DB::table('listing_price_histories')->insert([
                     'listing_id' => $existingListing->id,
@@ -136,5 +161,68 @@ final readonly class CreateOrUpdateListingAction
 
             return $existingListing->fresh();
         });
+    }
+
+    /**
+     * Generates an atomic sequential listing code (e.g. LST-2026-0000001).
+     * Avoids count() + 1 concurrency collision.
+     */
+    private function generateAtomicListingCode(): string
+    {
+        $year = date('Y');
+        $prefix = "LST-{$year}";
+        $driver = DB::getDriverName();
+
+        do {
+            if ($driver === 'pgsql' || $driver === 'sqlite') {
+                $timestampSql = $driver === 'pgsql' ? 'NOW()' : 'CURRENT_TIMESTAMP';
+                $sql = "INSERT INTO property_code_sequences (prefix_key, last_value, updated_at)
+                        VALUES (?, 1, {$timestampSql})
+                        ON CONFLICT (prefix_key)
+                        DO UPDATE SET last_value = property_code_sequences.last_value + 1, updated_at = {$timestampSql}
+                        RETURNING last_value";
+
+                $row = DB::selectOne($sql, [$prefix]);
+                $seq = (int) ($row->last_value ?? 1);
+            } else {
+                $seq = (int) DB::table('property_code_sequences')
+                    ->where('prefix_key', $prefix)
+                    ->increment('last_value');
+
+                if ($seq === 0) {
+                    DB::table('property_code_sequences')->insert([
+                        'prefix_key' => $prefix,
+                        'last_value' => 1,
+                        'updated_at' => now(),
+                    ]);
+                    $seq = 1;
+                }
+            }
+
+            $candidate = sprintf('LST-%s-%07d', $year, $seq);
+        } while (Listing::query()->where('listing_code', $candidate)->exists());
+
+        return $candidate;
+    }
+
+    /**
+     * Generates a deterministic, unique slug with collision avoidance.
+     */
+    private function generateUniqueSlug(Property $property, object $listingType): string
+    {
+        $baseSlug = Str::slug($property->title_en . '-' . $property->property_code . '-' . $listingType->slug);
+        if (empty($baseSlug)) {
+            $baseSlug = 'listing-' . Str::lower((string) Str::random(8));
+        }
+
+        $slug = $baseSlug;
+        $counter = 1;
+
+        while (Listing::query()->where('slug', $slug)->exists()) {
+            $counter++;
+            $slug = sprintf('%s-%d', $baseSlug, $counter);
+        }
+
+        return $slug;
     }
 }

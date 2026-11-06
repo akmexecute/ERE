@@ -1,0 +1,125 @@
+<?php
+
+declare(strict_types=1);
+
+return array (
+  'marketplace_title' => 'EthioProperty — National Real Estate Marketplace & Stays',
+  'tagline' => 'Ethiopia National Property Core',
+  'currency' => 'Currency: ETB (ብር)',
+  'etb' => 'ETB (ብር)',
+  'nav' => 
+  array (
+    'buy' => 'Purchase Real Estate',
+    'rent' => 'Rents',
+    'lease' => 'Lease',
+    'land' => 'Land',
+    'stay' => 'Stay',
+    'host_ops' => 'Host Ops',
+    'agency_crm' => 'Agency CRM',
+    'developments' => 'Developments',
+    'rentals_leases' => 'Rentals & Leases',
+    'portfolio' => 'Portfolio',
+    'work_orders' => 'Work Orders',
+    'invoices_taxes' => 'Invoices & Taxes',
+    'post_property' => '+ Post Property',
+    'login' => 'Login / Register',
+    'logout' => 'Logout',
+    'dashboard' => 'Dashboard',
+  ),
+  'hero' => 
+  array (
+    'badge' => '🇪🇹 Milestone 1 — National Real Estate Engine',
+    'title' => 'Ethiopian Property Marketplace & PostGIS Spatial Engine',
+    'subtitle' => 'Built for Ethiopian realities: dual Ethiopian Calendar (EC) & Gregorian (GC), trilingual localization (English, አማርኛ, Afaan Oromo), +251 OTP identity verification, and 8-level administrative location hierarchy.',
+    'today_date' => 'Today\'s Date:',
+    'sample_villa' => 'Bole Medhanialem Villa:',
+    'price_sqm' => 'Price / m² (350 m²):',
+    'sign_in_otp' => 'Sign In with +251 OTP →',
+    'explore_map' => 'Explore Map & Locations',
+  ),
+  'calendar_widget' => 
+  array (
+    'title' => 'Ethiopian Calendar Engine (SRS Section 125)',
+    'algorithm_desc' => 'Exact Julian Day Number arithmetic preserving UTC timestamps while displaying localized Pagume leap cycles and Meskerem New Year.',
+    'gregorian_input' => 'Gregorian Date Input',
+    'ethiopian_output' => 'Ethiopian Date (EC)',
+    'amharic_format' => 'Amharic Format',
+    'oromo_format' => 'Afaan Oromo Format',
+    'today_btn' => 'Set to Today',
+    'convert_btn' => 'Convert Date',
+    'switch_hint' => 'Switch language anytime above to toggle Amharic / Afaan Oromo / English.',
+  ),
+  'gis_section' => 
+  array (
+    'badge' => 'Module 02 — GIS & Location Hierarchy',
+    'title' => '8-Level Administrative Picker & Spatial Map',
+    'subtitle' => 'Cascading selection down to Woredas & Kebeles with PostGIS reverse geocoding pin drops.',
+    'postgis_ext' => 'Active PostGIS Ext: ST_Covers, ST_DWithin',
+    'map_explorer' => 'National Map Explorer (Leaflet / OSM Abstraction)',
+    'click_hint' => 'Click anywhere on the map or drag the pin to drop location',
+    'compact_badges' => 'Compact Badges: ETB 45M, ETB 14.5M',
+    'drag_hint' => 'Drag marker to test pin movement',
+    'srid' => 'SRID: 4326 (WGS 84)',
+  ),
+  'features' => 
+  array (
+    'verification_title' => 'Verification Hierarchy',
+    'verification_desc' => 'Level 0 (Unverified), Level 1 (Phone OTP Verified), Level 2 (National ID / Kebele Card), Level 3 (Trade License / TIN), Level 4 (On-site Physical Audit), Level 5 (Government Registry API Verified).',
+    'levels_badge' => 'Levels 0..5',
+    'roles_title' => '13 Roles & Granular RBAC',
+    'roles_desc' => 'Public roles (Buyer, Tenant, Owner, Host, Agent, Developer) and Staff roles (Super Admin, Platform Admin, Verification Officer, Moderator, Finance).',
+    'rbac_badge' => 'SRS Sec. 140-141',
+    'audit_title' => 'Immutable Audit Trail',
+    'audit_desc' => 'Append-only PostgreSQL database trigger strictly forbids UPDATE and DELETE statements on audit logs (SRS Section 142 & 189).',
+    'audit_badge' => 'DB Trigger Enforced',
+  ),
+  'dashboard' => 
+  array (
+    'title' => 'My Account & Portal Operations',
+    'level_verified' => 'Level :level Verified',
+    'privacy' => 'Phone Privacy:',
+    'locale' => 'Locale:',
+    'post_listing' => '+ Post New Listing',
+    'sign_out' => 'Sign Out',
+    'portal_buyer_title' => 'Marketplace Explorer',
+    'portal_buyer_desc' => 'Search properties for sale, rent, and lease across 8 Ethiopian administrative levels.',
+    'portal_owner_title' => 'Post / List Property',
+    'portal_owner_desc' => 'Publish new properties, set ETB pricing, manage inspection documents, and receive offers.',
+    'portal_agent_title' => 'Agency CRM Pipeline',
+    'portal_agent_desc' => 'Manage your 7-stage client pipeline, schedule viewings, track leads, and calculate commissions.',
+    'portal_host_title' => 'Host Operations',
+    'portal_host_desc' => 'Control check-ins/outs, manage security deposits, housekeeping tasks, and guest reviews.',
+    'audit_trail_title' => 'Immutable Audit Trail (SRS Section 142 & 189)',
+    'audit_trail_desc' => 'Append-only audit events logged by the Auditable trait',
+    'immutable_badge' => 'Immutable',
+    'event_action' => 'Event Action',
+    'entity_type' => 'Entity Type',
+    'ip_address' => 'IP Address',
+    'timestamp' => 'Timestamp (EC / GC)',
+    'no_audit_logs' => 'No audit logs recorded yet. Changes made to auditable entities will appear here.',
+  ),
+  'status' => 
+  array (
+    'available' => 'Available',
+    'reserved' => 'Reserved',
+    'contracted' => 'Contracted',
+    'sold' => 'Sold',
+    'pending' => 'Pending Verification',
+    'verified' => 'Verified by Ministry / City Bureau',
+  ),
+  'roles' => 
+  array (
+    'buyer' => 'Buyer / Renter',
+    'property_owner' => 'Property Owner',
+    'agent' => 'Real Estate Agent',
+    'developer' => 'Real Estate Developer',
+    'host' => 'Short-Stay Host',
+    'super_admin' => 'Super Administrator',
+  ),
+  'footer' => 
+  array (
+    'about' => 'Ethiopia National Real Estate Core Platform. Built with strict security, PostGIS spatial mapping, dual calendar conversion, and multi-role operations.',
+    'rights' => 'All rights reserved. Addis Ababa, Ethiopia.',
+  ),
+  'custom_promo' => 'Special Summer Offer',
+);

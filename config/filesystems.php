@@ -62,9 +62,16 @@ return [
 
         's3_private' => [
             'driver' => env('AWS_S3_PRIVATE_DRIVER', 'local'),
+            'key' => env('AWS_PRIVATE_ACCESS_KEY_ID', env('AWS_ACCESS_KEY_ID')),
+            'secret' => env('AWS_PRIVATE_SECRET_ACCESS_KEY', env('AWS_SECRET_ACCESS_KEY')),
+            'region' => env('AWS_PRIVATE_DEFAULT_REGION', env('AWS_DEFAULT_REGION', 'us-east-1')),
+            'bucket' => env('AWS_PRIVATE_BUCKET', env('AWS_BUCKET_PRIVATE', env('AWS_BUCKET'))),
+            'url' => env('AWS_PRIVATE_URL'),
+            'endpoint' => env('AWS_PRIVATE_ENDPOINT', env('AWS_ENDPOINT')),
+            'use_path_style_endpoint' => env('AWS_PRIVATE_USE_PATH_STYLE_ENDPOINT', env('AWS_USE_PATH_STYLE_ENDPOINT', false)),
             'root' => storage_path('app/vault'),
             'visibility' => 'private',
-            'throw' => false,
+            'throw' => true,
             'report' => false,
         ],
 

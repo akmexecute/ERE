@@ -1,36 +1,80 @@
 <x-app-layout>
     <x-slot name="title">{{ $property->title_en }} — {{ $property->property_code }} | EthioProperty</x-slot>
 
-    <!-- SEO Schema.org RealEstateListing JSON-LD -->
-    <script type="application/ld+json">
-    {
-        "@@context": "https://schema.org",
-        "@@type": "SingleFamilyResidence",
-        "name": "{{ addslashes($property->title_en) }}",
-        "description": "{{ addslashes($property->description_en ?? '') }}",
-        "identifier": "{{ $property->property_code }}",
-        "offers": {
-            "@@type": "Offer",
-            "price": "{{ $listing->price_etb }}",
-            "priceCurrency": "ETB",
-            "availability": "https://schema.org/InStock"
-        },
-        @if($property->latitude && $property->longitude)
-        "geo": {
-            "@@type": "GeoCoordinates",
-            "latitude": "{{ $property->latitude }}",
-            "longitude": "{{ $property->longitude }}"
-        },
+    @php
+        $canonicalUrl = url('/listings/' . $listing->slug);
+        $metaDescription = mb_substr(strip_tags($property->description_en ?: ($property->title_en . ' located in ' . ($property->subcity?->name_en ?? 'Addis Ababa') . ', Ethiopia.')), 0, 160);
+        $coverImage = $property->images->firstWhere('is_cover', true) ?? $property->images->first();
+        $coverImageUrl = $coverImage ? asset('storage/' . $coverImage->original_sanitized_path) : null;
+
+        $schemaData = [
+            '@context' => 'https://schema.org',
+            '@type' => 'RealEstateListing',
+            'name' => $property->title_en,
+            'description' => $metaDescription,
+            'url' => $canonicalUrl,
+            'identifier' => $property->property_code,
+            'offers' => [
+                '@type' => 'Offer',
+                'price' => (string) $listing->price_etb,
+                'priceCurrency' => 'ETB',
+                'availability' => 'https://schema.org/InStock',
+            ],
+            'numberOfRooms' => (int) ($property->bedrooms ?? 1),
+            'address' => [
+                '@type' => 'PostalAddress',
+                'addressLocality' => $property->subcity?->name_en ?? 'Addis Ababa',
+                'addressRegion' => $property->city?->name_en ?? 'Addis Ababa',
+                'addressCountry' => 'ET',
+            ],
+        ];
+
+        if ($property->latitude && $property->longitude) {
+            $schemaData['geo'] = [
+                '@type' => 'GeoCoordinates',
+                'latitude' => (float) $property->latitude,
+                'longitude' => (float) $property->longitude,
+            ];
+        }
+
+        if ($coverImageUrl) {
+            $schemaData['image'] = $coverImageUrl;
+        }
+    @endphp
+
+    <x-slot name="meta">
+        <meta name="description" content="{{ $metaDescription }}">
+        <link rel="canonical" href="{{ $canonicalUrl }}">
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="{{ $canonicalUrl }}">
+        <meta property="og:title" content="{{ $property->title_en }} — {{ $property->property_code }}">
+        <meta property="og:description" content="{{ $metaDescription }}">
+        @if($coverImageUrl)
+            <meta property="og:image" content="{{ $coverImageUrl }}">
         @endif
-        "numberOfRooms": {{ $property->bedrooms ?? 1 }}
-    }
-    </script>
+
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:url" content="{{ $canonicalUrl }}">
+        <meta name="twitter:title" content="{{ $property->title_en }} — {{ $property->property_code }}">
+        <meta name="twitter:description" content="{{ $metaDescription }}">
+        @if($coverImageUrl)
+            <meta name="twitter:image" content="{{ $coverImageUrl }}">
+        @endif
+
+        <!-- JSON-LD Structured Data (SRS Section 18) -->
+        <script type="application/ld+json">
+            {!! json_encode($schemaData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) !!}
+        </script>
+    </x-slot>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         <!-- Breadcrumb & Top Bar -->
         <nav class="flex items-center justify-between text-xs text-slate-500">
             <div class="flex items-center gap-2">
-                <a href="{{ url('/search') }}" class="text-teal-700 hover:underline">&larr; Back to Search</a>
+                <a href="{{ url('/search') }}" class="text-teal-700 hover:underline">{{ __('marketplace.details.back_to_search') }}</a>
                 <span>/</span>
                 <span>{{ $property->city?->name_en ?? 'Addis Ababa' }}</span>
                 <span>/</span>
@@ -74,7 +118,7 @@
             </div>
 
             <div class="text-left sm:text-right space-y-1">
-                <div class="text-xs text-slate-500 font-medium">Asking Price</div>
+                <div class="text-xs text-slate-500 font-medium">{{ __('marketplace.details.asking_price') }}</div>
                 <div class="text-2xl sm:text-3xl font-black text-teal-900">
                     {{ \App\Support\Money\EtbFormatter::format($listing->price_etb) }}
                 </div>
@@ -84,7 +128,7 @@
                     </div>
                 @endif
                 <div class="text-[11px] text-slate-400">
-                    {{ $listing->is_negotiable ? 'Price is negotiable' : 'Fixed price' }}
+                    {{ $listing->is_negotiable ? __('marketplace.details.price_negotiable') : __('marketplace.details.fixed_price') }}
                 </div>
             </div>
         </div>
@@ -112,47 +156,52 @@
                     @else
                         <div class="h-64 rounded-xl bg-slate-100 flex flex-col items-center justify-center text-slate-400 space-y-2">
                             <span class="text-4xl">🏢</span>
-                            <span class="text-xs">No photos uploaded for this property</span>
+                            <span class="text-xs">{{ __('marketplace.details.no_photos') }}</span>
                         </div>
                     @endif
                 </div>
 
+                <!-- 360° Interactive Virtual Tour (Module 34.1) -->
+                @if($property->virtualTour && $property->virtualTour->is_published)
+                    <x-virtual-tour-viewer :tour="$property->virtualTour" />
+                @endif
+
                 <!-- Physical Specifications Matrix (SRS Section 10) -->
                 <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
                     <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wider text-teal-800">
-                        Physical Specifications & Layout
+                        {{ __('marketplace.details.specs_title') }}
                     </h2>
                     <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
                         <div class="p-3 bg-slate-50 rounded-xl">
-                            <span class="text-slate-500 block">Land Area</span>
+                            <span class="text-slate-500 block">{{ __('marketplace.details.land_area') }}</span>
                             <strong class="text-sm text-slate-900">{{ (float) ($property->land_area_sqm ?? 0) }} m²</strong>
                         </div>
                         <div class="p-3 bg-slate-50 rounded-xl">
-                            <span class="text-slate-500 block">Building Area</span>
+                            <span class="text-slate-500 block">{{ __('marketplace.details.building_area') }}</span>
                             <strong class="text-sm text-slate-900">{{ (float) ($property->building_area_sqm ?? 0) }} m²</strong>
                         </div>
                         <div class="p-3 bg-slate-50 rounded-xl">
-                            <span class="text-slate-500 block">Bedrooms</span>
+                            <span class="text-slate-500 block">{{ __('marketplace.details.bedrooms') }}</span>
                             <strong class="text-sm text-slate-900">{{ $property->bedrooms ?? '—' }}</strong>
                         </div>
                         <div class="p-3 bg-slate-50 rounded-xl">
-                            <span class="text-slate-500 block">Bathrooms</span>
+                            <span class="text-slate-500 block">{{ __('marketplace.details.bathrooms') }}</span>
                             <strong class="text-sm text-slate-900">{{ $property->bathrooms ?? '—' }}</strong>
                         </div>
                         <div class="p-3 bg-slate-50 rounded-xl">
-                            <span class="text-slate-500 block">Floors</span>
+                            <span class="text-slate-500 block">{{ __('marketplace.details.floors') }}</span>
                             <strong class="text-sm text-slate-900">G+{{ $property->floors ?? '0' }}</strong>
                         </div>
                         <div class="p-3 bg-slate-50 rounded-xl">
-                            <span class="text-slate-500 block">Parking Spaces</span>
-                            <strong class="text-sm text-slate-900">{{ $property->parking_spaces }} Cars</strong>
+                            <span class="text-slate-500 block">{{ __('marketplace.details.parking_spaces') }}</span>
+                            <strong class="text-sm text-slate-900">{{ $property->parking_spaces }} {{ __('marketplace.details.cars') }}</strong>
                         </div>
                         <div class="p-3 bg-slate-50 rounded-xl">
-                            <span class="text-slate-500 block">Condition</span>
+                            <span class="text-slate-500 block">{{ __('marketplace.details.condition') }}</span>
                             <strong class="text-sm text-slate-900">{{ ucfirst(str_replace('_', ' ', $property->condition)) }}</strong>
                         </div>
                         <div class="p-3 bg-slate-50 rounded-xl">
-                            <span class="text-slate-500 block">Construction</span>
+                            <span class="text-slate-500 block">{{ __('marketplace.details.construction') }}</span>
                             <strong class="text-sm text-slate-900">{{ ucfirst(str_replace('_', ' ', $property->construction_status)) }}</strong>
                         </div>
                     </div>
@@ -161,32 +210,32 @@
                 <!-- Utilities & Infrastructure (SRS Section 10) -->
                 <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
                     <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wider text-teal-800">
-                        Critical Utilities & Infrastructure
+                        {{ __('marketplace.details.utilities_title') }}
                     </h2>
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
                         <div class="flex items-center gap-2 p-3 rounded-xl border {{ $property->has_generator ? 'border-emerald-200 bg-emerald-50 text-emerald-900' : 'border-slate-200 text-slate-500' }}">
                             <span>⚡</span>
-                            <span>Backup Generator: <strong>{{ $property->has_generator ? 'Available' : 'None' }}</strong></span>
+                            <span>{{ __('marketplace.details.generator') }}: <strong>{{ $property->has_generator ? __('marketplace.details.available') : __('marketplace.details.none') }}</strong></span>
                         </div>
                         <div class="flex items-center gap-2 p-3 rounded-xl border border-slate-200 text-slate-700">
                             <span>💧</span>
-                            <span>Water Supply: <strong>{{ ucfirst($property->water_supply) }}</strong></span>
+                            <span>{{ __('marketplace.details.water') }}: <strong>{{ ucfirst($property->water_supply) }}</strong></span>
                         </div>
                         <div class="flex items-center gap-2 p-3 rounded-xl border {{ $property->has_security ? 'border-emerald-200 bg-emerald-50 text-emerald-900' : 'border-slate-200 text-slate-500' }}">
                             <span>🛡️</span>
-                            <span>24/7 Security: <strong>{{ $property->has_security ? 'Active' : 'No' }}</strong></span>
+                            <span>{{ __('marketplace.details.security') }}: <strong>{{ $property->has_security ? __('marketplace.details.active') : __('marketplace.details.none') }}</strong></span>
                         </div>
                         <div class="flex items-center gap-2 p-3 rounded-xl border border-slate-200 text-slate-700">
                             <span>🌐</span>
-                            <span>Internet: <strong>{{ ucfirst(str_replace('_', ' ', $property->internet_type)) }}</strong></span>
+                            <span>{{ __('marketplace.details.internet') }}: <strong>{{ ucfirst(str_replace('_', ' ', $property->internet_type)) }}</strong></span>
                         </div>
                         <div class="flex items-center gap-2 p-3 rounded-xl border border-slate-200 text-slate-700">
                             <span>🔌</span>
-                            <span>Electricity: <strong>{{ ucfirst(str_replace('_', ' ', $property->electricity_type)) }}</strong></span>
+                            <span>{{ __('marketplace.details.electricity') }}: <strong>{{ ucfirst(str_replace('_', ' ', $property->electricity_type)) }}</strong></span>
                         </div>
                         <div class="flex items-center gap-2 p-3 rounded-xl border {{ $property->has_solar ? 'border-emerald-200 bg-emerald-50 text-emerald-900' : 'border-slate-200 text-slate-500' }}">
                             <span>☀️</span>
-                            <span>Solar Power: <strong>{{ $property->has_solar ? 'Installed' : 'No' }}</strong></span>
+                            <span>{{ __('marketplace.details.solar') }}: <strong>{{ $property->has_solar ? __('marketplace.details.installed') : __('marketplace.details.none') }}</strong></span>
                         </div>
                     </div>
                 </div>
@@ -194,7 +243,7 @@
                 <!-- Description & Neighborhood Context -->
                 <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4 leading-relaxed text-sm text-slate-700">
                     <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wider text-teal-800">
-                        Property Description
+                        {{ __('marketplace.details.description_title') }}
                     </h2>
                     <p class="whitespace-pre-line">{{ $property->description_en }}</p>
                     @if($property->description_am)
@@ -209,11 +258,10 @@
                 <div class="bg-slate-900 text-slate-200 p-5 rounded-2xl text-xs leading-relaxed space-y-2 border border-slate-800">
                     <div class="flex items-center gap-2 text-emerald-400 font-semibold">
                         <span>⚖️</span>
-                        <span>Ethiopian Real Estate Proclamation No. 1357/2024 Compliance</span>
+                        <span>{{ __('marketplace.details.proclamation_title') }}</span>
                     </div>
                     <p>
-                        All listings on EthioProperty operate under national platform consumer transparency rules.
-                        Platform verification badges certify that platform documentation review protocols have been carried out and do NOT constitute government land-registry title deed certification.
+                        {{ __('marketplace.details.proclamation_desc') }}
                     </p>
                 </div>
             </div>
@@ -228,51 +276,335 @@
                         </div>
                         <div>
                             <div class="text-sm font-bold text-slate-900">{{ $property->owner->name }}</div>
-                            <div class="text-xs text-slate-500">Property Owner / Seller</div>
+                            <div class="text-xs text-slate-500">{{ __('marketplace.details.seller_title') }}</div>
                         </div>
                     </div>
 
-                    <div class="space-y-3 pt-2">
-                        @if($listing->phone_privacy_override !== 'hide_phone')
+                    <!-- Seller Contact & Engagement Controls (SRS Sections 73-75 & Module 10) -->
+                    <div x-data="{
+                        revealedPhone: null,
+                        revealing: false,
+                        privacyNotice: null,
+                        inquiryModalOpen: false,
+                        priceAlertModalOpen: false,
+                        async revealPhone() {
+                            this.revealing = true;
+                            this.privacyNotice = null;
+                            try {
+                                const res = await fetch('{{ route('listings.reveal-phone', $listing->id) }}', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'Accept': 'application/json',
+                                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                    }
+                                });
+                                const data = await res.json();
+                                if (res.ok && data.phone) {
+                                    this.revealedPhone = data.phone;
+                                } else {
+                                    this.privacyNotice = data.message || 'Phone number is hidden by seller privacy settings.';
+                                }
+                            } catch (e) {
+                                this.privacyNotice = 'Unable to reveal contact phone at this moment.';
+                            } finally {
+                                this.revealing = false;
+                            }
+                        }
+                    }" class="space-y-3 pt-2">
+
+                        <!-- Authorized Phone Reveal Button (SRS Section 75 - Fail-Closed & Audited) -->
+                        <template x-if="!revealedPhone">
+                            <div>
+                                <button
+                                    type="button"
+                                    @click="revealPhone()"
+                                    :disabled="revealing"
+                                    class="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-teal-800 hover:bg-teal-900 text-white text-sm font-semibold shadow-xs transition disabled:opacity-50"
+                                >
+                                    <span>📞</span>
+                                    <span x-text="revealing ? 'Authorizing...' : 'Reveal Seller Phone'"></span>
+                                </button>
+                                <template x-if="privacyNotice">
+                                    <div class="mt-2 p-2.5 rounded-lg bg-amber-50 border border-amber-200 text-amber-800 text-[11px] leading-tight" x-text="privacyNotice"></div>
+                                </template>
+                            </div>
+                        </template>
+
+                        <template x-if="revealedPhone">
                             <a
-                                href="tel:{{ $property->owner->phone }}"
+                                :href="'tel:' + revealedPhone"
                                 class="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold shadow-xs transition"
                             >
                                 <span>📞</span>
-                                <span>Call Seller: {{ $property->owner->phone }}</span>
+                                <span x-text="'Call ' + revealedPhone"></span>
                             </a>
-                        @endif
+                        </template>
 
+                        <!-- Direct Message / Inquiry Button -->
                         <button
                             type="button"
-                            @click="window.dispatchEvent(new CustomEvent('notify', { detail: { message: 'Inquiry message request initiated with seller.' } }))"
+                            @click="inquiryModalOpen = true"
                             class="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold shadow-xs transition"
                         >
                             <span>💬</span>
-                            <span>Direct Platform Message</span>
+                            <span>{{ __('marketplace.details.direct_message') }}</span>
                         </button>
+
+                        <!-- Favorite & Price Alert Quick Actions -->
+                        <div class="grid grid-cols-2 gap-2 pt-1">
+                            @auth
+                                @php
+                                    $isFavorited = auth()->user()->favorites()->where('listing_id', $listing->id)->exists();
+                                @endphp
+                                @if($isFavorited)
+                                    <form method="POST" action="{{ route('favorites.destroy', $listing->id) }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="w-full py-2 px-3 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold hover:bg-rose-100 flex items-center justify-center gap-1.5 transition">
+                                            <span>❤️</span>
+                                            <span>Saved</span>
+                                        </button>
+                                    </form>
+                                @else
+                                    <form method="POST" action="{{ route('favorites.store') }}">
+                                        @csrf
+                                        <input type="hidden" name="listing_id" value="{{ $listing->id }}">
+                                        <button type="submit" class="w-full py-2 px-3 rounded-lg bg-slate-50 border border-slate-200 text-slate-700 text-xs font-semibold hover:bg-slate-100 flex items-center justify-center gap-1.5 transition">
+                                            <span>🤍</span>
+                                            <span>Favorite</span>
+                                        </button>
+                                    </form>
+                                @endif
+                            @else
+                                <a href="{{ route('login') }}" class="w-full py-2 px-3 rounded-lg bg-slate-50 border border-slate-200 text-slate-700 text-xs font-semibold hover:bg-slate-100 flex items-center justify-center gap-1.5 transition">
+                                    <span>🤍</span>
+                                    <span>Favorite</span>
+                                </a>
+                            @endauth
+
+                            <a href="{{ route('marketplace.compare', ['ids' => [$property->id]]) }}" class="w-full py-2 px-3 rounded-lg bg-slate-50 border border-slate-200 text-slate-700 text-xs font-semibold hover:bg-slate-100 flex items-center justify-center gap-1.5 transition text-center">
+                                <span>⚖️</span>
+                                <span>Compare</span>
+                            </a>
+                        </div>
+
+                        <!-- Price & Availability Alert Trigger -->
+                        <button
+                            type="button"
+                            @click="priceAlertModalOpen = true"
+                            class="w-full py-2 px-3 rounded-lg bg-sky-50 border border-sky-200 text-sky-800 text-xs font-medium hover:bg-sky-100 flex items-center justify-center gap-1.5 transition"
+                        >
+                            <span>🔔</span>
+                            <span>Get Price &amp; Status Alerts</span>
+                        </button>
+
+                        <!-- Inquiry Interactive Modal -->
+                        <div
+                            x-show="inquiryModalOpen"
+                            x-cloak
+                            @keydown.escape.window="inquiryModalOpen = false"
+                            class="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4"
+                        >
+                            <div
+                                @click.away="inquiryModalOpen = false"
+                                class="bg-white rounded-2xl max-w-lg w-full p-6 text-left shadow-2xl border border-slate-200 space-y-4"
+                            >
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h3 class="text-base font-bold text-slate-900 flex items-center gap-1.5">
+                                            <span>💬</span>
+                                            <span>Contact Seller / Property Inquiry</span>
+                                        </h3>
+                                        <p class="text-xs text-slate-500 mt-0.5">Regarding {{ $property->title_en }} ({{ $property->property_code }})</p>
+                                    </div>
+                                    <button type="button" @click="inquiryModalOpen = false" class="text-slate-400 hover:text-slate-700 text-lg">✕</button>
+                                </div>
+
+                                @auth
+                                    <form method="POST" action="{{ route('inquiries.store') }}" class="space-y-4 text-xs">
+                                        @csrf
+                                        <input type="hidden" name="listing_id" value="{{ $listing->id }}">
+                                        <input type="hidden" name="lead_source" value="website">
+
+                                        <div>
+                                            <label class="block font-semibold text-slate-700 mb-1">Your Message or Question</label>
+                                            <textarea
+                                                name="initial_message"
+                                                rows="4"
+                                                required
+                                                minlength="5"
+                                                maxlength="2000"
+                                                placeholder="Selam! I am interested in this property. Is it available for viewing this week?"
+                                                class="w-full rounded-xl border-slate-300 text-xs p-3 focus:border-teal-700 focus:ring-teal-700"
+                                            ></textarea>
+                                        </div>
+
+                                        <div class="flex items-center justify-end gap-2 pt-2">
+                                            <button type="button" @click="inquiryModalOpen = false" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold">
+                                                Cancel
+                                            </button>
+                                            <button type="submit" class="px-5 py-2 rounded-xl bg-teal-800 hover:bg-teal-900 text-white font-semibold">
+                                                Send Inquiry
+                                            </button>
+                                        </div>
+                                    </form>
+                                @else
+                                    <div class="text-center py-6 space-y-3">
+                                        <p class="text-sm text-slate-600">Please sign in to send inquiries and message the verified seller directly.</p>
+                                        <a href="{{ route('login') }}" class="inline-block px-5 py-2.5 rounded-xl bg-teal-800 text-white text-xs font-bold hover:bg-teal-900">
+                                            Sign In to Inquire
+                                        </a>
+                                    </div>
+                                @endauth
+                            </div>
+                        </div>
+
+                        <!-- Price Alert Interactive Modal -->
+                        <div
+                            x-show="priceAlertModalOpen"
+                            x-cloak
+                            @keydown.escape.window="priceAlertModalOpen = false"
+                            class="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4"
+                        >
+                            <div
+                                @click.away="priceAlertModalOpen = false"
+                                class="bg-white rounded-2xl max-w-md w-full p-6 text-left shadow-2xl border border-slate-200 space-y-4"
+                            >
+                                <div class="flex items-center justify-between">
+                                    <h3 class="text-base font-bold text-slate-900 flex items-center gap-1.5">
+                                        <span>🔔</span>
+                                        <span>Track Price &amp; Status</span>
+                                    </h3>
+                                    <button type="button" @click="priceAlertModalOpen = false" class="text-slate-400 hover:text-slate-700 text-lg">✕</button>
+                                </div>
+                                <p class="text-xs text-slate-500">
+                                    Current Asking Price: <strong class="text-slate-900">{{ \App\Support\Money\EtbFormatter::format($listing->price_etb) }}</strong>
+                                </p>
+
+                                @auth
+                                    <form method="POST" action="{{ route('price-alerts.store') }}" class="space-y-4 text-xs">
+                                        @csrf
+                                        <input type="hidden" name="listing_id" value="{{ $listing->id }}">
+
+                                        <div class="space-y-2">
+                                            <label class="flex items-center gap-2 cursor-pointer">
+                                                <input type="checkbox" name="notify_price_drop" value="1" checked class="rounded border-slate-300 text-teal-700 focus:ring-teal-700">
+                                                <span class="text-slate-700">Notify me immediately if the price drops</span>
+                                            </label>
+                                            <label class="flex items-center gap-2 cursor-pointer">
+                                                <input type="checkbox" name="notify_status_change" value="1" checked class="rounded border-slate-300 text-teal-700 focus:ring-teal-700">
+                                                <span class="text-slate-700">Notify me if the property status changes (e.g. sold, reserved)</span>
+                                            </label>
+                                        </div>
+
+                                        <div class="flex items-center justify-end gap-2 pt-2">
+                                            <button type="button" @click="priceAlertModalOpen = false" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold">
+                                                Cancel
+                                            </button>
+                                            <button type="submit" class="px-5 py-2 rounded-xl bg-teal-800 hover:bg-teal-900 text-white font-semibold">
+                                                Activate Alert
+                                            </button>
+                                        </div>
+                                    </form>
+                                @else
+                                    <div class="text-center py-4 space-y-3">
+                                        <p class="text-sm text-slate-600">Please sign in to set price alerts.</p>
+                                        <a href="{{ route('login') }}" class="inline-block px-5 py-2.5 rounded-xl bg-teal-800 text-white text-xs font-bold hover:bg-teal-900">
+                                            Sign In
+                                        </a>
+                                    </div>
+                                @endauth
+                            </div>
+                        </div>
+
+                        @if(in_array(strtoupper((string) $listing->transaction_mode), ['RENT', 'LEASE']))
+                            <a
+                                href="{{ route('rental-applications.create', ['property_id' => $property->id, 'listing_id' => $listing->id]) }}"
+                                class="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-purple-700 hover:bg-purple-800 text-white text-sm font-semibold shadow-xs transition"
+                            >
+                                <span>📝</span>
+                                <span>Apply to Rent / Lease</span>
+                            </a>
+                        @endif
                     </div>
 
                     <!-- Private Document Vault Status -->
                     <div class="pt-4 border-t border-slate-100 text-xs text-slate-600 space-y-2">
                         <div class="font-semibold text-slate-800 flex items-center gap-1.5">
                             <span>🔒</span>
-                            <span>Private Document Vault</span>
+                            <span>{{ __('marketplace.details.vault_title') }}</span>
                         </div>
                         <p class="text-[11px] text-slate-500">
-                            Ownership deeds and site plans are securely vaulted on encrypted storage and available upon verified transaction request.
+                            {{ __('marketplace.details.vault_desc') }}
                         </p>
                     </div>
 
                     <!-- Report Listing Button (SRS Section 117) -->
-                    <div class="pt-3 border-t border-slate-100 text-center">
+                    <div x-data="{ reportModalOpen: false }" class="pt-3 border-t border-slate-100 text-center">
                         <button
                             type="button"
-                            @click="window.dispatchEvent(new CustomEvent('notify', { detail: { message: 'Property report dialog opened.', type: 'info' } }))"
+                            @click="reportModalOpen = true"
                             class="text-xs text-slate-400 hover:text-red-600 underline"
                         >
-                            Report this property (scam / wrong price / duplicate)
+                            {{ __('marketplace.details.report_property') }}
                         </button>
+
+                        <!-- Report Property Interactive Modal -->
+                        <div
+                            x-show="reportModalOpen"
+                            x-cloak
+                            @keydown.escape.window="reportModalOpen = false"
+                            class="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4"
+                        >
+                            <div
+                                @click.away="reportModalOpen = false"
+                                class="bg-white rounded-2xl max-w-md w-full p-6 text-left shadow-2xl border border-slate-200 space-y-4"
+                            >
+                                <div class="flex items-center justify-between">
+                                    <h3 class="text-base font-bold text-slate-900 flex items-center gap-1.5">
+                                        <span>🚩</span>
+                                        <span>Report this Listing</span>
+                                    </h3>
+                                    <button type="button" @click="reportModalOpen = false" class="text-slate-400 hover:text-slate-700 text-lg">✕</button>
+                                </div>
+
+                                <p class="text-xs text-slate-500 leading-relaxed">
+                                    Our trust &amp; safety officers will investigate your report. False reports or abuse are subject to account restrictions.
+                                </p>
+
+                                <form method="POST" action="{{ route('listings.report.store', $listing) }}" class="space-y-4 text-xs">
+                                    @csrf
+                                    <div>
+                                        <label class="block font-semibold text-slate-700 mb-1">Reason for Report</label>
+                                        <select name="reason_code" required class="w-full rounded-xl border-slate-300 text-xs py-2">
+                                            <option value="scam">Suspected Scam or Fraud</option>
+                                            <option value="fake_property">Fake / Non-Existent Property</option>
+                                            <option value="duplicate">Duplicate Listing</option>
+                                            <option value="wrong_price">Inaccurate or Misleading Price</option>
+                                            <option value="unavailable">Property is Already Sold / Rented</option>
+                                            <option value="misleading">Misleading Photos or Description</option>
+                                            <option value="suspicious_documents">Suspicious / Altered Documents</option>
+                                            <option value="inappropriate_content">Inappropriate or Offensive Content</option>
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <label class="block font-semibold text-slate-700 mb-1">Additional Details (Optional)</label>
+                                        <textarea name="description" rows="3" placeholder="Provide any details to assist our moderation investigation..." class="w-full rounded-xl border-slate-300 text-xs p-2.5"></textarea>
+                                    </div>
+
+                                    <div class="flex items-center justify-end gap-2 pt-2">
+                                        <button type="button" @click="reportModalOpen = false" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold">
+                                            Cancel
+                                        </button>
+                                        <button type="submit" class="px-4 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white font-semibold">
+                                            Submit Report
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

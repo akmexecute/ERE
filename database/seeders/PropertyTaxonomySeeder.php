@@ -45,30 +45,46 @@ final class PropertyTaxonomySeeder extends Seeder
                 ['code' => 'SERV_APT', 'en' => 'Serviced Apartment', 'am' => 'ሰርቪስድ አፓርታማ', 'om' => 'Apaartaamaa Tajaajilaa', 'basis' => 'building_area', 'beds' => true],
                 ['code' => 'HOTEL', 'en' => 'Hotel', 'am' => 'ሆቴል', 'om' => 'Hoteela', 'basis' => 'building_area', 'beds' => true],
             ]],
+            ['code' => 'SPC', 'en' => 'Special Purpose', 'am' => 'ልዩ አገልግሎት', 'om' => 'Tajaajila Addaa', 'types' => [
+                ['code' => 'CLINIC', 'en' => 'Clinic / Health Facility', 'am' => 'ክሊኒክ / የጤና ተቋም', 'om' => 'Kilinika / Dhaabbata Fayyaa', 'basis' => 'building_area', 'beds' => false],
+                ['code' => 'SCHOOL', 'en' => 'School / Educational', 'am' => 'ትምህርት ቤት', 'om' => 'Mana Barumsaa', 'basis' => 'building_area', 'beds' => false],
+                ['code' => 'FUEL_STATION', 'en' => 'Fuel Station', 'am' => 'የነዳጅ ማደያ', 'om' => 'Buufata Bobaʼaa', 'basis' => 'land_area', 'beds' => false],
+                ['code' => 'DIPLOMATIC', 'en' => 'Embassy / Diplomatic', 'am' => 'ኤምባሲ / ዲፕሎማቲክ', 'om' => 'Embaasii / Diippilomaatikii', 'basis' => 'land_area', 'beds' => false],
+            ]],
         ];
 
         foreach ($categories as $idx => $cat) {
-            DB::table('property_categories')->updateOrInsert(
-                ['code' => $cat['code']],
-                [
+            $existingCat = DB::table('property_categories')->where('code', $cat['code'])->first();
+            if (! $existingCat) {
+                DB::table('property_categories')->insert([
+                    'code' => $cat['code'],
                     'slug' => Str::slug($cat['en']),
                     'name_en' => $cat['en'],
                     'name_am' => $cat['am'],
                     'name_om' => $cat['om'],
                     'is_active' => true,
                     'sort_order' => $idx + 1,
-                    'updated_at' => now(),
                     'created_at' => now(),
-                ]
-            );
+                    'updated_at' => now(),
+                ]);
+            } else {
+                // Preserve admin customizations, only ensure slug exists
+                if (empty($existingCat->slug)) {
+                    DB::table('property_categories')->where('id', $existingCat->id)->update([
+                        'slug' => Str::slug($cat['en']),
+                        'updated_at' => now(),
+                    ]);
+                }
+            }
 
             $categoryId = (int) DB::table('property_categories')->where('code', $cat['code'])->value('id');
 
             foreach ($cat['types'] as $tIdx => $type) {
-                DB::table('property_types')->updateOrInsert(
-                    ['code' => $type['code']],
-                    [
+                $existingType = DB::table('property_types')->where('code', $type['code'])->first();
+                if (! $existingType) {
+                    DB::table('property_types')->insert([
                         'category_id' => $categoryId,
+                        'code' => $type['code'],
                         'slug' => Str::slug($type['en']),
                         'name_en' => $type['en'],
                         'name_am' => $type['am'],
@@ -78,10 +94,23 @@ final class PropertyTaxonomySeeder extends Seeder
                         'requires_floors' => $cat['code'] !== 'LND',
                         'is_active' => true,
                         'sort_order' => $tIdx + 1,
-                        'updated_at' => now(),
                         'created_at' => now(),
-                    ]
-                );
+                        'updated_at' => now(),
+                    ]);
+                } else {
+                    // Preserve admin changes (e.g. disabled is_active, custom sort_order)
+                    $updates = [];
+                    if (empty($existingType->slug)) {
+                        $updates['slug'] = Str::slug($type['en']);
+                    }
+                    if (empty($existingType->area_basis)) {
+                        $updates['area_basis'] = $type['basis'];
+                    }
+                    if (! empty($updates)) {
+                        $updates['updated_at'] = now();
+                        DB::table('property_types')->where('id', $existingType->id)->update($updates);
+                    }
+                }
             }
         }
 
@@ -96,9 +125,10 @@ final class PropertyTaxonomySeeder extends Seeder
         ];
 
         foreach ($listingTypes as $idx => $lt) {
-            DB::table('listing_types')->updateOrInsert(
-                ['code' => $lt['code']],
-                [
+            $existingLt = DB::table('listing_types')->where('code', $lt['code'])->first();
+            if (! $existingLt) {
+                DB::table('listing_types')->insert([
+                    'code' => $lt['code'],
                     'slug' => Str::slug($lt['en']),
                     'transaction_mode' => $lt['mode'],
                     'name_en' => $lt['en'],
@@ -107,10 +137,10 @@ final class PropertyTaxonomySeeder extends Seeder
                     'default_price_period' => $lt['period'],
                     'is_phase1_enabled' => $lt['phase1'],
                     'sort_order' => $idx + 1,
-                    'updated_at' => now(),
                     'created_at' => now(),
-                ]
-            );
+                    'updated_at' => now(),
+                ]);
+            }
         }
 
         // Amenities (SRS Section 16 & 44)
@@ -130,19 +160,94 @@ final class PropertyTaxonomySeeder extends Seeder
         ];
 
         foreach ($amenities as $idx => $am) {
-            DB::table('property_amenities')->updateOrInsert(
-                ['slug' => $am['slug']],
-                [
+            $existingAm = DB::table('property_amenities')->where('slug', $am['slug'])->first();
+            if (! $existingAm) {
+                DB::table('property_amenities')->insert([
+                    'slug' => $am['slug'],
                     'group_key' => $am['group'],
                     'name_en' => $am['en'],
                     'name_am' => $am['am'],
                     'name_om' => $am['om'],
                     'is_active' => true,
                     'sort_order' => $idx + 1,
-                    'updated_at' => now(),
                     'created_at' => now(),
-                ]
-            );
+                    'updated_at' => now(),
+                ]);
+            }
+        }
+
+        // Dynamic Property Features (SRS Section 44)
+        $features = [
+            [
+                'slug' => 'zoning_type',
+                'en' => 'Zoning Type',
+                'am' => 'የዞን ክፍፍል አይነት',
+                'om' => 'Gosa Zoonii',
+                'input_type' => 'select',
+                'options' => ['residential', 'commercial', 'mixed_use', 'industrial', 'agricultural'],
+                'unit' => null,
+                'categories' => ['LND', 'COM', 'IND'],
+            ],
+            [
+                'slug' => 'road_access_width_m',
+                'en' => 'Road Access Width',
+                'am' => 'የመንገድ ስፋት',
+                'om' => "Bal'ina Daandii",
+                'input_type' => 'number',
+                'options' => null,
+                'unit' => 'm',
+                'categories' => ['RES', 'LND', 'COM', 'IND'],
+            ],
+            [
+                'slug' => 'power_phase_kva',
+                'en' => 'Power Capacity',
+                'am' => 'የኤሌክትሪክ ኃይል መጠን',
+                'om' => 'Humni Humna Ibsaa',
+                'input_type' => 'number',
+                'options' => null,
+                'unit' => 'kVA',
+                'categories' => ['COM', 'IND'],
+            ],
+            [
+                'slug' => 'topography',
+                'en' => 'Land Topography',
+                'am' => 'የመሬት ገጽታ',
+                'om' => 'Boca Lafa',
+                'input_type' => 'select',
+                'options' => ['flat', 'gentle_slope', 'steep_slope'],
+                'unit' => null,
+                'categories' => ['LND'],
+            ],
+            [
+                'slug' => 'soil_type',
+                'en' => 'Soil Classification',
+                'am' => 'የአፈር አይነት',
+                'om' => 'Gosa Biyyoo',
+                'input_type' => 'select',
+                'options' => ['red_soil', 'black_cotton', 'clay', 'sandy'],
+                'unit' => null,
+                'categories' => ['LND'],
+            ],
+        ];
+
+        foreach ($features as $idx => $feat) {
+            $existingFeat = DB::table('property_features')->where('slug', $feat['slug'])->first();
+            if (! $existingFeat) {
+                DB::table('property_features')->insert([
+                    'slug' => $feat['slug'],
+                    'name_en' => $feat['en'],
+                    'name_am' => $feat['am'],
+                    'name_om' => $feat['om'],
+                    'input_type' => $feat['input_type'],
+                    'options_json' => $feat['options'] ? json_encode($feat['options'], JSON_THROW_ON_ERROR) : null,
+                    'unit' => $feat['unit'],
+                    'applicable_category_codes' => json_encode($feat['categories'], JSON_THROW_ON_ERROR),
+                    'is_active' => true,
+                    'sort_order' => $idx + 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
         }
     }
 }

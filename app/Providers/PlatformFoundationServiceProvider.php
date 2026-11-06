@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Domains\Administration\Services\SettingService;
+use App\Domains\Identity\Contracts\SmsGatewayInterface;
+use App\Domains\Identity\Services\ArraySmsGateway;
+use App\Domains\Identity\Services\EthiopianSmsGateway;
 use App\Support\Calendar\EthiopianCalendarConverter;
 use App\Support\Money\EtbFormatter;
 use Illuminate\Support\Facades\Blade;
@@ -11,6 +15,23 @@ use Illuminate\Support\ServiceProvider;
 
 final class PlatformFoundationServiceProvider extends ServiceProvider
 {
+    public function register(): void
+    {
+        $this->app->singleton(SettingService::class, fn () => new SettingService());
+
+        $this->app->bind(SmsGatewayInterface::class, function () {
+            if ($this->app->environment('testing') || config('services.sms.driver') === 'array') {
+                return new ArraySmsGateway();
+            }
+
+            return new EthiopianSmsGateway();
+        });
+
+        $this->app->extend('translation.loader', function ($loader, $app) {
+            return new \App\Domains\Localization\Services\DatabaseTranslationLoader($loader);
+        });
+    }
+
     public function boot(): void
     {
         // Renders dual-calendar interactive span toggled by Alpine.js $store.preferences.calendar
@@ -18,9 +39,7 @@ final class PlatformFoundationServiceProvider extends ServiceProvider
             return "<?php
                 \$__date = {$expression};
                 if (\$__date) {
-                    \$__eth = \\App\\Support\\Calendar\\EthiopianCalendarConverter::fromGregorian(\$__date)->format(app()->getLocale());
-                    \$__greg = \\Carbon\\CarbonImmutable::parse(\$__date)->format('M d, Y');
-                    echo '<span x-data x-text=\"\$store.preferences.calendar === \'ethiopian\' ? \'' . addslashes(\$__eth) . '\' : \'' . addslashes(\$__greg) . '\'\" title=\"' . e(\$__eth . ' | ' . \$__greg) . '\">' . e(\$__eth) . '</span>';
+                    echo view('components.calendar-date', ['date' => \$__date])->render();
                 }
             ?>";
         });

@@ -1,4 +1,4 @@
-@props(['initialRegionId' => null, 'initialCityId' => null, 'initialSubcityId' => null, 'initialNeighborhoodId' => null])
+@props(['initialRegionId' => null, 'initialCityId' => null, 'initialSubcityId' => null, 'initialNeighborhoodId' => null, 'includeCoordinates' => true])
 
 <div
     x-data="{
@@ -16,13 +16,24 @@
         gpsMessage: '',
 
         async init() {
-            this.regions = await this.fetchChildren(1); // 1 = Ethiopia root
+            this.regions = await this.fetchChildren('root');
             if (this.regionId) await this.onRegionChange(false);
+        },
+        notifyHierarchyChange() {
+            window.dispatchEvent(new CustomEvent('location-hierarchy-changed', {
+                detail: {
+                    regionId: this.regionId,
+                    cityId: this.cityId,
+                    subcityId: this.subcityId,
+                    neighborhoodId: this.neighborhoodId,
+                }
+            }));
         },
         async fetchChildren(parentId) {
             if (!parentId) return [];
             try {
-                const res = await fetch(`/api/v1/locations/children?parent_id=${parentId}`);
+                const queryParam = parentId === 'root' ? 'root=1' : `parent_id=${parentId}`;
+                const res = await fetch(`/api/v1/locations/children?${queryParam}`);
                 const json = await res.json();
                 return json.data || [];
             } catch (e) {
@@ -34,19 +45,23 @@
             if (resetChildren) { this.cityId = ''; this.subcityId = ''; this.neighborhoodId = ''; this.subcities = []; this.neighborhoods = []; }
             this.cities = await this.fetchChildren(this.regionId);
             this.updateCoordinatesFromSelection(this.regions, this.regionId);
+            this.notifyHierarchyChange();
         },
         async onCityChange(resetChildren = true) {
             if (resetChildren) { this.subcityId = ''; this.neighborhoodId = ''; this.neighborhoods = []; }
             this.subcities = await this.fetchChildren(this.cityId);
             this.updateCoordinatesFromSelection(this.cities, this.cityId);
+            this.notifyHierarchyChange();
         },
         async onSubcityChange(resetChildren = true) {
             if (resetChildren) { this.neighborhoodId = ''; }
             this.neighborhoods = await this.fetchChildren(this.subcityId);
             this.updateCoordinatesFromSelection(this.subcities, this.subcityId);
+            this.notifyHierarchyChange();
         },
         onNeighborhoodChange() {
             this.updateCoordinatesFromSelection(this.neighborhoods, this.neighborhoodId);
+            this.notifyHierarchyChange();
         },
         updateCoordinatesFromSelection(list, id) {
             const item = list.find(x => String(x.id) === String(id));
@@ -164,6 +179,8 @@
         </div>
     </div>
 
+    @if($includeCoordinates)
     <input type="hidden" name="latitude" :value="latitude">
     <input type="hidden" name="longitude" :value="longitude">
+    @endif
 </div>

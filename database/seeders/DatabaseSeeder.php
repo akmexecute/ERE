@@ -14,6 +14,11 @@ final class DatabaseSeeder extends Seeder
             RbacRolePermissionSeeder::class,
             EthiopianLocationsSeeder::class,
             PropertyTaxonomySeeder::class,
+            ChartOfAccountsSeeder::class,
+            SubscriptionFeatureSeeder::class,
+            SubscriptionPlanSeeder::class,
+            PromotionTierPackageSeeder::class,
+            AdPlacementSeeder::class,
         ]);
     }
 }

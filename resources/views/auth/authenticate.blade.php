@@ -98,40 +98,47 @@
 
             <!-- Step 1: Role Selection & Phone Input -->
             <form x-show="step === 'phone'" @submit.prevent="requestOtp()" class="space-y-5">
-                <div>
-                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">
-                        I am joining primarily to:
-                    </label>
-                    <div class="grid grid-cols-3 gap-2">
-                        <button
-                            type="button"
-                            @click="selectedRole = 'buyer'"
-                            :class="selectedRole === 'buyer' ? 'border-teal-600 bg-teal-50/70 text-teal-900 font-semibold shadow-xs' : 'border-slate-200 text-slate-600 hover:border-slate-300'"
-                            class="border rounded-xl p-2.5 text-center text-xs transition"
-                        >
-                            🏠 Buy / Rent
-                        </button>
-                        <button
-                            type="button"
-                            @click="selectedRole = 'property_owner'"
-                            :class="selectedRole === 'property_owner' ? 'border-teal-600 bg-teal-50/70 text-teal-900 font-semibold shadow-xs' : 'border-slate-200 text-slate-600 hover:border-slate-300'"
-                            class="border rounded-xl p-2.5 text-center text-xs transition"
-                        >
-                            🔑 List Property
-                        </button>
-                        <button
-                            type="button"
-                            @click="selectedRole = 'agent'"
-                            :class="selectedRole === 'agent' ? 'border-teal-600 bg-teal-50/70 text-teal-900 font-semibold shadow-xs' : 'border-slate-200 text-slate-600 hover:border-slate-300'"
-                            class="border rounded-xl p-2.5 text-center text-xs transition"
-                        >
-                            💼 Agent / Firm
-                        </button>
+                <div class="rounded-xl bg-slate-50 border border-slate-200/80 p-3.5 space-y-2">
+                    <div class="flex items-center gap-2">
+                        <span class="text-base">✨</span>
+                        <p class="text-xs font-semibold text-slate-800">Unified Real Estate Account</p>
+                    </div>
+                    <p class="text-[11px] text-slate-600 leading-relaxed">
+                        One verified account gives you complete access to browse, buy, rent, host short stays, or publish property listings anytime.
+                    </p>
+                    <div class="pt-1">
+                        <span class="block text-[10px] font-medium uppercase tracking-wider text-slate-500 mb-1.5">Primary Starting Interest (optional)</span>
+                        <div class="grid grid-cols-3 gap-1.5">
+                            <button
+                                type="button"
+                                @click="selectedRole = 'buyer'"
+                                :class="selectedRole === 'buyer' ? 'border-teal-700 bg-teal-50 text-teal-900 font-bold shadow-xs' : 'border-slate-200 text-slate-600 bg-white hover:border-slate-300'"
+                                class="border rounded-lg py-1.5 px-2 text-center text-xs transition"
+                            >
+                                🏠 Buyer / Tenant
+                            </button>
+                            <button
+                                type="button"
+                                @click="selectedRole = 'property_owner'"
+                                :class="selectedRole === 'property_owner' ? 'border-teal-700 bg-teal-50 text-teal-900 font-bold shadow-xs' : 'border-slate-200 text-slate-600 bg-white hover:border-slate-300'"
+                                class="border rounded-lg py-1.5 px-2 text-center text-xs transition"
+                            >
+                                🔑 Owner / Host
+                            </button>
+                            <button
+                                type="button"
+                                @click="selectedRole = 'agent'"
+                                :class="selectedRole === 'agent' ? 'border-teal-700 bg-teal-50 text-teal-900 font-bold shadow-xs' : 'border-slate-200 text-slate-600 bg-white hover:border-slate-300'"
+                                class="border rounded-lg py-1.5 px-2 text-center text-xs transition"
+                            >
+                                💼 Agent / Broker
+                            </button>
+                        </div>
                     </div>
                 </div>
 
                 <div>
-                    <label for="name_input" class="block text-sm font-medium text-slate-700 mb-1">Full Name (Optional)</label>
+                    <label for="name_input" class="block text-sm font-medium text-slate-700 mb-1">{{ __('auth.full_name') }}</label>
                     <input
                         id="name_input"
                         type="text"
@@ -142,7 +149,7 @@
                 </div>
 
                 <div>
-                    <label for="phone" class="block text-sm font-medium text-slate-700 mb-1">Mobile Number</label>
+                    <label for="phone" class="block text-sm font-medium text-slate-700 mb-1">{{ __('auth.mobile_number') }}</label>
                     <div class="flex rounded-xl shadow-xs border border-slate-300 focus-within:border-teal-600 focus-within:ring-2 focus-within:ring-teal-600/20 overflow-hidden">
                         <span class="inline-flex items-center px-3.5 bg-slate-100 text-slate-700 text-sm font-semibold border-r border-slate-300">
                             🇪🇹 +251
@@ -165,7 +172,7 @@
                     class="w-full py-2.5 px-4 rounded-xl bg-teal-700 hover:bg-teal-800 disabled:bg-teal-400 text-white font-semibold text-sm shadow-sm transition flex items-center justify-center gap-2"
                 >
                     <span x-show="loading" class="inline-block animate-spin">&#9696;</span>
-                    <span x-text="loading ? 'Sending code...' : 'Send 6-Digit Verification Code'"></span>
+                    <span x-text="loading ? @js(__('auth.sending_code')) : @js(__('auth.send_verification_code'))"></span>
                 </button>
             </form>
 
@@ -189,7 +196,7 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-2">Enter 6-Digit Verification Code</label>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">{{ __('auth.enter_code') }}</label>
                     <div class="grid grid-cols-6 gap-2">
                         <template x-for="(digit, idx) in otpDigits" :key="idx">
                             <input
@@ -211,18 +218,18 @@
                     :disabled="otpDigits.join('').length !== 6"
                     class="w-full py-2.5 px-4 rounded-xl bg-teal-700 hover:bg-teal-800 disabled:opacity-50 text-white font-semibold text-sm shadow-sm transition"
                 >
-                    Verify & Authenticate
+                    {{ __('auth.verify_and_authenticate') }}
                 </button>
 
                 <div class="text-center text-xs text-slate-500">
-                    <span x-show="countdown > 0">Resend code in <strong x-text="countdown"></strong>s</span>
+                    <span x-show="countdown > 0">{{ __('auth.resend_code_in') }} <strong x-text="countdown"></strong>s</span>
                     <button
                         type="button"
                         x-show="countdown === 0"
                         @click="requestOtp()"
                         class="text-teal-700 font-semibold hover:underline"
                     >
-                        Resend OTP Code
+                        {{ __('auth.resend_code') }}
                     </button>
                 </div>
             </form>

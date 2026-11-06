@@ -50,11 +50,14 @@ final class OtpAuthController extends Controller
             'name' => ['nullable', 'string', 'max:140'],
         ]);
 
+        $role = (string) ($request->input('role') ?? 'buyer');
+
         $user = $verifyOtp->execute(
             rawPhone: (string) $request->input('phone'),
             code: (string) $request->input('code'),
+            purpose: (string) ($request->input('purpose') ?? 'login'),
             name: $request->input('name'),
-            initialRole: (string) ($request->input('role') ?? 'buyer'),
+            initialRole: $role,
             ipAddress: $request->ip(),
             userAgent: $request->userAgent()
         );
@@ -62,10 +65,21 @@ final class OtpAuthController extends Controller
         Auth::login($user, remember: true);
         $request->session()->regenerate();
 
+        // Resolve context-aware destination based on chosen persona and role
+        $destination = match ($role) {
+            'agent' => url('/crm/dashboard'),
+            'property_owner' => url('/listings/create'),
+            'host' => url('/host/dashboard'),
+            default => $user->hasRole('super_admin') || $user->hasRole('platform_admin')
+                ? url('/admin/dashboard')
+                : url('/search'),
+        };
+
         if ($request->wantsJson()) {
             return response()->json([
                 'success' => true,
-                'redirect' => url('/dashboard'),
+                'redirect' => $destination,
+                'csrf_token' => $request->session()->token(),
                 'user' => [
                     'id' => $user->id,
                     'name' => $user->name,
@@ -75,7 +89,7 @@ final class OtpAuthController extends Controller
             ]);
         }
 
-        return redirect()->intended(url('/dashboard'))->with('status', 'Successfully authenticated.');
+        return redirect()->intended($destination)->with('status', 'Successfully authenticated.');
     }
 
     public function logout(Request $request): RedirectResponse

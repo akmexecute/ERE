@@ -5,16 +5,24 @@ declare(strict_types=1);
 namespace App\Domains\Booking\Models;
 
 use App\Domains\Booking\Enums\BookingStatus;
+use App\Domains\Cleaning\Models\CleaningTask;
+use App\Domains\Dispute\Models\DamageClaim;
+use App\Domains\Dispute\Models\Dispute;
+use App\Domains\Dispute\Models\SecurityDeposit;
 use App\Domains\Host\Models\Host;
 use App\Domains\Listing\Models\Listing;
 use App\Domains\Property\Models\Property;
+use App\Domains\Review\Models\StayReview;
 use App\Domains\Stay\Models\AccommodationUnit;
+use App\Domains\Stay\Models\CheckIn;
+use App\Domains\Stay\Models\CheckOut;
 use App\Domains\Stay\Models\StayListingProfile;
 use App\Domains\User\Models\User;
 use App\Support\Traits\Auditable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 final class Booking extends Model
 {
@@ -117,5 +125,40 @@ final class Booking extends Model
     public function priceItems(): HasMany
     {
         return $this->hasMany(BookingPriceItem::class);
+    }
+
+    public function checkIn(): HasOne
+    {
+        return $this->hasOne(CheckIn::class);
+    }
+
+    public function checkOut(): HasOne
+    {
+        return $this->hasOne(CheckOut::class);
+    }
+
+    public function securityDeposit(): HasOne
+    {
+        return $this->hasOne(SecurityDeposit::class);
+    }
+
+    public function cleaningTask(): HasOne
+    {
+        return $this->hasOne(CleaningTask::class);
+    }
+
+    public function damageClaims(): HasMany
+    {
+        return $this->hasMany(DamageClaim::class);
+    }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(StayReview::class);
+    }
+
+    public function disputes(): HasMany
+    {
+        return $this->hasMany(Dispute::class);
     }
 }

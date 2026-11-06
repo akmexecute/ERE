@@ -283,9 +283,369 @@ final class VerificationAndModerationTest extends TestCase
         $detailResponse = $this->get("/listings/{$listing->slug}");
         $detailResponse->assertOk()
             ->assertSee('Grand Bole Ambassador Villa')
-            ->assertSee('ETB 45,000,000')
-            ->assertSee('Proclamation No. 1357/2024')
+            ->assertSee('ERE verification is a platform verification process')
+            ->assertSee('not official government certification of land ownership')
             ->assertSee('Documents Submitted (Level 3)')
             ->assertSee('450 m²');
+    }
+
+    public function test_fraud_signals_repeated_execution_is_idempotent_and_updates_open_signal(): void
+    {
+        $owner = User::query()->create([
+            'uuid' => (string) Str::uuid(),
+            'name' => 'Owner Dupont',
+            'phone' => '+251911999001',
+            'status' => 'active',
+        ]);
+        $category = PropertyCategory::query()->where('code', 'RES')->firstOrFail();
+        $type = PropertyType::query()->where('code', 'VILLA')->firstOrFail();
+
+        $propertyA = Property::query()->create([
+            'uuid' => (string) Str::uuid(),
+            'owner_id' => $owner->id,
+            'category_id' => $category->id,
+            'property_type_id' => $type->id,
+            'title_en' => 'Duplicate Test Property A',
+            'property_code' => 'ETH-TEST-A-01',
+            'land_area_sqm' => 500,
+            'latitude' => 9.0200,
+            'longitude' => 38.7500,
+            'status' => PropertyStatus::Available,
+            'verification_level' => 0,
+        ]);
+        $propertyB = Property::query()->create([
+            'uuid' => (string) Str::uuid(),
+            'owner_id' => $owner->id,
+            'category_id' => $category->id,
+            'property_type_id' => $type->id,
+            'title_en' => 'Duplicate Test Property B',
+            'property_code' => 'ETH-TEST-B-02',
+            'land_area_sqm' => 510,
+            'latitude' => 9.0201, // ~15m away
+            'longitude' => 38.7501,
+            'status' => PropertyStatus::Available,
+            'verification_level' => 0,
+        ]);
+
+        $saleTypeId = (int) (DB::table('listing_types')->value('id') ?? 1);
+
+        $listing = Listing::query()->create([
+            'uuid' => (string) Str::uuid(),
+            'listing_code' => 'LST-TEST-001',
+            'listing_type_id' => $saleTypeId,
+            'property_id' => $propertyA->id,
+            'published_by_user_id' => $owner->id,
+            'title' => 'Listing A',
+            'slug' => 'listing-a-dup-test',
+            'transaction_mode' => 'BUY',
+            'price_etb' => 20_000_000,
+            'currency' => 'ETB',
+            'status' => ListingStatus::PendingReview->value,
+        ]);
+
+        $evaluator = new EvaluateListingFraudSignalsAction();
+
+        // 1. First execution
+        $signals1 = $evaluator->execute($listing, $propertyA);
+        $this->assertNotEmpty($signals1);
+        $signalCount1 = DB::table('fraud_signals')->where('listing_id', $listing->id)->count();
+        $this->assertSame(1, $signalCount1);
+
+        // 2. Immediate second sequential execution
+        $signals2 = $evaluator->execute($listing, $propertyA);
+        $signalCount2 = DB::table('fraud_signals')->where('listing_id', $listing->id)->count();
+        $this->assertSame(1, $signalCount2, 'Repeated execution must not duplicate active fraud signals.');
+    }
+
+    public function test_fraud_signal_recurrence_is_permitted_after_prior_signal_is_resolved(): void
+    {
+        $owner = User::query()->create([
+            'uuid' => (string) Str::uuid(),
+            'name' => 'Owner Recurrence',
+            'phone' => '+251911999002',
+            'status' => 'active',
+        ]);
+        $moderator = User::query()->create([
+            'uuid' => (string) Str::uuid(),
+            'name' => 'Moderator Robel',
+            'phone' => '+251911999003',
+            'status' => 'active',
+        ]);
+        $moderator->assignRoleBySlug('moderator');
+
+        $category = PropertyCategory::query()->where('code', 'RES')->firstOrFail();
+        $type = PropertyType::query()->where('code', 'VILLA')->firstOrFail();
+        $saleTypeId = (int) (DB::table('listing_types')->value('id') ?? 1);
+
+        $property = Property::query()->create([
+            'uuid' => (string) Str::uuid(),
+            'owner_id' => $owner->id,
+            'category_id' => $category->id,
+            'property_type_id' => $type->id,
+            'title_en' => 'Recurrence Test Property',
+            'property_code' => 'ETH-TEST-REC-01',
+            'status' => PropertyStatus::Available,
+            'verification_level' => 0,
+        ]);
+        $listing = Listing::query()->create([
+            'uuid' => (string) Str::uuid(),
+            'listing_code' => 'LST-TEST-002',
+            'listing_type_id' => $saleTypeId,
+            'property_id' => $property->id,
+            'published_by_user_id' => $owner->id,
+            'title' => 'Recurrence Test Listing',
+            'slug' => 'listing-rec-test',
+            'transaction_mode' => 'BUY',
+            'price_etb' => 100_000,
+            'currency' => 'ETB',
+            'status' => ListingStatus::PendingReview->value,
+        ]);
+
+        // Manually insert an initial open signal
+        $signalId = DB::table('fraud_signals')->insertGetId([
+            'listing_id' => $listing->id,
+            'property_id' => $property->id,
+            'signal_type' => 'price_anomaly',
+            'severity' => 'high',
+            'matched_property_id' => null,
+            'confidence_score' => 80,
+            'evidence_json' => json_encode(['test' => 1]),
+            'status' => 'open',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        // Moderator resolves it as dismissed
+        $moderateAction = new \App\Domains\Moderation\Actions\ModerateListingAction();
+        $signalModel = \App\Domains\Moderation\Models\FraudSignal::query()->findOrFail($signalId);
+        $moderateAction->resolveFraudSignal($moderator, $signalModel, 'dismissed', 'Verified with owner directly');
+
+        $this->assertSame('dismissed', $signalModel->fresh()->status);
+
+        // Subsequent scan occurs: creating a new open signal must succeed without violating unique constraint
+        $newSignalId = DB::table('fraud_signals')->insertGetId([
+            'listing_id' => $listing->id,
+            'property_id' => $property->id,
+            'signal_type' => 'price_anomaly',
+            'severity' => 'critical',
+            'matched_property_id' => null,
+            'confidence_score' => 95,
+            'evidence_json' => json_encode(['test' => 2]),
+            'status' => 'open',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        $this->assertNotSame($signalId, $newSignalId);
+        $allSignals = DB::table('fraud_signals')->where('listing_id', $listing->id)->get();
+        $this->assertCount(2, $allSignals);
+        $this->assertSame(1, $allSignals->where('status', 'dismissed')->count());
+        $this->assertSame(1, $allSignals->where('status', 'open')->count());
+    }
+
+    public function test_fraud_signals_null_matched_property_unique_constraint_is_enforced(): void
+    {
+        $owner = User::query()->create([
+            'uuid' => (string) Str::uuid(),
+            'name' => 'Owner Null Match',
+            'phone' => '+251911999004',
+            'status' => 'active',
+        ]);
+
+        $category = PropertyCategory::query()->where('code', 'RES')->firstOrFail();
+        $type = PropertyType::query()->where('code', 'VILLA')->firstOrFail();
+        $saleTypeId = (int) (DB::table('listing_types')->value('id') ?? 1);
+
+        $property = Property::query()->create([
+            'uuid' => (string) Str::uuid(),
+            'owner_id' => $owner->id,
+            'category_id' => $category->id,
+            'property_type_id' => $type->id,
+            'title_en' => 'Null Match Constraint Test',
+            'property_code' => 'ETH-TEST-NULL-01',
+            'status' => PropertyStatus::Available,
+        ]);
+        $listing = Listing::query()->create([
+            'uuid' => (string) Str::uuid(),
+            'listing_code' => 'LST-TEST-003',
+            'listing_type_id' => $saleTypeId,
+            'property_id' => $property->id,
+            'published_by_user_id' => $owner->id,
+            'title' => 'Null Match Listing',
+            'slug' => 'listing-null-match-test',
+            'transaction_mode' => 'BUY',
+            'price_etb' => 5_000_000,
+            'currency' => 'ETB',
+            'status' => ListingStatus::PendingReview->value,
+        ]);
+
+        // First insert with null matched_property_id
+        DB::table('fraud_signals')->insert([
+            'listing_id' => $listing->id,
+            'property_id' => $property->id,
+            'signal_type' => 'price_anomaly',
+            'severity' => 'high',
+            'matched_property_id' => null,
+            'confidence_score' => 75,
+            'status' => 'open',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        // Direct concurrent second insert with null matched_property_id must throw QueryException
+        $this->expectException(\Illuminate\Database\QueryException::class);
+
+        DB::table('fraud_signals')->insert([
+            'listing_id' => $listing->id,
+            'property_id' => $property->id,
+            'signal_type' => 'price_anomaly',
+            'severity' => 'critical',
+            'matched_property_id' => null,
+            'confidence_score' => 90,
+            'status' => 'open',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+    }
+
+    public function test_fraud_signals_concurrent_worker_race_condition_is_reconciled(): void
+    {
+        $owner = User::query()->create([
+            'uuid' => (string) Str::uuid(),
+            'name' => 'Owner Race',
+            'phone' => '+251911999005',
+            'status' => 'active',
+        ]);
+
+        $category = PropertyCategory::query()->where('code', 'RES')->firstOrFail();
+        $type = PropertyType::query()->where('code', 'VILLA')->firstOrFail();
+        $saleTypeId = (int) (DB::table('listing_types')->value('id') ?? 1);
+
+        $property = Property::query()->create([
+            'uuid' => (string) Str::uuid(),
+            'owner_id' => $owner->id,
+            'category_id' => $category->id,
+            'property_type_id' => $type->id,
+            'title_en' => 'Race Condition Test Property',
+            'property_code' => 'ETH-TEST-RACE-01',
+            'status' => PropertyStatus::Available,
+        ]);
+        $listing = Listing::query()->create([
+            'uuid' => (string) Str::uuid(),
+            'listing_code' => 'LST-TEST-004',
+            'listing_type_id' => $saleTypeId,
+            'property_id' => $property->id,
+            'published_by_user_id' => $owner->id,
+            'title' => 'Race Condition Listing',
+            'slug' => 'listing-race-test',
+            'transaction_mode' => 'BUY',
+            'price_etb' => 12_000_000,
+            'currency' => 'ETB',
+            'status' => ListingStatus::PendingReview->value,
+        ]);
+
+        $evaluator = new EvaluateListingFraudSignalsAction();
+        $refMethod = new \ReflectionMethod($evaluator, 'recordSignal');
+
+        // Worker A inserts first open signal
+        $signalA = $refMethod->invoke(
+            $evaluator,
+            $listing->id,
+            $property->id,
+            'price_anomaly',
+            'medium',
+            null,
+            60,
+            ['worker' => 'WorkerA', 'detail' => 'initial scan']
+        );
+
+        $this->assertSame('open', $signalA['status']);
+
+        // Worker B simulates concurrent execution: tries to record the same signal identity with new evidence
+        $signalB = $refMethod->invoke(
+            $evaluator,
+            $listing->id,
+            $property->id,
+            'price_anomaly',
+            'high',
+            null,
+            85,
+            ['worker' => 'WorkerB', 'detail' => 'concurrent scan']
+        );
+
+        // Same ID returned, evidence merged, no duplicates created
+        $this->assertSame($signalA['id'], $signalB['id']);
+        $this->assertSame(1, DB::table('fraud_signals')->where('listing_id', $listing->id)->count());
+        $this->assertSame(85, (int) $signalB['confidence_score']);
+        $this->assertArrayHasKey('worker', $signalB['evidence']);
+    }
+
+    public function test_moderator_can_view_listing_moderation_workbench_index_and_detail(): void
+    {
+        $admin = User::query()->create([
+            'uuid' => (string) Str::uuid(),
+            'name' => 'Moderator Admin',
+            'phone' => '+251911999999',
+            'status' => 'active',
+        ]);
+        $admin->assignRoleBySlug('super_admin');
+
+        $seller = User::query()->create([
+            'uuid' => (string) Str::uuid(),
+            'name' => 'Seller Abebe',
+            'phone' => '+251911888888',
+            'status' => 'active',
+        ]);
+
+        $category = PropertyCategory::query()->where('code', 'RES')->firstOrFail();
+        $type = PropertyType::query()->where('code', 'VILLA')->firstOrFail();
+        $saleTypeId = (int) (DB::table('listing_types')->value('id') ?? 1);
+
+        $property = Property::query()->create([
+            'uuid' => (string) Str::uuid(),
+            'owner_id' => $seller->id,
+            'category_id' => $category->id,
+            'property_type_id' => $type->id,
+            'title_en' => 'Workbench Test Property',
+            'property_code' => 'ETH-TEST-WB-01',
+            'status' => PropertyStatus::Available,
+        ]);
+
+        $listing = Listing::query()->create([
+            'uuid' => (string) Str::uuid(),
+            'listing_code' => 'LST-TEST-WB-01',
+            'listing_type_id' => $saleTypeId,
+            'property_id' => $property->id,
+            'published_by_user_id' => $seller->id,
+            'slug' => 'listing-wb-test',
+            'transaction_mode' => 'BUY',
+            'price_etb' => 7_500_000,
+            'currency' => 'ETB',
+            'status' => ListingStatus::PendingReview->value,
+        ]);
+
+        DB::table('fraud_signals')->insert([
+            'listing_id' => $listing->id,
+            'property_id' => $property->id,
+            'signal_type' => 'price_anomaly',
+            'severity' => 'high',
+            'matched_property_id' => null,
+            'confidence_score' => 75,
+            'status' => 'open',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        // 1. Visit index route: verifies ->withCount(['fraudSignals as open_signals_count'])
+        $response = $this->actingAs($admin)->get(route('admin.moderation.index'));
+        $response->assertOk();
+        $response->assertSee('Workbench Test Property');
+        $response->assertSee('1 signal(s)');
+
+        // 2. Visit detail route: verifies $listing->load(['fraudSignals.matchedProperty', 'moderationActions.moderator'])
+        $detailResponse = $this->actingAs($admin)->get(route('admin.moderation.show', $listing));
+        $detailResponse->assertOk();
+        $detailResponse->assertSee('Workbench Test Property');
+        $detailResponse->assertSee('price anomaly');
     }
 }

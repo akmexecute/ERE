@@ -99,6 +99,21 @@ return [
             'sslmode' => env('DB_SSLMODE', 'prefer'),
         ],
 
+        'pgsql_testing' => [
+            'driver' => 'pgsql',
+            'url' => env('DB_PG_URL'),
+            'host' => env('DB_PG_HOST', '127.0.0.1'),
+            'port' => env('DB_PG_PORT', '5432'),
+            'database' => env('DB_PG_DATABASE', 'ere_testing'),
+            'username' => env('DB_PG_USERNAME', 'ere_test'),
+            'password' => env('DB_PG_PASSWORD', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'search_path' => 'public',
+            'sslmode' => env('DB_PG_SSLMODE', 'prefer'),
+        ],
+
         'sqlsrv' => [
             'driver' => 'sqlsrv',
             'url' => env('DB_URL'),

@@ -21,8 +21,29 @@ final class HouseManual extends Model
         'emergency_contact_phone',
     ];
 
+    protected function casts(): array
+    {
+        return [
+            'wifi_password_encrypted' => 'encrypted',
+        ];
+    }
+
     public function profile(): BelongsTo
     {
         return $this->belongsTo(StayListingProfile::class, 'stay_listing_profile_id');
+    }
+
+    public function getDecryptedWifiPassword(): ?string
+    {
+        $val = $this->wifi_password_encrypted;
+        if ($val === null || $val === '') {
+            return null;
+        }
+
+        try {
+            return decrypt($val);
+        } catch (\Throwable) {
+            return (string) $val;
+        }
     }
 }

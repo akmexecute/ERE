@@ -30,6 +30,13 @@ final class Verification extends Model
         'requested_level',
         'approved_level',
         'badge_code',
+        'verification_method',
+        'verification_reference',
+        'provider_reference',
+        'requires_reverification',
+        'reverification_reason',
+        'evidence_type',
+        'authority_scope',
         'status',
         'reviewed_by_user_id',
         'reviewed_at',
@@ -43,6 +50,7 @@ final class Verification extends Model
         return [
             'requested_level' => 'integer',
             'approved_level' => VerificationLevel::class,
+            'requires_reverification' => 'boolean',
             'reviewed_at' => 'datetime',
             'expires_at' => 'datetime',
         ];

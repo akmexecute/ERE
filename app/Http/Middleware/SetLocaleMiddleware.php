@@ -26,6 +26,10 @@ final class SetLocaleMiddleware
 
         if ($request->has('lang') && in_array($request->query('lang'), self::SUPPORTED_LOCALES, true)) {
             $request->session()->put('locale', $locale);
+
+            if ($request->user()) {
+                $request->user()->update(['preferred_locale' => $locale]);
+            }
         }
 
         App::setLocale($locale);
